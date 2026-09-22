@@ -1,7 +1,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
-// GIRI Go – translate (v5). Three modes:
+// GIRI Go – translate (v6). Three modes:
 //  A) { instrId, target }  – public viewer: translates a PUBLISHED instruction (or returns the cached
 //                             translation) and caches it in instructions.data.translations[target]
 //  B) { texts[], target }  – signed-in user: raw text translation (editor)
@@ -18,7 +18,7 @@ const cors = {
 const json = (o: unknown, status = 200) =>
   new Response(JSON.stringify(o), { status, headers: { ...cors, "Content-Type": "application/json" } });
 const TARGET: Record<string, string> = { EN: "EN-GB", PT: "PT-PT", ZH: "ZH-HANS" };
-const ALLOWED = ["EN", "FR", "ES", "IT", "NL", "PL", "CS", "TR", "PT", "RO", "HU", "DE"];
+const ALLOWED = ["EN", "FR", "ES", "IT", "NL", "PL", "CS", "TR", "PT", "RO", "HU", "DE", "ZH"];
 
 const xmlEsc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const xmlUnesc = (s: string) => s.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&apos;/g, "'").replace(/&amp;/g, "&");

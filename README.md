@@ -48,6 +48,15 @@ Supabase-URL und Publishable Key stehen oben in `index.html` unter `window.GIRI_
 - Text zwischen `==` und `==` wird nicht übersetzt (z. B. `==M6==`). `**fett**`, Listen (`- ` / `1. `) und Links `[Text](https://…)` bleiben erhalten.
 - Die App-Oberfläche selbst gibt es in Deutsch und Englisch; jede weitere Sprache (FR, ES, IT, NL, PL, CS, TR, PT, RO, HU) wird beim ersten Wechsel einmal per DeepL übersetzt, serverseitig in `ui_tx` zwischengespeichert und auf dem Gerät gemerkt (Sprachmenü oben rechts, im Viewer über die Flagge).
 
+## PDF in jeder Sprache
+- PDF-Button → Sprachauswahl mit allen 13 Sprachen (inkl. Chinesisch). Fehlende Übersetzungen werden vorher per DeepL erstellt und in der Anleitung gespeichert.
+- Schriften liegen im Repo unter `fonts/` (Montserrat für alle europäischen Sprachen, Noto Sans SC für Chinesisch) und werden beim ersten Export geladen.
+
+## Checkliste
+- Jeder Schritt hat neben „Erledigt / Nicht OK“ einen Notiz-Button: Anmerkung und Foto sind bei jedem Schritt möglich, nicht nur bei „Nicht OK“.
+- Sprache lässt sich schon auf dem Start-Screen („Bereit?“) über die Flagge wählen.
+- Sind alle Schritte bestätigt, wird die Durchführung beim Verlassen automatisch abgeschlossen; beim Wiedereinstieg mit allem bestätigt bietet die App direkt „Abschließen“ an.
+
 ## Fotos & Videos importieren
 - Editor: „Importieren“ im Schritte-Panel (Handy: Fotomediathek, Mehrfachauswahl) oder Dateien einfach auf die Seite ziehen (PC). Aufnahme-Screen: Import-Symbol oben rechts.
 - Jede Datei wird ein eigener Schritt, eingefügt nach dem markierten Schritt, in Aufnahmereihenfolge (Datei-Datum). Fotos werden auf 1600 px verkleinert (JPEG), Videos unverändert übernommen (max. 80 MB, Anfangs-Trim 15 s).
@@ -57,7 +66,7 @@ Supabase-URL und Publishable Key stehen oben in `index.html` unter `window.GIRI_
 - Android/Chrome/Edge: Beim ersten Öffnen erscheint „Als App installieren“ (auch im Profil-Menü). iPhone/iPad: Safari → Teilen → „Zum Home-Bildschirm“.
 - Dateien im Repo: `manifest.webmanifest`, `sw.js` (Service Worker: App-Shell offline, Bibliotheken gecacht, Daten immer live), `icons/`.
 - Neue Version: einfach alle Dateien aus dem Release-Ordner hochladen (überschreiben). `sw.js` muss nicht angepasst werden – die App holt `index.html` immer frisch und zeigt „Neue Version verfügbar“.
-- Login in der installierten App: Der Magic Link öffnet sich im Browser, nicht in der App. Deshalb gibt es im Login ein Code-Feld – dafür muss in Supabase (Authentication → Email Templates → Magic Link) der Code in die Mail: `{{ .Token }}`.
+- Login in der installierten App: Der Magic Link öffnet sich im Browser, nicht in der App. Deshalb gibt es im Login ein Code-Feld. Die Vorlage für die Login-Mail liegt in `supabase/email-magic-link.html` (Supabase → Authentication → Email Templates → Magic Link, Body komplett ersetzen).
 
 ## Video-Konvertierung
 - Jeder Clip wird im Browser (WebCodecs) zu H.264-MP4 mit max. 1280 px und ~2 Mbit/s konvertiert: Importe sofort beim Import, Aufnahmen (z. B. WebM von Android) im Hintergrund vor dem Upload. Geht auf iOS 16.4+, Chrome, Edge, Safari; wo WebCodecs fehlt, bleibt das Original.

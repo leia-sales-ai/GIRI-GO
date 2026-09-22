@@ -770,6 +770,13 @@ select.sel{padding:9px 12px;border:1.5px solid var(--line);border-radius:10px;ba
 .inst-note .big{font-size:28px}
 .inst-note>div:not(.row){flex:1;min-width:200px}
 .inst-note .muted{font-size:13px}
+.vstep .chk .note{flex:0 0 auto;width:48px;padding:12px 0;background:rgba(255,255,255,.12);color:#fff;display:inline-flex;align-items:center;justify-content:center}
+.vstep .chk .note.on{background:var(--brand);color:#fff}
+.viewer.light .vstep .chk .note{background:#EFEFEF;color:#000}
+.viewer.light .vstep .chk .note.on{background:var(--brand);color:#fff}
+.vw-start .card{position:relative}
+.langbtn2{position:absolute;right:12px;top:12px;width:40px;height:40px;background:rgba(255,255,255,.12);color:#fff;display:inline-flex;align-items:center;justify-content:center}
+.viewer.light .langbtn2{background:rgba(0,0,0,.08);color:#000}
 .ann-list{margin-top:10px}
 .ann-pill{display:inline-flex;align-items:center;gap:4px}
 .pill-sw{display:inline-flex;gap:4px;margin:0 2px 0 6px}
@@ -796,7 +803,7 @@ select.sel{padding:9px 12px;border:1.5px solid var(--line);border-radius:10px;ba
 (() => {
 'use strict';
 
-const APP_VERSION = '0.11.1';
+const APP_VERSION = '0.12.0';
 /* ---------- i18n ---------- */
 const I18N = {
 de:{
@@ -847,8 +854,8 @@ de:{
   /* v0.9 */
   original:'Original', language:'Sprache', translating:'Übersetze …', tx_live_sub:'Ein Link für alle Sprachen: Der Werker wählt die Sprache oben in der Anleitung, übersetzt wird live (DeepL) und danach zwischengespeichert. Hier kannst du vorab übersetzen und pro Sprache ein PDF ziehen.',
   leave_q:'Checkliste läuft noch – wirklich verlassen? Dein Fortschritt bleibt auf diesem Gerät gespeichert.', leave:'Verlassen',
-  resume_title:'Weitermachen?', resume_sub:'{n} von {total} Schritten sind schon bestätigt ({w}, {d}).', resume:'Weitermachen', restart:'Neu starten',
-  pdf_lang:'PDF-Sprache', pdf_lang_sub:'In welcher Sprache soll das PDF erstellt werden?',
+  resume_title:'Weitermachen?', resume_all_title:'Alle Schritte bestätigt', add_note:'Anmerkung / Foto', note_label:'Anmerkung (optional)', photo_replace:'Foto ersetzen', resume_sub:'{n} von {total} Schritten sind schon bestätigt ({w}, {d}).', resume:'Weitermachen', restart:'Neu starten',
+  pdf_lang:'PDF-Sprache', pdf_lang_sub:'In welcher Sprache soll das PDF erstellt werden?', pdf_lang_sub2:'Jede Sprache möglich – fehlende Übersetzungen werden vorher per DeepL erstellt (✓ = schon übersetzt).',
   fmt_bold:'Fett', fmt_ul:'Liste', fmt_ol:'Nummeriert', fmt_link:'Link', fmt_keep:'Nicht übersetzen', fmt_hint:'**fett** · - Liste · 1. Liste · [Text](https://…) · ==nicht übersetzen==', link_url:'Link-Adresse (https://…)',
   rotate_l:'Links drehen', rotate_r:'Rechts drehen', tool_hint2:'Symbol antippen → erscheint im Bild. Ziehen zum Verschieben · weiße Anfasser: Größe · Griff oben: Drehen · zwei Finger: Größe & Drehung.',
   folders:'Projekte', folder:'Projekt', all_folders:'Alle', no_folder:'Ohne Projekt', new_folder:'Neues Projekt', folder_ph:'z. B. Linie 3 / Montage', move_to:'In Projekt verschieben', rename_folder:'Projekt umbenennen', del_folder:'Projekt löschen', del_folder_q:'Projekt „{t}“ löschen? Die Anleitungen bleiben erhalten.', folder_hidden:'{n} Anleitungen in Projekten, auf die du keinen Zugriff hast.',
@@ -909,8 +916,8 @@ en:{
   /* v0.9 */
   original:'Original', language:'Language', translating:'Translating …', tx_live_sub:'One link for all languages: the worker picks the language at the top of the instruction, it is translated live (DeepL) and cached. Here you can translate ahead of time and download a PDF per language.',
   leave_q:'Checklist still running – leave anyway? Your progress stays saved on this device.', leave:'Leave',
-  resume_title:'Continue?', resume_sub:'{n} of {total} steps already confirmed ({w}, {d}).', resume:'Continue', restart:'Start over',
-  pdf_lang:'PDF language', pdf_lang_sub:'Which language should the PDF use?',
+  resume_title:'Continue?', resume_all_title:'All steps confirmed', add_note:'Remark / photo', note_label:'Remark (optional)', photo_replace:'Replace photo', resume_sub:'{n} of {total} steps already confirmed ({w}, {d}).', resume:'Continue', restart:'Start over',
+  pdf_lang:'PDF language', pdf_lang_sub:'Which language should the PDF use?', pdf_lang_sub2:'Any language – missing translations are created with DeepL first (✓ = already translated).',
   fmt_bold:'Bold', fmt_ul:'List', fmt_ol:'Numbered', fmt_link:'Link', fmt_keep:'Do not translate', fmt_hint:'**bold** · - list · 1. list · [text](https://…) · ==do not translate==', link_url:'Link address (https://…)',
   rotate_l:'Rotate left', rotate_r:'Rotate right', tool_hint2:'Tap a symbol → it appears on the image. Drag to move · white handles: size · top handle: rotate · two fingers: size & rotation.',
   folders:'Projects', folder:'Project', all_folders:'All', no_folder:'No project', new_folder:'New project', folder_ph:'e.g. Line 3 / Assembly', move_to:'Move to project', rename_folder:'Rename project', del_folder:'Delete project', del_folder_q:'Delete project “{t}”? The instructions are kept.', folder_hidden:'{n} instructions in projects you have no access to.',
@@ -924,8 +931,8 @@ en:{
   all_instr:'All instructions', all_ws:'everyone in the workspace', empty_project:'No instruction in this project yet – “New instruction” top right.', new_folder_sub:'Group instructions, assign teams', pick_project:'Which project should the instruction belong to?', running:'in progress', preview_local:'Preview – checklist is not saved', instr_filter:'Instruction', per_view:'per view'
 }};
 // UI languages: de/en are built in, every other language is translated once via DeepL (edge function, cached) and kept on the device
-const UI_LANGS = ['de','en','fr','es','it','nl','pl','cs','tr','pt','ro','hu'];
-const LOCALES = {de:'de-DE', en:'en-GB', fr:'fr-FR', es:'es-ES', it:'it-IT', nl:'nl-NL', pl:'pl-PL', cs:'cs-CZ', tr:'tr-TR', pt:'pt-PT', ro:'ro-RO', hu:'hu-HU'};
+const UI_LANGS = ['de','en','fr','es','it','nl','pl','cs','tr','pt','ro','hu','zh'];
+const LOCALES = {de:'de-DE', en:'en-GB', fr:'fr-FR', es:'es-ES', it:'it-IT', nl:'nl-NL', pl:'pl-PL', cs:'cs-CZ', tr:'tr-TR', pt:'pt-PT', ro:'ro-RO', hu:'hu-HU', zh:'zh-CN'};
 const LOCALE = () => LOCALES[LANG] || 'en-GB';
 let LANG = 'de';
 try{ const st = localStorage.getItem('gg_lang'); const nav = (navigator.language||'de').slice(0,2).toLowerCase(); LANG = UI_LANGS.includes(st) ? st : (UI_LANGS.includes(nav) ? nav : 'en'); }catch(e){}
@@ -1025,8 +1032,8 @@ function mdToHtml(src){
 }
 const mdToPlain = src => String(src||'').split(/\r?\n/).map(l => l.replace(/\*\*([^*]+)\*\*/g,'$1').replace(/==([^=]+)==/g,'$1').replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,'$1 ($2)').replace(/^\s*[-*•]\s+/, '• ')).join('\n');
 /* ---------- Translations (DeepL via Edge Function) ---------- */
-const LANGS = [['EN','English'],['FR','Français'],['ES','Español'],['IT','Italiano'],['NL','Nederlands'],['PL','Polski'],['CS','Čeština'],['TR','Türkçe'],['PT','Português'],['RO','Română'],['HU','Magyar'],['DE','Deutsch']];
-const FLAGS = {EN:'🇬🇧',FR:'🇫🇷',ES:'🇪🇸',IT:'🇮🇹',NL:'🇳🇱',PL:'🇵🇱',CS:'🇨🇿',TR:'🇹🇷',PT:'🇵🇹',RO:'🇷🇴',HU:'🇭🇺',DE:'🇩🇪'};
+const LANGS = [['EN','English'],['FR','Français'],['ES','Español'],['IT','Italiano'],['NL','Nederlands'],['PL','Polski'],['CS','Čeština'],['TR','Türkçe'],['PT','Português'],['RO','Română'],['HU','Magyar'],['ZH','中文'],['DE','Deutsch']];
+const FLAGS = {EN:'🇬🇧',FR:'🇫🇷',ES:'🇪🇸',IT:'🇮🇹',NL:'🇳🇱',PL:'🇵🇱',CS:'🇨🇿',TR:'🇹🇷',PT:'🇵🇹',RO:'🇷🇴',HU:'🇭🇺',ZH:'🇨🇳',DE:'🇩🇪'};
 const langName = k => (LANGS.find(x=>x[0]===k)||[k,k])[1];
 const srcTexts = instr => { const arr = [{k:'title', v:instr.title||''}]; for(const st of instr.steps){ if(st.kind==='chapter') arr.push({k:'ch:'+st.id, v:st.title||''}); else { arr.push({k:'t:'+st.id, v:st.title||''}); arr.push({k:'d:'+st.id, v:st.desc||''}); arr.push({k:'w:'+st.id, v:st.warn||''}); } } return arr; };
 const strHash = str => { let h = 5381; for(let i=0;i<str.length;i++) h = ((h<<5)+h+str.charCodeAt(i))|0; return (h>>>0).toString(36); };
@@ -1131,7 +1138,7 @@ const modal = (html, onMount) => new Promise(res => {
 const confirmM = (text, okLabel) => modal(`<p style="margin:0 0 4px;font-size:15px">${esc(text)}</p><div class="actions"><button class="btn ghost" data-x>${t('cancel')}</button><button class="btn danger" data-ok>${esc(okLabel||t('delete'))}</button></div>`, (bg, close) => { bg.querySelector('[data-x]').onclick = ()=>close(false); bg.querySelector('[data-ok]').onclick = ()=>close(true); });
 const promptM = (title, ph, val='') => modal(`<h2>${esc(title)}</h2><div class="field"><input id="pm-in" placeholder="${esc(ph||'')}" value="${esc(val)}"></div><div class="actions"><button class="btn ghost" data-x>${t('cancel')}</button><button class="btn" data-ok>OK</button></div>`, (bg, close) => { const inp = bg.querySelector('#pm-in'); bg.querySelector('[data-x]').onclick = ()=>close(null); bg.querySelector('[data-ok]').onclick = ()=>close(inp.value); inp.addEventListener('keydown', e => { if(e.key==='Enter') close(inp.value); }); });
 const fitRect = (bw, bh, mw, mh) => { if(!mw||!mh) return {x:0,y:0,w:bw,h:bh}; const s = Math.min(bw/mw, bh/mh); const w = mw*s, h = mh*s; return {x:(bw-w)/2, y:(bh-h)/2, w, h}; };
-const fmtSec = s => (Math.round(s*10)/10).toFixed(1).replace('.', LANG==='en'?'.':',');
+const fmtSec = s => (Math.round(s*10)/10).toFixed(1).replace('.', (LANG==='en'||LANG==='zh')?'.':',');
 
 /* ---------- Icons ---------- */
 const IC = {
@@ -1166,6 +1173,7 @@ const IC = {
   eye:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
   globe:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg>',
   folder:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>',
+  note:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h12l4 4v12H4z"/><path d="M8 12h8M8 16h5"/></svg>',
   gear:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
   up:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>',
   down:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>'
@@ -2256,13 +2264,26 @@ function shareModal(instr){
 }
 // PDF: ask for the language when translations exist (the per-language buttons in the translations card go direct)
 async function exportPDFAsk(instr){
-  const keys = Object.keys(instr.translations||{}).filter(k => hasTx(instr, k)); if(!keys.length) return exportPDF(instr);
-  const l = await modal(`<h2>${t('pdf_lang')}</h2><p class="muted" style="margin:0 0 10px">${t('pdf_lang_sub')}</p><div class="menu">${[['', '🇩🇪 '+t('original')], ...keys.map(k => [k, (FLAGS[k]||'')+' '+langName(k)])].map(([k,n]) => `<button data-l="${k}">${n}</button>`).join('')}</div><div class="actions"><button class="btn ghost" data-x>${t('cancel')}</button></div>`, (bg, close) => { $$('[data-l]', bg).forEach(b => b.onclick = () => close(b.dataset.l)); bg.querySelector('[data-x]').onclick = () => close(null); });
-  if(l===null) return; exportPDF(l ? withLang(instr, l) : instr);
+  const h = srcHash(instr); const state = k => !hasTx(instr, k) ? '' : (instr.translations[k].hash===h ? ' <small>✓</small>' : ' <small>↻</small>');
+  const l = await modal(`<h2>${t('pdf_lang')}</h2><p class="muted" style="margin:0 0 10px">${t('pdf_lang_sub2')}</p><div class="menu langmenu"><button data-l="">${IC.globe} ${t('original')}</button>${LANGS.map(([k,n]) => `<button data-l="${k}"><span class="flag">${FLAGS[k]}</span> ${n}${state(k)}</button>`).join('')}</div><div class="actions"><button class="btn ghost" data-x>${t('cancel')}</button></div>`, (bg, close) => { $$('[data-l]', bg).forEach(b => b.onclick = () => close(b.dataset.l)); bg.querySelector('[data-x]').onclick = () => close(null); });
+  if(l===null) return; if(!l) return exportPDF(instr);
+  if(!hasTx(instr, l) || instr.translations[l].hash!==h){ toast(t('translating')); try{ await translateInstr(instr, l); }catch(e){ toast('DeepL: '+e.message); return; } }
+  exportPDF(withLang(instr, l));
+}
+/* ---------- PDF fonts: Montserrat (Latin/Cyrillic) or Noto Sans SC (Chinese), loaded once from /fonts ---------- */
+const PDF_FONT_CACHE = {};
+async function loadFontB64(path){ if(PDF_FONT_CACHE[path]) return PDF_FONT_CACHE[path]; const r = await fetch(path); if(!r.ok) throw new Error('font '+path); const u8 = new Uint8Array(await r.arrayBuffer()); let bin = ''; for(let i=0;i<u8.length;i+=8192) bin += String.fromCharCode.apply(null, u8.subarray(i, i+8192)); PDF_FONT_CACHE[path] = btoa(bin); return PDF_FONT_CACHE[path]; }
+async function pdfFonts(doc, lang){
+  try{
+    if(lang==='ZH'){ const b = await loadFontB64('fonts/NotoSansSC-Regular.ttf'); doc.addFileToVFS('NotoSansSC-Regular.ttf', b); doc.addFont('NotoSansSC-Regular.ttf', 'NotoSansSC', 'normal'); doc.addFont('NotoSansSC-Regular.ttf', 'NotoSansSC', 'bold'); return bold => doc.setFont('NotoSansSC', bold ? 'bold' : 'normal'); }
+    const [r, b] = await Promise.all([loadFontB64('fonts/Montserrat-Regular.ttf'), loadFontB64('fonts/Montserrat-Bold.ttf')]);
+    doc.addFileToVFS('Montserrat-Regular.ttf', r); doc.addFont('Montserrat-Regular.ttf', 'Montserrat', 'normal'); doc.addFileToVFS('Montserrat-Bold.ttf', b); doc.addFont('Montserrat-Bold.ttf', 'Montserrat', 'bold');
+    return bold => doc.setFont('Montserrat', bold ? 'bold' : 'normal');
+  }catch(e){ console.warn('pdf fonts', e); return bold => doc.setFont('helvetica', bold ? 'bold' : 'normal'); }
 }
 async function exportQrPdf(instr, link, opts, qrEl){
   if(!window.jspdf){ toast('jsPDF n/a'); return; } toast(t('pdf_making'));
-  const {jsPDF} = window.jspdf; const doc = new jsPDF({unit:'mm', format:'a4'}); const W = 210, H = 297;
+  const {jsPDF} = window.jspdf; const doc = new jsPDF({unit:'mm', format:'a4', putOnlyUsedFonts:true}); const W = 210, H = 297; const F = await pdfFonts(doc, 'DE');
   const brand = await loadBrand(instr.ws); const bc = hexToRgb(brand.color||'#004EAD');
   // QR as image (from the rendered canvas/img)
   let qrData = null; const c = qrEl.querySelector('canvas'), im = qrEl.querySelector('img'); try{ qrData = c ? c.toDataURL('image/png') : (im ? im.src : null); }catch(e){}
@@ -2273,12 +2294,12 @@ async function exportQrPdf(instr, link, opts, qrEl){
   let y = cy;
   if(opts.brand){ doc.setFillColor(...bc); doc.roundedRect(cx, cy, cardW, 14, 4, 4, 'F'); doc.rect(cx, cy+7, cardW, 7, 'F');
     let lx = cx+6; if(brand.logo){ try{ const img = await new Promise((res, rej) => { const i = new Image(); i.crossOrigin='anonymous'; i.onload=()=>res(i); i.onerror=rej; i.src = brand.logo; }); const cv = document.createElement('canvas'); cv.width=img.naturalWidth; cv.height=img.naturalHeight; cv.getContext('2d').drawImage(img,0,0); const lh = 9, lw = Math.min(40, lh*cv.width/cv.height); doc.setFillColor(255); doc.roundedRect(lx-1, cy+2.5, lw+2, lh, 1.5, 1.5, 'F'); doc.addImage(cv.toDataURL('image/png'), 'PNG', lx, cy+2.5, lw, lh); lx += lw+4; }catch(e){} }
-    doc.setTextColor(255); doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.text(brand.name || S.user && S.user.ws || '', lx, cy+9.5); y = cy+14; }
+    doc.setTextColor(255); F(true); doc.setFontSize(11); doc.text(brand.name || S.user && S.user.ws || '', lx, cy+9.5); y = cy+14; }
   y += 10;
   if(opts.image){ const first = realSteps(instr)[0]; if(first){ const imgs = await stepImages(first, 1); if(imgs[0]){ const iw = cardW-24, ih = Math.min(iw*(first.h||3)/(first.w||4), 60); try{ doc.addImage(imgs[0], 'JPEG', cx+12, y, iw, ih); }catch(e){} y += ih + 8; } } }
   const qrSize = opts.image ? 46 : 60; y += opts.image ? 0 : 6; if(qrData){ try{ doc.addImage(qrData, 'PNG', cx + (cardW-qrSize)/2, y, qrSize, qrSize); }catch(e){} } y += qrSize + 10;
-  if(opts.title){ doc.setTextColor(0); doc.setFont('helvetica','bold'); doc.setFontSize(15); const tl = doc.splitTextToSize(instr.title, cardW-20); doc.text(tl, W/2, y, {align:'center'}); y += tl.length*6.5 + 2; }
-  doc.setFont('helvetica','normal'); doc.setFontSize(9.5); doc.setTextColor(90);
+  if(opts.title){ doc.setTextColor(0); F(true); doc.setFontSize(15); const tl = doc.splitTextToSize(instr.title, cardW-20); doc.text(tl, W/2, y, {align:'center'}); y += tl.length*6.5 + 2; }
+  F(false); doc.setFontSize(9.5); doc.setTextColor(90);
   const meta = []; const lastHist = instr.history[instr.history.length-1];
   if(opts.version) meta.push(`v${instr.version}`); if(opts.date) meta.push(fmtD(lastHist ? lastHist.at : instr.updatedAt)); if(opts.creator) meta.push(instr.createdBy||'');
   if(meta.length){ doc.text(meta.filter(Boolean).join('  ·  '), W/2, y, {align:'center'}); y += 6; }
@@ -2324,6 +2345,7 @@ async function renderViewer(app, id, isPreview, langArg){
   const pushRun = async () => { if(isPreview || !run.startedAt || !sb) return; try{ const {error} = await sb.from('runs').upsert(runRow()); if(error) console.warn(error.message); }catch(e){} };
   const saveRun = () => { if(!run.startedAt || runDone) return; if(isPreview) return; LS.set(RUNKEY, {id:run.id, worker:run.worker, startedAt:run.startedAt, version:run.version, items:run.items, at:Date.now()}); debounce('pushrun', pushRun, 600); };
   const inRun = () => useChk && !isPreview && !!run.startedAt && !runDone;
+  const inRunOpen = () => inRun() && !steps.every(s => run.items[s.id] && run.items[s.id].ok!=null);
   const backHref = isPreview ? '#/edit/'+instr.id : '#/';
   const v = el(`<div class="viewer ${brand.theme==='light'?'light':''}" style="--brand:${esc(brand.color||'#004EAD')}">
     <div class="vw-top">${(isPreview || S.user) ? `<a class="round" href="${backHref}" id="vback" style="width:40px;height:40px;flex:0 0 auto" aria-label="back">${IC.back}</a>` : ''}${brand.logo?`<img class="vlogo" src="${esc(brand.logo)}" alt="">`:''}<div class="tt-wrap"><div class="ch" id="vch">${esc(brand.name||'')}</div><div class="ttl" id="vttl"></div></div><span class="cnt tnum" id="vcnt" style="flex:0 0 auto;font-weight:800;font-size:13px;background:rgba(255,255,255,.18);padding:4px 10px;border-radius:999px"></span><button class="round langbtn" id="langbtn" style="width:40px;height:40px;flex:0 0 auto" title="${t('language')}">${IC.globe}</button><button class="round" id="menu" style="width:40px;height:40px;flex:0 0 auto" aria-label="menu">${IC.menu}</button></div>
@@ -2340,7 +2362,7 @@ async function renderViewer(app, id, isPreview, langArg){
     const sec = el(`<section class="vstep" data-id="${s.id}" data-i="${i}">
       <div class="vmedia">${s.type==='video'?`<video src="${url}" muted playsinline loop preload="auto"></video>`:`<img src="${url}" alt="">`}<canvas></canvas>${s.type==='video'?'<div class="prog"><i></i></div>':''}${i===0 && steps.length>1 ? `<div class="vw-hint">↑ ${t('scroll_hint')}</div>`:''}</div>
       <div class="vtext"><div class="num"></div><h2></h2><div class="rich" hidden></div><div class="warnbox" hidden></div>
-        ${useChk?`<div class="chk"><button class="btn done off" data-ok>${IC.check} ${t('done')}</button><button class="btn nok" data-nok>${t('not_ok')}</button></div>`:''}</div>
+        ${useChk?`<div class="chk"><button class="btn done off" data-ok>${IC.check} ${t('done')}</button><button class="btn nok" data-nok>${t('not_ok')}</button><button class="btn note" data-note title="${t('add_note')}">${IC.note}</button></div>`:''}</div>
     </section>`);
     vs.appendChild(sec);
     const med = sec.querySelector('video,img'), cv = sec.querySelector('canvas'), box = sec.querySelector('.vmedia');
@@ -2362,18 +2384,22 @@ async function renderViewer(app, id, isPreview, langArg){
     } else { med.addEventListener('load', draw, {once:true}); players.set(s.id, {play(){}, stop(){}}); }
     setTimeout(draw, 80);
     if(useChk){
-      const okB = sec.querySelector('[data-ok]'), nokB = sec.querySelector('[data-nok]');
-      const refresh = () => { const it = run.items[s.id]; okB.classList.toggle('off', !(it && it.ok)); okB.innerHTML = `${IC.check} ${t('done')}`; nokB.classList.toggle('on', !!(it && it.ok===false)); nokB.textContent = it && it.ok===false ? `✗ ${t('not_ok')}` : t('not_ok'); updateSide(); updateEndSum(); };
+      const okB = sec.querySelector('[data-ok]'), nokB = sec.querySelector('[data-nok]'), noteB = sec.querySelector('[data-note]');
+      const refresh = () => { const it = run.items[s.id]; okB.classList.toggle('off', !(it && it.ok)); okB.innerHTML = `${IC.check} ${t('done')}`; nokB.classList.toggle('on', !!(it && it.ok===false)); nokB.textContent = it && it.ok===false ? `✗ ${t('not_ok')}` : t('not_ok'); noteB.classList.toggle('on', !!(it && (it.note || it.photoId || it.photoUrl))); updateSide(); updateEndSum(); };
       refreshers.push(refresh);
       let pvHint = false; const pv = () => { if(isPreview && !pvHint){ pvHint = true; toast(t('preview_local')); } };
-      okB.onclick = () => { pv(); run.items[s.id] = {ok:true, at:Date.now()}; refresh(); saveRun(); if(navigator.vibrate) try{navigator.vibrate(20);}catch(e){} const nx = sec.nextElementSibling; if(nx) setTimeout(()=>nx.scrollIntoView({behavior:'smooth'}), 250); };
-      nokB.onclick = async () => { pv();
-        const r = await modal(`<h2>${t('not_ok')} – ${t('step')} ${i+1}</h2><div class="field"><label for="nk-note">${t('nok_note')}</label><textarea id="nk-note"></textarea></div><label class="btn ghost" style="cursor:pointer" id="nk-lbl">${IC.cam} ${t('nok_photo')}<input type="file" accept="image/*" capture="environment" hidden id="nk-ph"></label><div class="actions"><button class="btn ghost" data-x>${t('cancel')}</button><button class="btn danger" data-ok>${t('save')}</button></div>`, (bg, close) => {
+      // note + photo dialog (used for "not OK" and for optional remarks on any step)
+      const noteDialog = async (title, danger) => {
+        const it = run.items[s.id] || {};
+        const r = await modal(`<h2>${title} – ${t('step')} ${i+1}</h2><div class="field"><label for="nk-note">${danger ? t('nok_note') : t('note_label')}</label><textarea id="nk-note">${esc(it.note||'')}</textarea></div><label class="btn ghost" style="cursor:pointer" id="nk-lbl">${IC.cam} ${(it.photoId||it.photoUrl) ? t('photo_replace') : t('nok_photo')}<input type="file" accept="image/*" capture="environment" hidden id="nk-ph"></label><div class="actions"><button class="btn ghost" data-x>${t('cancel')}</button><button class="btn ${danger?'danger':''}" data-ok>${t('save')}</button></div>`, (bg, close) => {
           let photo = null; bg.querySelector('#nk-ph').onchange = e => { photo = e.target.files[0]; bg.querySelector('#nk-lbl').textContent = '✓ '+(photo?photo.name:''); };
           bg.querySelector('[data-x]').onclick = () => close(null); bg.querySelector('[data-ok]').onclick = () => close({note: bg.querySelector('#nk-note').value, photo}); });
-        if(!r) return; let photoId = null, photoUrl = null;
-        if(r.photo){ photoId = uid(); await putMedia({id:photoId, blob:r.photo, type:'photo'}); const path = `runs/${run.id}/${photoId}.${extOf(r.photo)}`; const up = await sb.storage.from('media').upload(path, r.photo, {contentType:r.photo.type||undefined}); if(!up.error){ photoUrl = PUBLIC_MEDIA(path); S.remoteUrl.set(photoId, photoUrl); } }
-        run.items[s.id] = {ok:false, at:Date.now(), note:r.note, photoId, photoUrl}; refresh(); saveRun(); };
+        if(!r) return null; let photoId = it.photoId||null, photoUrl = it.photoUrl||null;
+        if(r.photo){ photoId = uid(); photoUrl = null; await putMedia({id:photoId, blob:r.photo, type:'photo'}); if(!isPreview){ const path = `runs/${run.id}/${photoId}.${extOf(r.photo)}`; const up = await sb.storage.from('media').upload(path, r.photo, {contentType:r.photo.type||undefined}); if(!up.error){ photoUrl = PUBLIC_MEDIA(path); S.remoteUrl.set(photoId, photoUrl); } } }
+        return {note:r.note, photoId, photoUrl}; };
+      okB.onclick = () => { pv(); run.items[s.id] = Object.assign({}, run.items[s.id]||{}, {ok:true, at:Date.now()}); refresh(); saveRun(); if(navigator.vibrate) try{navigator.vibrate(20);}catch(e){} const nx = sec.nextElementSibling; if(nx) setTimeout(()=>nx.scrollIntoView({behavior:'smooth'}), 250); };
+      nokB.onclick = async () => { pv(); const r = await noteDialog(t('not_ok'), true); if(!r) return; run.items[s.id] = Object.assign({}, run.items[s.id]||{}, r, {ok:false, at:Date.now()}); refresh(); saveRun(); };
+      noteB.onclick = async () => { pv(); const r = await noteDialog(t('add_note'), false); if(!r) return; run.items[s.id] = Object.assign({}, run.items[s.id]||{}, r, {at:(run.items[s.id]||{}).at||Date.now()}); refresh(); saveRun(); };
     }
   }
   // happy end
@@ -2387,7 +2413,7 @@ async function renderViewer(app, id, isPreview, langArg){
   function updateSide(){
     const sl = v.querySelector('#sidelist'); let html=''; let n=0;
     if(!chapters.length) html += `<h3>${t('all_steps')}</h3>`;
-    for(const s of cur.steps){ if(s.kind==='chapter'){ html += `<h3>${esc(s.title)}</h3>`; continue; } n++; const it = run.items[s.id]; html += `<div class="it ${it?(it.ok?'ok':'nok'):''}" data-go="${s.id}"><span class="n tnum">${it?(it.ok?'✓':'✗'):n}</span><span>${esc(s.title)||t('step')+' '+n}</span></div>`; }
+    for(const s of cur.steps){ if(s.kind==='chapter'){ html += `<h3>${esc(s.title)}</h3>`; continue; } n++; const it = run.items[s.id]; const st = it && it.ok!=null ? (it.ok?'ok':'nok') : ''; html += `<div class="it ${st}" data-go="${s.id}"><span class="n tnum">${st ? (it.ok?'✓':'✗') : n}</span><span>${esc(s.title)||t('step')+' '+n}</span>${it && (it.note||it.photoId||it.photoUrl) ? `<span class="n">${IC.note}</span>` : ''}</div>`; }
     sl.innerHTML = html; $$('[data-go]', sl).forEach(d => d.onclick = () => { const sec = vs.querySelector(`[data-id="${d.dataset.go}"]`); if(sec) sec.scrollIntoView({behavior:'smooth'}); v.querySelector('#side').classList.remove('open'); });
   }
   // all translatable text lives here, so switching the language never touches the media
@@ -2404,7 +2430,7 @@ async function renderViewer(app, id, isPreview, langArg){
     endSec.querySelector('#vend-h').textContent = t('end_title'); endSec.querySelector('#vend-p').textContent = cur.title + (brand.logo&&brand.name ? ' · '+brand.name : '');
     const f1 = v.querySelector('#finish'), f2 = endSec.querySelector('#finish2'); if(f1) f1.textContent = t('finish'); if(f2) f2.textContent = t('finish'); const ag2 = endSec.querySelector('#again2'); if(ag2) ag2.textContent = t('again');
     v.querySelector('#side-h').textContent = t('chapters'); refreshers.forEach(f => f()); updateSide(); updateEndSum();
-    const sc = v.querySelector('.vw-start'); if(sc){ sc.querySelector('h1').textContent = t('vw_start_title'); sc.querySelector('p').textContent = t('vw_start_sub'); sc.querySelector('label').textContent = t('your_name'); sc.querySelector('#begin').textContent = t('begin'); }
+    const sc = v.querySelector('.vw-start'); if(sc){ sc.querySelector('h1').textContent = t('vw_start_title'); sc.querySelector('p').textContent = t('vw_start_sub'); sc.querySelector('label').textContent = t('your_name'); sc.querySelector('#begin').textContent = t('begin'); const lb2 = sc.querySelector('#langbtn2'); if(lb2) lb2.innerHTML = vlang ? `<span class="flag">${FLAGS[vlang]||vlang}</span>` : IC.globe; }
     const hint = vs.querySelector('.vw-hint'); if(hint) hint.textContent = '↑ '+t('scroll_hint');
     const lb = v.querySelector('#langbtn'); lb.innerHTML = vlang ? `<span class="flag">${FLAGS[vlang]||vlang}</span>` : IC.globe; lb.classList.toggle('on', !!vlang);
   }
@@ -2421,7 +2447,8 @@ async function renderViewer(app, id, isPreview, langArg){
     if(l && !I18N[l.toLowerCase()]){ applyTexts(); await loadUiLang(l); if(vlang!==l) return; }
     LANG = l ? uiFor(l) : prevLang; applyTexts();
   }
-  v.querySelector('#langbtn').onclick = () => modal(`<h2>${t('language')}</h2><div class="menu langmenu"><button data-l="" class="${!vlang?'cur':''}">${IC.globe} ${t('original')}</button>${LANGS.map(([k,name]) => `<button data-l="${k}" class="${vlang===k?'cur':''}"><span class="flag">${FLAGS[k]}</span> ${name}${hasTx(instr0,k)?' <small>✓</small>':''}</button>`).join('')}</div>`, (bg, close) => { $$('[data-l]', bg).forEach(b => b.onclick = () => { close(); switchLang(b.dataset.l); }); });
+  const openLangMenu = () => modal(`<h2>${t('language')}</h2><div class="menu langmenu"><button data-l="" class="${!vlang?'cur':''}">${IC.globe} ${t('original')}</button>${LANGS.map(([k,name]) => `<button data-l="${k}" class="${vlang===k?'cur':''}"><span class="flag">${FLAGS[k]}</span> ${name}${hasTx(instr0,k)?' <small>✓</small>':''}</button>`).join('')}</div>`, (bg, close) => { $$('[data-l]', bg).forEach(b => b.onclick = () => { close(); switchLang(b.dataset.l); }); });
+  v.querySelector('#langbtn').onclick = openLangMenu;
   applyTexts();
   if(vlang && (!fresh(vlang) || !I18N[vlang.toLowerCase()])) switchLang(vlang); // remembered language → translate live (cached after the first time)
   v.querySelector('#menu').onclick = () => v.querySelector('#side').classList.add('open');
@@ -2430,37 +2457,44 @@ async function renderViewer(app, id, isPreview, langArg){
   const io = new IntersectionObserver(entries => { entries.forEach(en => { const p = players.get(en.target.dataset.id); if(!p){ if(en.isIntersecting && en.target.classList.contains('vend')){ v.querySelector('#vcnt').textContent = '✓'; v.querySelector('#vch').textContent = brand.name||''; track.completed = true; track.seen = steps.length; } return; } if(en.isIntersecting && en.intersectionRatio > 0.6){ p.play(); const i = +en.target.dataset.i; curStepId = en.target.dataset.id; track.seen = Math.max(track.seen, i+1); v.querySelector('#vcnt').textContent = `${i+1} / ${steps.length}`; v.querySelector('#vch').textContent = chapterOf(en.target.dataset.id)||brand.name||''; } else p.stop(); }); }, {root:vs, threshold:[0.6]});
   $$('.vstep', vs).forEach(s => io.observe(s));
   // leaving mid-run: ask (in-app links) / browser prompt (tab close); progress is saved on the device either way
-  const onUnload = e => { if(inRun()){ saveRun(); e.preventDefault(); e.returnValue = ''; } }; window.addEventListener('beforeunload', onUnload);
-  const guard = a => { if(!a) return; a.addEventListener('click', async e => { if(!inRun()) return; e.preventDefault(); saveRun(); if(await confirmM(t('leave_q'), t('leave'))) location.hash = a.getAttribute('href'); }); };
+  const onUnload = e => { if(inRunOpen()){ saveRun(); e.preventDefault(); e.returnValue = ''; } }; window.addEventListener('beforeunload', onUnload);
+  const guard = a => { if(!a) return; a.addEventListener('click', async e => { if(!inRunOpen()) return; e.preventDefault(); saveRun(); if(await confirmM(t('leave_q'), t('leave'))) location.hash = a.getAttribute('href'); }); };
   guard(v.querySelector('#vback')); guard(endSec.querySelector('a.btn'));
-  activeCleanup = () => { io.disconnect(); players.forEach(p=>p.stop()); clearInterval(hb); document.removeEventListener('visibilitychange', onHide); window.removeEventListener('beforeunload', onUnload); trackUpdate(true); LANG = prevLang; };
+  let onLeave = null;
+  activeCleanup = () => { if(onLeave) onLeave(); io.disconnect(); players.forEach(p=>p.stop()); clearInterval(hb); document.removeEventListener('visibilitychange', onHide); window.removeEventListener('beforeunload', onUnload); trackUpdate(true); LANG = prevLang; };
   // checklist start / resume / finish
   if(useChk && !isPreview){
-    const start = el(`<div class="vw-start"><div class="card">${brand.logo?`<div class="vend-logo sm"><img src="${esc(brand.logo)}" alt=""></div>`:(brand.name?`<div class="vend-name sm">${esc(brand.name)}</div>`:'')}<h1>${t('vw_start_title')}</h1><p style="color:#B8C6DB;margin:0 0 16px">${t('vw_start_sub')}</p><div class="field"><label for="wname">${t('your_name')}</label><input id="wname" autocomplete="name"></div><button class="btn mint" id="begin" style="width:100%;padding:14px">${t('begin')}</button></div></div>`);
-    v.appendChild(start);
+    const start = el(`<div class="vw-start"><div class="card"><button class="round langbtn2" id="langbtn2" title="${t('language')}">${vlang?`<span class="flag">${FLAGS[vlang]||vlang}</span>`:IC.globe}</button>${brand.logo?`<div class="vend-logo sm"><img src="${esc(brand.logo)}" alt=""></div>`:(brand.name?`<div class="vend-name sm">${esc(brand.name)}</div>`:'')}<h1>${t('vw_start_title')}</h1><p style="color:#B8C6DB;margin:0 0 16px">${t('vw_start_sub')}</p><div class="field"><label for="wname">${t('your_name')}</label><input id="wname" autocomplete="name"></div><button class="btn mint" id="begin" style="width:100%;padding:14px">${t('begin')}</button></div></div>`);
+    v.appendChild(start); start.querySelector('#langbtn2').onclick = openLangMenu;
     try{ start.querySelector('#wname').value = localStorage.getItem('gg_worker')||''; }catch(e){}
     const scrollToOpen = () => { const first = steps.find(s => !run.items[s.id]); const sec = first ? vs.querySelector(`.vstep[data-id="${first.id}"]`) : endSec; if(sec) setTimeout(() => sec.scrollIntoView({behavior:'auto'}), 60); };
     start.querySelector('#begin').onclick = async () => {
       const n = start.querySelector('#wname').value.trim(); if(!n){ start.querySelector('#wname').focus(); return; }
       try{ localStorage.setItem('gg_worker', n); }catch(e){}
-      const saved = LS.get(RUNKEY); const savedN = saved && saved.items ? Object.keys(saved.items).length : 0;
-      if(saved && savedN && saved.version===instr.version){
-        const c = await modal(`<h2>${t('resume_title')}</h2><p class="muted" style="margin:0 0 14px">${esc(t('resume_sub',{n:savedN, total:steps.length, w:saved.worker||n, d:fmtDate(saved.at||saved.startedAt)}))}</p><div class="actions"><button class="btn ghost" data-restart>${t('restart')}</button><button class="btn" data-resume>${t('resume')}</button></div>`, (bg, close) => { bg.querySelector('[data-restart]').onclick = () => close('restart'); bg.querySelector('[data-resume]').onclick = () => close('resume'); });
+      const saved = LS.get(RUNKEY); const savedDone = saved && saved.items ? steps.filter(s => saved.items[s.id] && saved.items[s.id].ok!=null).length : 0;
+      if(saved && savedDone && saved.version===instr.version){
+        const all = savedDone >= steps.length;
+        const c = await modal(`<h2>${all ? t('resume_all_title') : t('resume_title')}</h2><p class="muted" style="margin:0 0 14px">${esc(t('resume_sub',{n:savedDone, total:steps.length, w:saved.worker||n, d:fmtDate(saved.at||saved.startedAt)}))}</p><div class="actions"><button class="btn ghost" data-restart>${t('restart')}</button><button class="btn" data-resume>${all ? t('finish') : t('resume')}</button></div>`, (bg, close) => { bg.querySelector('[data-restart]').onclick = () => close('restart'); bg.querySelector('[data-resume]').onclick = () => close('resume'); });
         if(c===null) return;
-        if(c==='resume'){ run.id = saved.id || run.id; run.startedAt = saved.startedAt || Date.now(); run.items = saved.items || {}; run.worker = n; refreshers.forEach(f => f()); saveRun(); start.remove(); scrollToOpen(); return; }
+        if(c==='resume'){ run.id = saved.id || run.id; run.startedAt = saved.startedAt || Date.now(); run.items = saved.items || {}; run.worker = n; refreshers.forEach(f => f()); start.remove(); if(all){ finishRun(); } else { saveRun(); scrollToOpen(); } return; }
         LS.del(RUNKEY); }
       run.worker = n; run.startedAt = Date.now(); saveRun(); start.remove(); };
     const finishRun = async () => {
-      run.finishedAt = Date.now(); const its = Object.values(run.items); const ok = its.filter(i=>i.ok).length, nok = its.filter(i=>i.ok===false).length, open = steps.length-ok-nok;
-      clearTimeout(debounces['pushrun']); const {error} = await sb.from('runs').upsert(runRow());
-      if(error){ toast(error.message); await DB.put('runs', run); }
-      runDone = true; LS.del(RUNKEY);
+      if(!run.startedAt) run.startedAt = Date.now();
+      const its = Object.values(run.items); const ok = its.filter(i=>i.ok).length, nok = its.filter(i=>i.ok===false).length, open = steps.length-ok-nok;
+      if(!runDone){ run.finishedAt = Date.now(); runDone = true; LS.del(RUNKEY); clearTimeout(debounces['pushrun']); const {error} = await sb.from('runs').upsert(runRow()); if(error){ toast(error.message); await DB.put('runs', run); } }
+      if(v.querySelector('.vw-end')) return;
       const nokHtml = await Promise.all(steps.filter(s=>run.items[s.id] && run.items[s.id].ok===false).map(async (s,k) => { const it = run.items[s.id]; const u = it.photoUrl || (it.photoId ? await mediaUrl(it.photoId) : null); const cs = realSteps(cur).find(x=>x.id===s.id)||s; return `<div>✗ <b>${esc(cs.title)||t('step')}</b> – ${esc(it.note||'')}${u?`<img src="${u}" alt="">`:''}</div>`; }));
       const end = el(`<div class="vw-end"><div class="card"><h1>${t('vw_end_title')}</h1><p style="color:#B8C6DB;margin:4px 0 0">${esc(run.worker)} · ${fmtDate(run.startedAt)} · ${t('vw_end_sub')}</p><div class="sum"><div><b class="tnum" style="color:var(--mint)">${ok}</b><span>${t('ok_count')}</span></div><div><b class="tnum" style="color:#ff8a8e">${nok}</b><span>${t('nok_count')}</span></div><div><b class="tnum">${open}</b><span>${t('open_count')}</span></div></div><div class="nok-list">${nokHtml.join('')}</div><div class="actions" style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap"><a class="btn ghost" style="color:#fff;border-color:#22437A" href="#/">${t('close')}</a><button class="btn mint" id="again">${t('again')}</button></div></div></div>`);
       v.appendChild(end); v.querySelector('#side').classList.remove('open');
       end.querySelector('#again').onclick = () => render();
     };
     v.querySelector('#finish').onclick = finishRun; const f2 = endSec.querySelector('#finish2'); if(f2) f2.onclick = finishRun;
+    // all steps confirmed and the worker just leaves → the run is closed automatically (no orphaned "in progress" rows)
+    const allDone = () => steps.every(s => run.items[s.id] && run.items[s.id].ok!=null);
+    const pushRunBeacon = async () => { try{ const {data:{session}} = await sb.auth.getSession(); const tok = session ? session.access_token : CFG.SUPABASE_KEY; await fetch(`${CFG.SUPABASE_URL}/rest/v1/runs?on_conflict=id`, {method:'POST', keepalive:true, headers:{apikey:CFG.SUPABASE_KEY, Authorization:'Bearer '+tok, 'Content-Type':'application/json', Prefer:'resolution=merge-duplicates,return=minimal'}, body:JSON.stringify(runRow())}); }catch(e){} };
+    const autoFinish = () => { if(!inRun() || !allDone()) return; run.finishedAt = Date.now(); runDone = true; LS.del(RUNKEY); clearTimeout(debounces['pushrun']); pushRunBeacon(); };
+    window.addEventListener('pagehide', autoFinish); document.addEventListener('visibilitychange', () => { if(document.visibilityState==='hidden') autoFinish(); }); onLeave = autoFinish;
   }
 }
 
@@ -2485,7 +2519,7 @@ function barChart(cv, labels, values, opts={}){
 }
 const fmtDurS = sec => `${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`;
 function runDetailsModal(r, steps){
-  Promise.all(steps.map(async (s,i) => { const it = r.items[s.id]; const u = it ? (it.photoUrl || (it.photoId ? await mediaUrl(it.photoId) : null)) : null; return `<tr><td class="tnum">${i+1}</td><td>${esc(s.title)||'–'}</td><td class="${it?(it.ok?'ok-n':'nok-n'):''}">${it?(it.ok?'OK':'✗'):'–'}</td><td class="tnum">${it?new Date(it.at).toLocaleTimeString(LOCALE()):''}</td><td>${it&&it.note?esc(it.note):''}${u?`<br><img src="${u}" style="width:80px;border-radius:6px" alt="">`:''}</td></tr>`; }))
+  Promise.all(steps.map(async (s,i) => { const it = r.items[s.id]; const u = it ? (it.photoUrl || (it.photoId ? await mediaUrl(it.photoId) : null)) : null; const st = it && it.ok!=null; return `<tr><td class="tnum">${i+1}</td><td>${esc(s.title)||'–'}</td><td class="${st?(it.ok?'ok-n':'nok-n'):''}">${st?(it.ok?'OK':'✗'):'–'}</td><td class="tnum">${it?new Date(it.at).toLocaleTimeString(LOCALE()):''}</td><td>${it&&it.note?esc(it.note):''}${u?`<br><img src="${u}" style="width:80px;border-radius:6px" alt="">`:''}</td></tr>`; }))
     .then(rows2 => modal(`<h2>${esc(r.worker)} · ${fmtDate(r.startedAt)}</h2>${r.title?`<p class="muted" style="margin:0 0 10px">${esc(r.title)} · v${r.version}</p>`:''}<div class="tbl-wrap"><table class="res"><thead><tr><th>#</th><th>${t('step')}</th><th>Status</th><th>Zeit</th><th>${t('nok_note')}</th></tr></thead><tbody>${rows2.join('')}</tbody></table></div><div class="actions"><button class="btn ghost" data-x>${t('close')}</button></div>`, (bg, close) => bg.querySelector('[data-x]').onclick = () => close()));
 }
 
@@ -2648,31 +2682,31 @@ async function exportPDF(instr){
   try{ await exportPDF2(instr); } finally { LANG = prevL; }
 }
 async function exportPDF2(instr){
-  const {jsPDF} = window.jspdf; const doc = new jsPDF({unit:'mm', format:'a4'});
+  const {jsPDF} = window.jspdf; const doc = new jsPDF({unit:'mm', format:'a4', putOnlyUsedFonts:true}); const F = await pdfFonts(doc, instr._lang||'DE');
   const brand = await loadBrand(instr.ws); const bc = hexToRgb(brand.color||'#004EAD'); let logoData = null, logoRatio = 1;
   if(brand.logo){ try{ const img = await new Promise((res, rej) => { const i = new Image(); i.crossOrigin='anonymous'; i.onload=()=>res(i); i.onerror=rej; i.src = brand.logo; }); const c = document.createElement('canvas'); c.width = img.naturalWidth; c.height = img.naturalHeight; c.getContext('2d').drawImage(img,0,0); logoData = c.toDataURL('image/png'); logoRatio = c.width / c.height; }catch(e){} }
   const W = 210, H = 297, M = 15; let y = M; const navy = [0,0,0], mint=[0,78,173], grey=[115,115,115];
   const steps = realSteps(instr); const ap = instr.approvals; const lastHist = instr.history[instr.history.length-1];
   const statusTxt = t(instr.status==='review'?'in_review':instr.status);
   const docNo = 'GG-' + instr.id.slice(0,6).toUpperCase();
-  const header = () => { doc.setFillColor(...bc); doc.rect(0,0,W,16,'F'); doc.setTextColor(255); doc.setFont('helvetica','bold'); doc.setFontSize(11); let lx = M; if(logoData){ try{ const lh = 10, lw = Math.min(40, lh*logoRatio); doc.addImage(logoData, 'PNG', M, 3, lw, lh); lx = M + lw + 4; }catch(e){} } doc.text((brand.name||'GIRI GO')+' · '+t('pdf_h_doc'), lx, 10); doc.setFontSize(9); doc.setFont('helvetica','normal'); doc.text(`${docNo} · v${instr.version} · ${statusTxt}`, W-M, 10, {align:'right'}); y = 24; };
-  const footer = (p, total) => { doc.setFontSize(8); doc.setTextColor(...grey); doc.setFont('helvetica','normal'); doc.text(`${instr.title} · v${instr.version} · ${ap.tech?t('pdf_h_tech')+': '+ap.tech.by+' '+fmtD(ap.tech.at):t('pdf_h_tech')+': '+t('pending')} · ${ap.dsgvo?t('pdf_h_dsgvo')+': '+ap.dsgvo.by+' '+fmtD(ap.dsgvo.at):t('pdf_h_dsgvo')+': '+t('pending')}`, M, H-8, {maxWidth:W-2*M-30}); doc.text(`${t('pdf_h_pages')} ${p}/${total}`, W-M, H-8, {align:'right'}); };
+  const header = () => { doc.setFillColor(...bc); doc.rect(0,0,W,16,'F'); doc.setTextColor(255); F(true); doc.setFontSize(11); let lx = M; if(logoData){ try{ const lh = 10, lw = Math.min(40, lh*logoRatio); doc.addImage(logoData, 'PNG', M, 3, lw, lh); lx = M + lw + 4; }catch(e){} } doc.text((brand.name||'GIRI GO')+' · '+t('pdf_h_doc'), lx, 10); doc.setFontSize(9); F(false); doc.text(`${docNo} · v${instr.version} · ${statusTxt}`, W-M, 10, {align:'right'}); y = 24; };
+  const footer = (p, total) => { doc.setFontSize(8); doc.setTextColor(...grey); F(false); doc.text(`${instr.title} · v${instr.version} · ${ap.tech?t('pdf_h_tech')+': '+ap.tech.by+' '+fmtD(ap.tech.at):t('pdf_h_tech')+': '+t('pending')} · ${ap.dsgvo?t('pdf_h_dsgvo')+': '+ap.dsgvo.by+' '+fmtD(ap.dsgvo.at):t('pdf_h_dsgvo')+': '+t('pending')}`, M, H-8, {maxWidth:W-2*M-30}); doc.text(`${t('pdf_h_pages')} ${p}/${total}`, W-M, H-8, {align:'right'}); };
   const ensure = need => { if(y+need > H-18){ doc.addPage(); header(); } };
   header();
-  doc.setTextColor(...navy); doc.setFont('helvetica','bold'); doc.setFontSize(20); const tl = doc.splitTextToSize(instr.title, W-2*M); doc.text(tl, M, y+2); y += tl.length*8 + 4;
+  doc.setTextColor(...navy); F(true); doc.setFontSize(20); const tl = doc.splitTextToSize(instr.title, W-2*M); doc.text(tl, M, y+2); y += tl.length*8 + 4;
   // control table
-  doc.setFontSize(9); doc.setFont('helvetica','bold'); doc.setTextColor(...grey); doc.text(t('pdf_h_ctrl').toUpperCase(), M, y); y+=3;
+  doc.setFontSize(9); F(true); doc.setTextColor(...grey); doc.text(t('pdf_h_ctrl').toUpperCase(), M, y); y+=3;
   const ctrl = [[t('pdf_h_created'), `${instr.createdBy} · ${fmtD(instr.createdAt)}`],[t('pdf_h_version'), `v${instr.version}${lastHist?' · '+fmtD(lastHist.at):''}`],[t('pdf_h_status'), statusTxt],[t('pdf_h_tech'), ap.tech?`${ap.tech.by} · ${fmtDate(ap.tech.at)}`:t('pending')],[t('pdf_h_dsgvo'), ap.dsgvo?`${ap.dsgvo.by} · ${fmtDate(ap.dsgvo.at)}`:t('pending')],[t('steps'), `${steps.length}${instr.checklist?' · Checklist':''}`],['Doc-ID', docNo]];
   doc.setDrawColor(214,222,233); doc.setLineWidth(.2);
-  ctrl.forEach(([k,val]) => { doc.setFont('helvetica','bold'); doc.setTextColor(...navy); doc.setFontSize(9); doc.text(k, M, y+4); doc.setFont('helvetica','normal'); doc.setTextColor(40); doc.text(String(val), M+50, y+4); doc.line(M, y+6.5, W-M, y+6.5); y += 7; });
+  ctrl.forEach(([k,val]) => { F(true); doc.setTextColor(...navy); doc.setFontSize(9); doc.text(k, M, y+4); F(false); doc.setTextColor(40); doc.text(String(val), M+50, y+4); doc.line(M, y+6.5, W-M, y+6.5); y += 7; });
   y += 4;
-  if(instr.history.length){ doc.setFont('helvetica','bold'); doc.setTextColor(...grey); doc.setFontSize(9); doc.text(t('pdf_h_hist').toUpperCase(), M, y); y+=3;
-    instr.history.slice(-8).forEach(h => { ensure(8); doc.setFont('helvetica','bold'); doc.setTextColor(...navy); doc.text(`v${h.version}`, M, y+4); doc.setFont('helvetica','normal'); doc.setTextColor(40); const txt = doc.splitTextToSize(`${fmtD(h.at)} · ${h.by} — ${h.note||''}`, W-2*M-20); doc.text(txt, M+14, y+4); doc.line(M, y+2+txt.length*4.5, W-M, y+2+txt.length*4.5); y += 3+txt.length*4.5; }); y += 4; }
+  if(instr.history.length){ F(true); doc.setTextColor(...grey); doc.setFontSize(9); doc.text(t('pdf_h_hist').toUpperCase(), M, y); y+=3;
+    instr.history.slice(-8).forEach(h => { ensure(8); F(true); doc.setTextColor(...navy); doc.text(`v${h.version}`, M, y+4); F(false); doc.setTextColor(40); const txt = doc.splitTextToSize(`${fmtD(h.at)} · ${h.by} — ${h.note||''}`, W-2*M-20); doc.text(txt, M+14, y+4); doc.line(M, y+2+txt.length*4.5, W-M, y+2+txt.length*4.5); y += 3+txt.length*4.5; }); y += 4; }
   // steps
-  doc.setFont('helvetica','bold'); doc.setTextColor(...grey); doc.setFontSize(9); doc.text(t('pdf_h_steps').toUpperCase(), M, y); y += 5;
+  F(true); doc.setTextColor(...grey); doc.setFontSize(9); doc.text(t('pdf_h_steps').toUpperCase(), M, y); y += 5;
   let chapter = null; let n = 0;
   for(const s of instr.steps){
-    if(s.kind==='chapter'){ ensure(14); doc.setFillColor(...bc); doc.rect(M, y, 2.5, 8, 'F'); doc.setFont('helvetica','bold'); doc.setFontSize(12); doc.setTextColor(...navy); doc.text(s.title, M+5, y+6); y += 12; continue; }
+    if(s.kind==='chapter'){ ensure(14); doc.setFillColor(...bc); doc.rect(M, y, 2.5, 8, 'F'); F(true); doc.setFontSize(12); doc.setTextColor(...navy); doc.text(s.title, M+5, y+6); y += 12; continue; }
     n++;
     const imgs = await stepImages(s, 3);
     const imgW = imgs.length>1 ? (W-2*M-4*(imgs.length-1))/imgs.length : 70; const ratio = (s.h||3)/(s.w||4); const imgH = Math.min(imgW*ratio, imgs.length>1?45:52);
@@ -2682,18 +2716,18 @@ async function exportPDF2(instr){
     const blockH = imgs.length>1 ? imgH + 4 + textH : Math.max(imgH, textH) + 2;
     ensure(blockH+6);
     // number badge
-    doc.setFillColor(...bc); doc.circle(M+4, y+4, 4, 'F'); doc.setTextColor(255); doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.text(String(n), M+4, y+5.3, {align:'center'});
+    doc.setFillColor(...bc); doc.circle(M+4, y+4, 4, 'F'); doc.setTextColor(255); F(true); doc.setFontSize(9); doc.text(String(n), M+4, y+5.3, {align:'center'});
     let tx = M+12, ty = y+5;
     if(imgs.length>1){ imgs.forEach((im, k) => { try{ doc.addImage(im, 'JPEG', M + k*(imgW+4), y+10, imgW, imgH); }catch(e){} }); ty = y+10+imgH+6; }
     else if(imgs.length===1){ try{ doc.addImage(imgs[0], 'JPEG', W-M-imgW, y, imgW, imgH); }catch(e){} }
-    doc.setTextColor(...navy); doc.setFont('helvetica','bold'); doc.setFontSize(10.5); doc.text(titleLines, tx, ty); ty += titleLines.length*5;
-    if(descLines.length){ doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(40); doc.text(descLines, tx, ty); ty += descLines.length*4.2; }
-    if(warnLines.length){ doc.setFont('helvetica','bold'); doc.setTextColor(180,110,0); doc.text(warnLines, tx, ty+1); ty += warnLines.length*4.2+2; }
-    if(instr.checklist){ doc.setDrawColor(...navy); doc.setLineWidth(.4); doc.rect(tx, ty+1, 4, 4); doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(...grey); doc.text(`${t('pdf_h_check')}  ____________  ${t('pdf_h_date2')} ________`, tx+6, ty+4.2); ty += 7; }
+    doc.setTextColor(...navy); F(true); doc.setFontSize(10.5); doc.text(titleLines, tx, ty); ty += titleLines.length*5;
+    if(descLines.length){ F(false); doc.setFontSize(9); doc.setTextColor(40); doc.text(descLines, tx, ty); ty += descLines.length*4.2; }
+    if(warnLines.length){ F(true); doc.setTextColor(180,110,0); doc.text(warnLines, tx, ty+1); ty += warnLines.length*4.2+2; }
+    if(instr.checklist){ doc.setDrawColor(...navy); doc.setLineWidth(.4); doc.rect(tx, ty+1, 4, 4); F(false); doc.setFontSize(8); doc.setTextColor(...grey); doc.text(`${t('pdf_h_check')}  ____________  ${t('pdf_h_date2')} ________`, tx+6, ty+4.2); ty += 7; }
     y += blockH + 4; doc.setDrawColor(214,222,233); doc.setLineWidth(.2); doc.line(M, y-2, W-M, y-2);
   }
   // signature block
-  ensure(30); y += 4; doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(...grey); doc.text(t('pdf_h_sig').toUpperCase(), M, y); y += 12; doc.setDrawColor(...navy); doc.setLineWidth(.4); doc.line(M, y, M+70, y); doc.line(M+90, y, M+130, y); doc.setFontSize(8); doc.text(t('name'), M, y+4); doc.text(t('pdf_h_date2'), M+90, y+4);
+  ensure(30); y += 4; F(true); doc.setFontSize(9); doc.setTextColor(...grey); doc.text(t('pdf_h_sig').toUpperCase(), M, y); y += 12; doc.setDrawColor(...navy); doc.setLineWidth(.4); doc.line(M, y, M+70, y); doc.line(M+90, y, M+130, y); doc.setFontSize(8); doc.text(t('name'), M, y+4); doc.text(t('pdf_h_date2'), M+90, y+4);
   const total = doc.getNumberOfPages(); for(let p=1;p<=total;p++){ doc.setPage(p); footer(p,total); }
   const blob = doc.output('blob');
   const ok = await saveFile(`${slug(instr.title)}-v${instr.version}${instr._lang?'-'+instr._lang.toLowerCase():''}.pdf`, blob, 'application/pdf'); if(ok) toast(t('pdf_done'));
