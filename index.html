@@ -465,7 +465,8 @@ body{-webkit-tap-highlight-color:transparent}
 .menu button{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;font-weight:600;font-size:15px;text-align:left}
 .menu button:hover{background:var(--surface-2)}
 .drag-ghost{position:fixed;z-index:200;pointer-events:none;box-shadow:0 14px 34px rgba(0,0,0,.28);background:var(--surface);transform:scale(1.02) rotate(-0.5deg);opacity:.96;border-radius:10px}
-.placeholder{opacity:.35;outline:2px dashed var(--blue);outline-offset:-2px;background:var(--blue-lightest)}
+.placeholder{border:2px dashed var(--blue);border-radius:10px;background:var(--blue-lightest);margin:4px 0}
+.drag-src{display:none !important}
 .selbar{position:static !important;display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:10px;padding:8px 10px;background:var(--surface-2);border-radius:10px;backdrop-filter:none}
 .selbar .lbl{margin-right:auto}
 .selbar .sw{width:26px;height:26px;box-shadow:0 0 0 1px var(--line)}
@@ -490,6 +491,9 @@ body{-webkit-tap-highlight-color:transparent}
 .tool:hover{background:var(--line)}
 .stat{padding:16px 18px}
 .dash-head h1{font-size:26px;letter-spacing:-.01em}
+.brand .ver{font-size:10px;opacity:.5;font-weight:600;margin-left:4px}
+.diag{position:absolute;left:8px;right:8px;top:calc(64px + env(safe-area-inset-top,0px));z-index:5;background:rgba(0,0,0,.8);color:#9BEDD7;font:11px/1.35 ui-monospace,Menlo,monospace;padding:8px;border-radius:8px;max-height:45vh;overflow:auto;white-space:pre-wrap;margin:0}
+.cap-top .cnt{border:0}
 </style>
 
 </head>
@@ -505,6 +509,7 @@ body{-webkit-tap-highlight-color:transparent}
 (() => {
 'use strict';
 
+const APP_VERSION = '0.4.0';
 /* ---------- i18n ---------- */
 const I18N = {
 de:{
@@ -755,6 +760,7 @@ const IC = {
   plus:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
   grip:'<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.8"/><circle cx="15" cy="6" r="1.8"/><circle cx="9" cy="12" r="1.8"/><circle cx="15" cy="12" r="1.8"/><circle cx="9" cy="18" r="1.8"/><circle cx="15" cy="18" r="1.8"/></svg>',
   more:'<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="12" r="2.2"/></svg>',
+  upload:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></svg>',
   up:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>',
   down:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>'
 };
@@ -885,7 +891,7 @@ async function render(){
 function topbar(app, opts={}){
   const tb = el(`<header class="topbar">
     ${opts.back ? `<button class="tb-btn" data-back aria-label="back">${IC.back}</button>` : ''}
-    <div class="brand"><span class="logo" role="img" aria-label="GIRI"></span><span class="wordmark">GIRI</span><span class="go">GO</span>${opts.sub ? `<small>${esc(opts.sub)}</small>`:''}</div>
+    <div class="brand"><span class="logo" role="img" aria-label="GIRI"></span><span class="wordmark">GIRI</span><span class="go">GO</span>${opts.sub ? `<small>${esc(opts.sub)}</small>`:''}<small class="ver">v${APP_VERSION}</small></div>
     <div class="spacer"></div>
     <button class="tb-btn" data-lang title="Sprache / Language">${t('lang')}</button>
     ${S.user ? `<button class="tb-btn" data-profile title="${t('profile')}">${esc(S.user.name.split(' ')[0])} · ${t(S.user.role)}</button><button class="tb-btn" data-logout>${t('logout')}</button>` : ''}
@@ -1037,7 +1043,8 @@ async function renderCapture(app, id){
   const v = el(`<div class="capture">
     <video id="cam" autoplay muted playsinline></video>
     <div class="focus-ring" id="focus"></div><div class="flash" id="flash"></div>
-    <div class="cap-top"><button class="round" data-close aria-label="close">${IC.close}</button><div class="ttl">${esc(instr.title)}</div><div class="cnt tnum" id="cnt">${realSteps(instr).length} ${t('steps')}</div></div>
+    <div class="cap-top"><button class="round" data-close aria-label="close">${IC.close}</button><div class="ttl">${esc(instr.title)}</div><label class="round" title="${t('cap_video')}" style="cursor:pointer">${IC.upload}<input type="file" accept="video/*,image/*" capture="environment" hidden id="alt-file"></label><button class="cnt tnum" id="cnt">${realSteps(instr).length} ${t('steps')}</button></div>
+    <pre class="diag" id="diag" hidden></pre>
     <div class="zoom" id="zoomwrap" hidden><input type="range" id="zoom" min="1" max="5" step="0.1" value="1" aria-label="${t('zoom')}" hidden><div class="zoom-btns" id="zoombtns"></div></div>
     <div class="cap-bottom">
       <div class="cap-strip" id="strip"></div>
@@ -1057,6 +1064,10 @@ async function renderCapture(app, id){
   </div>`);
   app.appendChild(v);
   const cam = v.querySelector('#cam'), shutter = v.querySelector('#shutter'), ring = v.querySelector('#ring'), timerEl = v.querySelector('#timer'), hint = v.querySelector('#hint');
+  const diag = v.querySelector('#diag'); const LOG = []; const log = (...a) => { const line = new Date().toLocaleTimeString('de-DE')+' '+a.map(x => typeof x==='string' ? x : JSON.stringify(x)).join(' '); LOG.push(line); if(LOG.length>40) LOG.shift(); diag.textContent = LOG.join('\n'); };
+  v.querySelector('#cnt').onclick = () => { diag.hidden = !diag.hidden; };
+  log('GIRI Go v'+APP_VERSION, navigator.userAgent.slice(0,60)); log('MediaRecorder', typeof MediaRecorder, 'mp4:', (()=>{ try{ return MediaRecorder.isTypeSupported('video/mp4'); }catch(e){ return 'n/a'; } })());
+  v.querySelector('#alt-file').onchange = async e => { const f = e.target.files[0]; if(!f) return; log('file', f.type, f.size); try{ if(f.type.startsWith('video')){ const meta = await probeVideo(f); const u = URL.createObjectURL(f); const c = await grabFrame(u, 0.3, 320); URL.revokeObjectURL(u); await addStep({type:'video', blob:f, w:meta.w, h:meta.h, duration:meta.d, poster: c ? c.toDataURL('image/jpeg', .6) : null}); } else { const meta = await probeImage(f); await addStep({type:'photo', blob:f, w:meta.w, h:meta.h, duration:0, poster:null}); } }catch(err){ log('file err', err.message); toast('Fehler: '+err.message); } e.target.value=''; };
   let stream = null, facing = 'environment', rec = null, chunks = [], recStart = 0, raf = 0, holdT = 0, pressed = false, isRec = false, track = null;
   const MAX = 12, RED = 8, ORANGE = 5;
   const stopStream = () => { if(stream){ stream.getTracks().forEach(t=>t.stop()); stream = null; } };
@@ -1074,13 +1085,14 @@ async function renderCapture(app, id){
     try{
       stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:facing, width:{ideal:1280}, height:{ideal:720}}, audio:false});
       cam.srcObject = stream; cam.classList.toggle('mirror', facing==='user');
-      track = stream.getVideoTracks()[0];
+      track = stream.getVideoTracks()[0]; log('cam ok', track.label, track.getSettings ? track.getSettings().width+'x'+track.getSettings().height : '');
+      cam.play && cam.play().catch(err => log('preview play', err.message));
       const caps = track.getCapabilities ? track.getCapabilities() : {};
       const zw = v.querySelector('#zoomwrap'), zi = v.querySelector('#zoom');
       if(caps.zoom && caps.zoom.max > caps.zoom.min){ zw.hidden = false; zi.min = caps.zoom.min||1; zi.max = caps.zoom.max||5; zi.step = caps.zoom.step||0.1; zi.value = (track.getSettings().zoom)||caps.zoom.min||1; renderZoomBtns(caps.zoom); }
       else zw.hidden = true;
       v.querySelector('#fb').hidden = true;
-    }catch(e){ showFallback(); }
+    }catch(e){ log('cam FAIL', e.name, e.message); showFallback(); }
   }
   function showFallback(){ v.querySelector('#fb').hidden = false; }
   function renderZoomBtns(zc){ const min = zc.min||1, max = zc.max||5; const cands = [0.5,1,2,3,5].filter(z => z>=min-0.01 && z<=max+0.01); if(!cands.includes(min) && min<1) cands.unshift(min); const zb = v.querySelector('#zoombtns'); zb.innerHTML = cands.map(z=>`<button data-z="${z}" class="${Math.abs(z-(+v.querySelector('#zoom').value))<0.05?'on':''}">${z===0.5?'0,5':z}×</button>`).join(''); $$('button', zb).forEach(b => b.onclick = () => { const zi = v.querySelector('#zoom'); zi.value = b.dataset.z; zi.dispatchEvent(new Event('input')); }); }
@@ -1100,7 +1112,7 @@ async function renderCapture(app, id){
   v.querySelector('#fb-done').onclick = () => go('edit/'+instr.id);
   // --- photo ---
   async function takePhoto(){
-    if(!stream) return; const c = document.createElement('canvas'); const w = cam.videoWidth||1280, h = cam.videoHeight||720; c.width = w; c.height = h; const x = c.getContext('2d');
+    log('photo'); if(!stream){ log('photo: no stream'); return; } const c = document.createElement('canvas'); const w = cam.videoWidth||1280, h = cam.videoHeight||720; c.width = w; c.height = h; const x = c.getContext('2d');
     if(facing==='user'){ x.translate(w,0); x.scale(-1,1); } x.drawImage(cam,0,0,w,h);
     const fl = v.querySelector('#flash'); fl.classList.remove('on'); void fl.offsetWidth; fl.classList.add('on');
     const blob = await new Promise(r => c.toBlob(r, 'image/jpeg', .9));
@@ -1110,16 +1122,17 @@ async function renderCapture(app, id){
   function pickMime(){ const c = ['video/mp4;codecs=avc1','video/mp4','video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm']; for(const m of c){ try{ if(MediaRecorder.isTypeSupported(m)) return m; }catch(e){} } return ''; }
   function startRec(){
     if(!stream || isRec) return; chunks = [];
-    try{ const mime = pickMime(); rec = new MediaRecorder(stream, mime?{mimeType:mime, videoBitsPerSecond:4_000_000}:{}); }catch(e){ toast('MediaRecorder: '+e.message); return; }
-    rec.ondataavailable = e => { if(e.data && e.data.size) chunks.push(e.data); };
+    const mime = pickMime(); log('rec new', mime||'(default)');
+    try{ rec = new MediaRecorder(stream, mime?{mimeType:mime, videoBitsPerSecond:4_000_000}:{}); }catch(e){ log('rec ctor FAIL', e.message); try{ rec = new MediaRecorder(stream); log('rec ctor fallback ok', rec.mimeType); }catch(e2){ toast('MediaRecorder: '+e2.message); log('rec ctor FAIL2', e2.message); return; } }
+    rec.ondataavailable = e => { log('data', e.data ? e.data.size : 0); if(e.data && e.data.size) chunks.push(e.data); };
     rec.onerror = e => toast('MediaRecorder error: '+((e.error&&e.error.message)||e.name||'?'));
     let poster = null;
-    rec.onstop = async () => { try{ const dur = (performance.now()-recStart)/1000; const blob = new Blob(chunks, {type: rec.mimeType||'video/webm'}); if(dur < 0.4){ toast(t('too_short')); return; } if(!blob.size){ toast('Clip leer (0 Byte) – '+(rec.mimeType||'?')); return; } await addStep({type:'video', blob, w:cam.videoWidth||1280, h:cam.videoHeight||720, duration:dur, poster}); }catch(err){ toast('Fehler: '+(err&&err.message||err)); } };
+    rec.onstop = async () => { try{ const dur = (performance.now()-recStart)/1000; const blob = new Blob(chunks, {type: rec.mimeType||'video/webm'}); log('stop', fmtSec(dur)+'s', blob.size+'B', blob.type); if(dur < 0.4){ toast(t('too_short')); return; } if(!blob.size){ toast('Clip leer (0 Byte) – '+(rec.mimeType||'?')); return; } await addStep({type:'video', blob, w:cam.videoWidth||1280, h:cam.videoHeight||720, duration:dur, poster}); }catch(err){ log('stop ERR', err.message); toast('Fehler: '+(err&&err.message||err)); } };
     try{ if((rec.mimeType||'').includes('mp4')) rec.start(); else rec.start(250); }catch(e){ try{ rec.start(); }catch(e2){ toast('MediaRecorder: '+e2.message); return; } }
-    isRec = true; recStart = performance.now(); shutter.classList.add('rec'); tick();
+    isRec = true; recStart = performance.now(); shutter.classList.add('rec'); tick(); log('rec start', rec.state);
     setTimeout(() => { if(isRec){ const pc = document.createElement('canvas'); const w = cam.videoWidth||1280, h = cam.videoHeight||720; pc.width=w; pc.height=h; const x = pc.getContext('2d'); if(facing==='user'){ x.translate(w,0); x.scale(-1,1); } try{ x.drawImage(cam,0,0,w,h); poster = posterFromCanvas(pc, w, h); }catch(e){} } }, 400);
   }
-  function stopRec(){ if(!isRec) return; isRec = false; cancelAnimationFrame(raf); shutter.classList.remove('rec','tl-orange','tl-red'); ring.style.strokeDashoffset = 264; timerEl.textContent=''; timerEl.className='cap-timer tnum'; hint.textContent = t('cap_tap'); try{ rec.stop(); }catch(e){} }
+  function stopRec(){ if(!isRec) return; isRec = false; log('rec stop req', rec && rec.state); cancelAnimationFrame(raf); shutter.classList.remove('rec','tl-orange','tl-red'); ring.style.strokeDashoffset = 264; timerEl.textContent=''; timerEl.className='cap-timer tnum'; hint.textContent = t('cap_tap'); try{ rec.stop(); }catch(e){} }
   function tick(){
     if(!isRec) return; const s = (performance.now()-recStart)/1000;
     ring.style.strokeDashoffset = 264 - 264*Math.min(1, s/MAX);
@@ -1129,21 +1142,26 @@ async function renderCapture(app, id){
     if(s >= MAX){ stopRec(); return; } raf = requestAnimationFrame(tick);
   }
   // --- shutter gestures: tap = photo, hold = video ---
-  shutter.addEventListener('pointerdown', e => { e.preventDefault(); shutter.setPointerCapture(e.pointerId); pressed = true; holdT = setTimeout(() => { if(pressed) startRec(); }, 220); });
-  const release = () => { if(!pressed) return; pressed = false; clearTimeout(holdT); if(isRec) stopRec(); else takePhoto(); };
-  shutter.addEventListener('pointerup', release); shutter.addEventListener('pointercancel', release);
+  shutter.addEventListener('pointerdown', e => { e.preventDefault(); try{ shutter.setPointerCapture(e.pointerId); }catch(x){} pressed = true; log('down', e.pointerType); holdT = setTimeout(() => { if(pressed) startRec(); }, 220); });
+  const release = ev => { if(!pressed) return; pressed = false; clearTimeout(holdT); log('up', ev && ev.type); if(isRec) stopRec(); else takePhoto(); };
+  shutter.addEventListener('pointerup', release); shutter.addEventListener('pointercancel', release); shutter.addEventListener('lostpointercapture', release);
+  const docUp = ev => release(ev); document.addEventListener('pointerup', docUp); document.addEventListener('pointercancel', docUp);
+  const prevCleanup = activeCleanup; activeCleanup = () => { document.removeEventListener('pointerup', docUp); document.removeEventListener('pointercancel', docUp); if(prevCleanup) prevCleanup(); };
+  // Safari fallback: touch events in case pointer events misbehave
+  shutter.addEventListener('touchend', e => { if(pressed){ e.preventDefault(); release(e); } }, {passive:false});
   shutter.addEventListener('keydown', e => { if(e.key===' '||e.key==='Enter'){ e.preventDefault(); if(isRec) stopRec(); else startRec(); } });
   shutter.tabIndex = 0;
   // fallback inputs
   v.querySelector('#fb-video').onchange = async e => { const f = e.target.files[0]; if(!f) return; const meta = await probeVideo(f); const u = URL.createObjectURL(f); const c = await grabFrame(u, 0.3, 320); URL.revokeObjectURL(u); await addStep({type:'video', blob:f, w:meta.w, h:meta.h, duration:meta.d, poster: c ? c.toDataURL('image/jpeg', .6) : null}); e.target.value=''; };
   v.querySelector('#fb-photo').onchange = async e => { const f = e.target.files[0]; if(!f) return; const meta = await probeImage(f); const u = URL.createObjectURL(f); const img = await new Promise(r=>{ const i=new Image(); i.onload=()=>r(i); i.onerror=()=>r(null); i.src=u; }); const poster = img ? posterFromCanvas(img, img.naturalWidth, img.naturalHeight) : null; URL.revokeObjectURL(u); await addStep({type:'photo', blob:f, w:meta.w, h:meta.h, duration:0, poster}); e.target.value=''; };
   async function addStep(m){
-    const mid = uid(); await DB.put('media', {id:mid, blob:m.blob, w:m.w, h:m.h, type:m.type, ws:S.user.ws, instrId:instr.id});
+    log('addStep', m.type, m.blob.size+'B', m.w+'x'+m.h);
+    const mid = uid(); try{ await DB.put('media', {id:mid, blob:m.blob, w:m.w, h:m.h, type:m.type, ws:S.user.ws, instrId:instr.id}); log('db ok'); }catch(err){ log('db ERR', err.message); toast('Speicher-Fehler: '+err.message); }
     const n = realSteps(instr).length+1;
     instr.steps.push({id:uid(), type:m.type, mediaId:mid, w:m.w, h:m.h, duration:m.duration, trimStart:0, trimEnd:m.duration, title:'', desc:'', warn:'', ann:[], poster:m.poster||null});
     if(instr.status==='published'){ instr.status='draft'; instr.approvals={tech:null,dsgvo:null}; }
     toast(t('cap_saved',{n})); refreshStrip();
-    await saveInstr(instr); runUploads();
+    await saveInstr(instr); log('saved instr', realSteps(instr).length); runUploads();
     if(navigator.vibrate) try{ navigator.vibrate(30); }catch(e){}
   }
   startCam();
@@ -1257,7 +1275,8 @@ async function renderEditor(app, id, selStepId){
   const focusRow = id => { const r = v.querySelector(`.srow[data-id="${id}"]`); if(r){ r.focus(); r.scrollIntoView({block:'nearest'}); } };
   async function move(i, d){ const j = i+d; if(j<0||j>=instr.steps.length) return; const [x] = instr.steps.splice(i,1); instr.steps.splice(j,0,x); await touch(); renderList(); }
   async function delStep(s){ if(!(await confirmM(t('confirm_del_step')))) return; const i = instr.steps.indexOf(s); instr.steps.splice(i,1); if(s.mediaId) await DB.del('media', s.mediaId); if(s.mediaPath) sb.storage.from('media').remove([s.mediaPath]).catch(()=>{}); if(sel===s.id){ sel = (realSteps(instr)[Math.min(i, realSteps(instr).length-1)]||{}).id; } await touch(); renderList(); renderStage(); toast(t('deleted')); }
-  // drag & drop: the whole row follows the finger (ghost), the list reorders live
+  // drag & drop: the row follows the finger as a ghost; a placeholder moves through the list.
+  // The original row stays in place (hidden) so pointer capture is never lost.
   function attachDrag(r, idx){
     const grip = r.querySelector('.grip'); if(!grip) return;
     grip.addEventListener('pointerdown', e => {
@@ -1267,38 +1286,44 @@ async function renderEditor(app, id, selStepId){
       if(isCh){ const [cs,ce] = chapterBlock(idx); const ids = new Set(instr.steps.slice(cs+1,ce).map(x=>x.id)); hidden = $$('[data-id]', list).filter(x=>ids.has(x.dataset.id)); hidden.forEach(x=>x.hidden=true); }
       const rect = r.getBoundingClientRect();
       const ghost = r.cloneNode(true); ghost.classList.add('drag-ghost'); ghost.style.width = rect.width+'px'; ghost.style.left = rect.left+'px'; ghost.style.top = rect.top+'px'; document.body.appendChild(ghost);
-      r.classList.add('placeholder');
+      const ph = document.createElement('div'); ph.className = 'placeholder'; ph.style.height = rect.height+'px'; r.after(ph); r.classList.add('drag-src');
       const offY = e.clientY - rect.top, offX = e.clientX - rect.left;
-      grip.setPointerCapture(e.pointerId);
+      try{ grip.setPointerCapture(e.pointerId); }catch(x){}
       if(navigator.vibrate) try{ navigator.vibrate(12); }catch(x){}
-      const rowsNow = () => $$('[data-id]', list).filter(x=>!x.hidden);
+      const visible = x => x && x.nodeType===1 && x!==r && !x.hidden && (x.matches('[data-id]') );
+      const sib = (el, dir) => { let n = dir>0 ? el.nextElementSibling : el.previousElementSibling; while(n && !visible(n)) n = dir>0 ? n.nextElementSibling : n.previousElementSibling; return n; };
+      const unitOf = (row) => { if(!row) return null; const idx0 = instr.steps.findIndex(x=>x.id===row.dataset.id); const it = instr.steps[idx0];
+        if(!isCh) return [row];
+        let bs = it.kind==='chapter' ? idx0 : blockStartOf(idx0); if(bs < 0) return [row];
+        const [cs,ce] = chapterBlock(bs); const ids = new Set(instr.steps.slice(cs,ce).map(x=>x.id)); return $$('[data-id]', list).filter(x=>!x.hidden && x!==r && ids.has(x.dataset.id)); };
+      let lastY = e.clientY, done = false;
       const mv = ev => {
         ghost.style.top = (ev.clientY-offY)+'px'; ghost.style.left = (ev.clientX-offX)+'px';
-        const els = document.elementsFromPoint(ev.clientX, ev.clientY);
-        const row = els.map(x => x.closest ? x.closest('#slist [data-id]') : null).find(x => x && x!==r && !x.hidden);
-        if(row){
-          const rb = row.getBoundingClientRect(); const before = ev.clientY < rb.top + rb.height/2;
-          if(!isCh){ if(before) row.before(r); else row.after(r); }
-          else { // chapters only move between whole blocks
-            const rowIdx = instr.steps.findIndex(x=>x.id===row.dataset.id); const bs = instr.steps[rowIdx].kind==='chapter' ? rowIdx : blockStartOf(rowIdx);
-            if(bs < 0){ if(before) row.before(r); else row.after(r); }
-            else { const [cs,ce] = chapterBlock(bs); const ids = new Set(instr.steps.slice(cs,ce).map(x=>x.id)); const blockRows = rowsNow().filter(x=>ids.has(x.dataset.id)); const first = blockRows[0], last = blockRows[blockRows.length-1];
-              if(before && row===first) first.before(r); else last.after(r); }
-          }
-        }
+        const dy = ev.clientY - lastY; if(Math.abs(dy) < 2) return; const dir = dy > 0 ? 1 : -1; lastY = ev.clientY;
+        for(let k=0;k<12;k++){ const nb = unitOf(sib(ph, dir)); if(!nb || !nb.length) break;
+          const first = nb[0].getBoundingClientRect(), last = nb[nb.length-1].getBoundingClientRect(); const top = first.top, bottom = last.bottom, h = bottom - top;
+          if(dir > 0 && ev.clientY > top + h*0.5) nb[nb.length-1].after(ph);
+          else if(dir < 0 && ev.clientY < bottom - h*0.5) nb[0].before(ph);
+          else break; }
         if(ev.clientY < 90) window.scrollBy(0,-12); else if(ev.clientY > window.innerHeight-90) window.scrollBy(0,12);
       };
       const up = async () => {
-        grip.removeEventListener('pointermove',mv); grip.removeEventListener('pointerup',up); grip.removeEventListener('pointercancel',up);
-        ghost.remove(); r.classList.remove('placeholder'); hidden.forEach(x=>x.hidden=false);
+        if(done) return; done = true;
+        grip.removeEventListener('pointermove',mv); grip.removeEventListener('pointerup',up); grip.removeEventListener('pointercancel',up); document.removeEventListener('pointerup',up); document.removeEventListener('pointercancel',up);
+        ghost.remove(); r.classList.remove('drag-src'); hidden.forEach(x=>x.hidden=false);
         const byId = Object.fromEntries(instr.steps.map(x=>[x.id,x])); const order = []; const skip = new Set();
-        $$('[data-id]', list).forEach(x => { const it = byId[x.dataset.id]; if(!it || skip.has(it.id)) return;
-          if(it.kind==='chapter'){ const ci = instr.steps.indexOf(it); const [cs,ce] = chapterBlock(ci); order.push(it); if(collapsed.has(it.id) || it===item){ instr.steps.slice(cs+1,ce).forEach(st => { order.push(st); skip.add(st.id); }); } }
+        const ci = instr.steps.indexOf(item); const block = isCh ? instr.steps.slice(ci, chapterBlock(ci)[1]) : [item]; block.forEach(x=>skip.add(x.id));
+        [...list.children].forEach(x => {
+          if(x===ph){ order.push(...block); return; }
+          const it = x.dataset ? byId[x.dataset.id] : null; if(!it || skip.has(it.id)) return;
+          if(it.kind==='chapter' && collapsed.has(it.id)){ const k = instr.steps.indexOf(it); instr.steps.slice(k, chapterBlock(k)[1]).forEach(st => { order.push(st); skip.add(st.id); }); }
           else order.push(it); });
+        ph.remove();
         if(order.length === instr.steps.length && order.some((x,i)=>x!==instr.steps[i])){ instr.steps = order; await touch(); }
         renderList();
       };
       grip.addEventListener('pointermove',mv); grip.addEventListener('pointerup',up); grip.addEventListener('pointercancel',up);
+      document.addEventListener('pointerup',up); document.addEventListener('pointercancel',up);
     });
   }
   v.querySelector('#addch').onclick = async () => { const i = sel ? instr.steps.findIndex(s=>s.id===sel) : instr.steps.length; instr.steps.splice(Math.max(0,i), 0, {id:uid(), kind:'chapter', title:t('chapter')+' '+(instr.steps.filter(s=>s.kind==='chapter').length+1)}); await touch(); renderList(); setTimeout(()=>{ const inp = v.querySelector('.chrow input'); if(inp){ inp.focus(); inp.select(); } }, 30); };
