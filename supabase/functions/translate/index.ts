@@ -1,8 +1,8 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
-// GIRI Go – translate (v6). Three modes:
-//  A) { instrId, target }  – public viewer: translates a PUBLISHED instruction (or returns the cached
+// GIRI Go – translate (v7). Three modes:
+//  A) { instrId, target, pw? } – public viewer: translates a PUBLISHED instruction (or returns the cached
 //                             translation) and caches it in instructions.data.translations[target]
 //  B) { texts[], target }  – signed-in user: raw text translation (editor)
 //  C) { ui:[{k,v}], target } – app UI strings (German source); cached per string in public.ui_tx (public, bounded)
@@ -121,6 +121,16 @@ Deno.serve(async (req: Request) => {
         const uc = createClient(url, anon, { global: { headers: { Authorization: auth } } });
         const { data: { user } } = await uc.auth.getUser();
         if (!user) return json({ error: "not_published" }, 403);
+      }
+      // password-protected links (project/team password): the viewer sends the password it unlocked with
+      if (row.status === "published") {
+        const { data: gate } = await admin.rpc("open_instr", { p_id: row.id, p_pw: body.pw ? String(body.pw) : null });
+        if (gate && gate.locked) {
+          const auth = req.headers.get("Authorization") || "";
+          const uc = createClient(url, anon, { global: { headers: { Authorization: auth } } });
+          const { data: { user } } = await uc.auth.getUser();
+          if (!user) return json({ error: "locked" }, 403);
+        }
       }
       const instr = { ...(row.data || {}), title: row.title };
       const items = srcTexts(instr);

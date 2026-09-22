@@ -16,6 +16,11 @@ Leichtgewichtige Web-App für Video-/Foto-Arbeitsanleitungen: aufnehmen (3–5 s
 2. **Authentication → Providers → Email**: Enabled, „Confirm email" darf an bleiben (Magic Link bestätigt automatisch).
 3. Optional, aber für den Team-Einsatz nötig: **Project Settings → Auth → SMTP Settings** eigenen Mailserver eintragen (z. B. Resend, Postmark). Der eingebaute Mailversand ist auf wenige Mails pro Stunde begrenzt.
 
+### 2b. Google-Login (optional, ab v0.14)
+1. Google Cloud Console → APIs & Dienste → Anmeldedaten → **OAuth-Client-ID** (Webanwendung). Autorisierte Weiterleitungs-URI: `https://goorpzgcxhtjbaothluv.supabase.co/auth/v1/callback`
+2. Supabase → **Authentication → Providers → Google** → Enabled, Client-ID + Client-Secret eintragen → Save.
+3. Fertig – der Button „Mit Google anmelden“ erscheint auf der Login-Seite automatisch, sobald der Provider aktiv ist. Workspace = E-Mail-Domain wie beim Magic Link; der Name kommt aus dem Google-Profil.
+
 ### 3. GitHub Pages aktivieren
 1. Alle Dateien dieses Ordners ins Repo hochladen (Drag & Drop im Browser: „Add file → Upload files"), `index.html` muss im Root liegen.
 2. Repo → **Settings → Pages** → Source: **Deploy from a branch** → Branch `main`, Ordner `/ (root)` → Save.
@@ -42,7 +47,14 @@ Supabase-URL und Publishable Key stehen oben in `index.html` unter `window.GIRI_
 - Checklisten-Durchführungen werden schon während der Arbeit gespeichert (Status „läuft“ im Job-Done-Protokoll) und beim Abschließen finalisiert.
 - **Projekte** (Ordner) organisieren Anleitungen. Ohne Team-Zuordnung sehen alle im Workspace das Projekt; mit Zuordnung nur die Team-Mitglieder (Rolle im Team gilt für die Anleitungen des Projekts).
 - Veröffentlichte Links/QR-Codes funktionieren immer ohne Login. Die Projekt-Sichtbarkeit wird derzeit in der App geprüft (Datenbank-Regeln pro Projekt folgen).
+- **Link-Passwort (ab v0.14):** Pro Projekt (Projektseite → „Passwort“) und/oder pro Team (Admin-Panel → Team → „Passwort“). Gesetzt = wer den öffentlichen Link öffnet, muss das Passwort einmal pro Gerät eingeben (Projekt-Passwort oder Passwort eines zugeordneten Teams). Standard: aus. Gespeichert wird nur ein Salted-SHA-256-Hash; geschützte Anleitungen sind für Anonyme auch per API nicht lesbar (`open_instr`-RPC prüft serverseitig). Hinweis: Die Medien-Dateien selbst liegen im öffentlichen Storage-Bucket und sind bei Kenntnis der Datei-URL weiterhin abrufbar.
 - Ab v0.13 lassen sich auch einzelne Anleitungen Teams zuordnen (Editor → „Freigabe & Einstellungen“ → „Zugriff (Teams)“ oder Admin-Panel → „Zugriff (Teams)“). Die Team-Zuordnung der Anleitung gilt zusätzlich zu den Teams des Projekts; nichts angehakt = wie das Projekt.
+
+## Titel formatieren (ab v0.14)
+- Schritt-Titel haben eine Mini-Leiste: **B** (fett), 🔗 (Link), 🔒 (nicht übersetzen). `==M6==`, `**fett**` und Links funktionieren in Schritt-, Kapitel- und Anleitungstiteln (Viewer, Listen, PDF als Klartext).
+
+## Video-Symbole (ab v0.14)
+- Jedes Symbol gehört zu genau einem Zeitpunkt (grüne Marke auf der Zeitleiste, weiß = ausgewählt). Im Editor ist es nur sichtbar, wenn der Abspielkopf ±0,3 s daneben steht; wer den Abspielkopf wegzieht, sieht es nicht mehr – so wie später der Werker (Video hält dort 1 s).
 
 ## Übersetzungen
 - Ein Link für alle Sprachen: Der Werker wählt oben in der Anleitung die Sprache (Flagge). Die Übersetzung läuft live über die Edge Function `translate` (DeepL, Key im Vault) und wird in der Anleitung zwischengespeichert.
@@ -76,8 +88,15 @@ Supabase-URL und Publishable Key stehen oben in `index.html` unter `window.GIRI_
 ## Als App installieren (PWA)
 - Android/Chrome/Edge: Beim ersten Öffnen erscheint „Als App installieren“ (auch im Profil-Menü). iPhone/iPad: Safari → Teilen → „Zum Home-Bildschirm“.
 - Dateien im Repo: `manifest.webmanifest`, `sw.js` (Service Worker: App-Shell offline, Bibliotheken gecacht, Daten immer live), `icons/`.
-- Neue Version: einfach alle Dateien aus dem Release-Ordner hochladen (überschreiben). `sw.js` muss nicht angepasst werden – die App holt `index.html` immer frisch und zeigt „Neue Version verfügbar“.
+- Neue Version: einfach alle Dateien aus dem Release-Ordner hochladen (überschreiben). `sw.js` muss nicht angepasst werden – die App holt `index.html` immer frisch (HTTP-Cache wird umgangen).
+- Ab v0.14 aktualisiert sich die installierte App selbst: Bei jedem Wechsel in die App (und alle 30 min) wird die Version geprüft; auf Startseite/Projekt/Admin/Statistik/Login und im Viewer vor dem Start wird sofort neu geladen, mitten in Editor, Aufnahme oder Checkliste erscheint der blaue Hinweis „Neue Version“ und der Reload passiert beim nächsten Wechsel zur Startseite.
+- Login in der installierten App: Wird der Magic Link im Browser geöffnet (Android/Desktop teilen den Speicher mit der App), übernimmt die App die Anmeldung beim nächsten Öffnen automatisch. Auf dem iPhone sind Safari und Home-Bildschirm-App getrennt – dort den Code aus der Mail eingeben (wird bei 6 Ziffern automatisch geprüft).
 - Login in der installierten App: Der Magic Link öffnet sich im Browser, nicht in der App. Deshalb gibt es im Login ein Code-Feld. Die Vorlage für die Login-Mail liegt in `supabase/email-magic-link.html` (Supabase → Authentication → Email Templates → Magic Link, Body komplett ersetzen).
+
+## HubSpot-Sync (ab v0.14)
+- Kontakt-Eigenschaften in HubSpot: `GIRIGO-ID` (Benutzer-ID), `GIRIGO-LastInstructionCreated` (Datum der neuesten Anleitung), `GIRIGO-NumberOfInstructionViews` (Aufrufe aller Anleitungen dieses Benutzers). Abgleich per E-Mail: existiert der Kontakt, werden nur diese drei Felder aktualisiert; sonst wird ein Kontakt (E-Mail, Vor-/Nachname) angelegt.
+- Läuft fast in Echtzeit: Datenbank-Trigger (neues Profil, neue Anleitung, neuer Aufruf) → `pg_net` → Edge Function `hubspot-sync` → HubSpot. Die Funktion berechnet die Werte immer frisch aus der Datenbank.
+- Setup: HubSpot → Private App mit Scopes `crm.objects.contacts.read/write` → Token als Vault-Secret `hubspot_token` (Supabase → Integrations → Vault). Kompletter Neuabgleich aller Benutzer: `POST …/functions/v1/hubspot-sync` mit Header `x-giri-secret` (Vault `hs_sync_secret`) und Body `{"all":true}`.
 
 ## Video-Konvertierung
 - Jeder Clip wird im Browser (WebCodecs) zu H.264-MP4 mit max. 1280 px und ~2 Mbit/s konvertiert: Importe sofort beim Import, Aufnahmen (z. B. WebM von Android) im Hintergrund vor dem Upload. Geht auf iOS 16.4+, Chrome, Edge, Safari; wo WebCodecs fehlt, bleibt das Original.

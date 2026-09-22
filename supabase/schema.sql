@@ -273,3 +273,118 @@ create policy runs_update on public.runs for update to anon, authenticated
 
 -- v0.13: eigene Symbole je Workspace – workspaces.symbols: [{id, name, url, path, ar, alpha, at}] (Bilder in media/<ws>/symbols/<id>.png)
 alter table public.workspaces add column if not exists symbols jsonb not null default '[]'::jsonb;
+-- v0.14: Passwortschutz für veröffentlichte Links – je Projekt (workspaces.folders[].pw) und/oder je Team (workspaces.teams[].pw)
+-- pw = {h: sha256hex(salt || passwort), s: salt}. Default: kein pw → Link offen wie bisher.
+-- Passwörter, die für eine Anleitung gelten: Projekt-Passwort + Passwörter aller Teams der Anleitung (Projekt-Teams + direkt zugeordnete Teams). Eines davon genügt.
+create or replace function public.instr_pw_hashes(p_id text) returns jsonb
+language sql stable security definer set search_path = public as $$
+  select coalesce(jsonb_agg(x.pw), '[]'::jsonb) from (
+    select f->'pw' as pw
+      from public.instructions i join public.workspaces w on w.ws = i.ws,
+           jsonb_array_elements(coalesce(w.folders,'[]'::jsonb)) f
+      where i.id = p_id and f->>'id' = i.data->>'folder' and (f->'pw') is not null and jsonb_typeof(f->'pw') = 'object'
+    union all
+    select tm->'pw'
+      from public.instructions i join public.workspaces w on w.ws = i.ws,
+           jsonb_array_elements(coalesce(w.teams,'[]'::jsonb)) tm
+      where i.id = p_id and (tm->'pw') is not null and jsonb_typeof(tm->'pw') = 'object' and (
+        tm->>'id' in (select jsonb_array_elements_text(case when jsonb_typeof(i.data->'teams')='array' then i.data->'teams' else '[]'::jsonb end))
+        or tm->>'id' in (select jsonb_array_elements_text(coalesce((select case when jsonb_typeof(f->'teams')='array' then f->'teams' else '[]'::jsonb end
+                                                                     from jsonb_array_elements(coalesce(w.folders,'[]'::jsonb)) f where f->>'id' = i.data->>'folder' limit 1), '[]'::jsonb)))
+      )
+  ) x;
+$$;
+create or replace function public.instr_locked(p_id text) returns boolean
+language sql stable security definer set search_path = public as $$
+  select jsonb_array_length(public.instr_pw_hashes(p_id)) > 0;
+$$;
+-- öffentliche Leserechte: nur veröffentlichte UND nicht passwortgeschützte Anleitungen
+drop policy if exists instr_select_public on public.instructions;
+create policy instr_select_public on public.instructions for select to anon, authenticated
+  using (status = 'published' and not public.instr_locked(id));
+-- Öffnen mit Passwort (Viewer): liefert {locked:true} oder {locked:false, row:{…}}
+create or replace function public.open_instr(p_id text, p_pw text default null) returns jsonb
+language plpgsql security definer set search_path = public, extensions as $$
+declare r record; hs jsonb; h jsonb; ok boolean := false;
+begin
+  select id, ws, status, title, data, updated_at into r from public.instructions where id = p_id and status = 'published';
+  if not found then return null; end if;
+  hs := public.instr_pw_hashes(p_id);
+  if jsonb_array_length(hs) = 0 then ok := true;
+  elsif p_pw is not null and length(p_pw) > 0 then
+    for h in select * from jsonb_array_elements(hs) loop
+      if encode(extensions.digest(convert_to((h->>'s') || p_pw, 'UTF8'), 'sha256'), 'hex') = h->>'h' then ok := true; end if;
+    end loop;
+  end if;
+  if not ok then return jsonb_build_object('locked', true); end if;
+  return jsonb_build_object('locked', false, 'row', to_jsonb(r));
+end $$;
+revoke all on function public.open_instr(text, text) from public;
+grant execute on function public.open_instr(text, text) to anon, authenticated, service_role;
+grant execute on function public.instr_locked(text) to anon, authenticated, service_role;
+grant execute on function public.instr_pw_hashes(text) to service_role;
+-- Google-Login: Name aus dem Google-Profil übernehmen
+create or replace function public.handle_new_user()
+returns trigger language plpgsql security definer set search_path = public as $$
+declare v_ws text; v_cnt int; v_role text;
+begin
+  v_ws := lower(split_part(new.email,'@',2));
+  select count(*) into v_cnt from public.profiles where ws = v_ws;
+  select i->>'role' into v_role
+    from public.workspaces w, jsonb_array_elements(coalesce(w.invites,'[]'::jsonb)) i
+    where w.ws = v_ws and lower(i->>'email') = lower(new.email) limit 1;
+  if v_role is null or v_role not in ('creator','reviewer','viewer') then v_role := 'creator'; end if;
+  insert into public.profiles (id, email, name, role, ws, is_admin)
+  values (new.id, new.email, coalesce(nullif(new.raw_user_meta_data->>'name',''), nullif(new.raw_user_meta_data->>'full_name',''), split_part(new.email,'@',1)), v_role, v_ws, (v_cnt = 0))
+  on conflict (id) do nothing;
+  update public.workspaces set invites = coalesce((select jsonb_agg(i) from jsonb_array_elements(invites) i where lower(i->>'email') <> lower(new.email)), '[]'::jsonb) where ws = v_ws;
+  return new;
+end $$;
+
+-- v0.14: HubSpot-Sync (GIRIGO-ID, LastInstructionCreated, NumberOfInstructionViews) – Trigger → pg_net → Edge Function hubspot-sync
+-- Voraussetzungen: Extensions pg_net + pgcrypto, Vault-Secrets hubspot_token (Private-App-Token) und hs_sync_secret (beliebiger Zufallsstring)
+alter table public.instructions add column if not exists owner uuid default auth.uid();
+create index if not exists instructions_owner_idx on public.instructions(owner);
+update public.instructions i set owner = p.id from public.profiles p where i.owner is null and p.ws = i.ws and p.name = i.data->>'createdBy';
+update public.instructions i set owner = (select p.id from public.profiles p where p.ws = i.ws order by p.created_at limit 1) where i.owner is null;
+create or replace function public.get_hubspot_token() returns text
+language sql stable security definer set search_path = public, vault as $$ select decrypted_secret from vault.decrypted_secrets where name = 'hubspot_token' limit 1 $$;
+create or replace function public.get_hs_secret() returns text
+language sql stable security definer set search_path = public, vault as $$ select decrypted_secret from vault.decrypted_secrets where name = 'hs_sync_secret' limit 1 $$;
+revoke all on function public.get_hubspot_token() from public; grant execute on function public.get_hubspot_token() to service_role;
+revoke all on function public.get_hs_secret() from public; grant execute on function public.get_hs_secret() to service_role;
+-- select vault.create_secret('<zufallsstring>', 'hs_sync_secret', 'GIRI Go: shared secret DB → hubspot-sync');
+-- select vault.create_secret('<pat-eu1-…>', 'hubspot_token', 'HubSpot private app token');
+create or replace function public.hs_poke(p_user uuid) returns void
+language plpgsql security definer set search_path = public, vault, extensions, net as $$
+declare v_secret text; v_url text;
+begin
+  if p_user is null then return; end if;
+  select decrypted_secret into v_secret from vault.decrypted_secrets where name = 'hs_sync_secret' limit 1;
+  if v_secret is null then return; end if;
+  v_url := 'https://goorpzgcxhtjbaothluv.supabase.co/functions/v1/hubspot-sync';
+  perform net.http_post(url := v_url,
+    headers := jsonb_build_object('Content-Type','application/json','x-giri-secret', v_secret, 'apikey', 'sb_publishable_eDo9afwf0tBuFqu1-yYyGg_2Tk3uv_L'),
+    body := jsonb_build_object('user_id', p_user), timeout_milliseconds := 8000);
+exception when others then null;
+end $$;
+revoke all on function public.hs_poke(uuid) from public;
+create or replace function public.hs_on_profile() returns trigger language plpgsql security definer set search_path = public as $$ begin perform public.hs_poke(new.id); return new; end $$;
+create or replace function public.hs_on_instruction() returns trigger language plpgsql security definer set search_path = public as $$ begin perform public.hs_poke(new.owner); return new; end $$;
+create or replace function public.hs_on_view() returns trigger language plpgsql security definer set search_path = public as $$
+declare v_owner uuid; begin select owner into v_owner from public.instructions where id = new.instr_id; perform public.hs_poke(v_owner); return new; end $$;
+drop trigger if exists hs_profile_ins on public.profiles; create trigger hs_profile_ins after insert on public.profiles for each row execute function public.hs_on_profile();
+drop trigger if exists hs_instr_ins on public.instructions; create trigger hs_instr_ins after insert on public.instructions for each row execute function public.hs_on_instruction();
+drop trigger if exists hs_view_ins on public.views; create trigger hs_view_ins after insert on public.views for each row execute function public.hs_on_view();
+create or replace function public.hs_metrics(p_user uuid) returns jsonb
+language sql stable security definer set search_path = public as $$
+  select jsonb_build_object(
+    'user_id', p.id, 'email', p.email, 'name', p.name, 'ws', p.ws, 'created_at', p.created_at,
+    'last_instruction_created', (select max(to_timestamp((i.data->>'createdAt')::double precision / 1000)) from public.instructions i where i.owner = p.id and (i.data->>'createdAt') ~ '^[0-9]+$'),
+    'instruction_views', (select count(*) from public.views v join public.instructions i on i.id = v.instr_id where i.owner = p.id),
+    'instructions', (select count(*) from public.instructions i where i.owner = p.id)
+  ) from public.profiles p where p.id = p_user
+$$;
+revoke all on function public.hs_metrics(uuid) from public; grant execute on function public.hs_metrics(uuid) to service_role;
+create or replace function public.hs_all_users() returns setof uuid language sql stable security definer set search_path = public as $$ select id from public.profiles $$;
+revoke all on function public.hs_all_users() from public; grant execute on function public.hs_all_users() to service_role;
