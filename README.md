@@ -42,6 +42,7 @@ Supabase-URL und Publishable Key stehen oben in `index.html` unter `window.GIRI_
 - Checklisten-Durchführungen werden schon während der Arbeit gespeichert (Status „läuft“ im Job-Done-Protokoll) und beim Abschließen finalisiert.
 - **Projekte** (Ordner) organisieren Anleitungen. Ohne Team-Zuordnung sehen alle im Workspace das Projekt; mit Zuordnung nur die Team-Mitglieder (Rolle im Team gilt für die Anleitungen des Projekts).
 - Veröffentlichte Links/QR-Codes funktionieren immer ohne Login. Die Projekt-Sichtbarkeit wird derzeit in der App geprüft (Datenbank-Regeln pro Projekt folgen).
+- Ab v0.13 lassen sich auch einzelne Anleitungen Teams zuordnen (Editor → „Freigabe & Einstellungen“ → „Zugriff (Teams)“ oder Admin-Panel → „Zugriff (Teams)“). Die Team-Zuordnung der Anleitung gilt zusätzlich zu den Teams des Projekts; nichts angehakt = wie das Projekt.
 
 ## Übersetzungen
 - Ein Link für alle Sprachen: Der Werker wählt oben in der Anleitung die Sprache (Flagge). Die Übersetzung läuft live über die Edge Function `translate` (DeepL, Key im Vault) und wird in der Anleitung zwischengespeichert.
@@ -50,12 +51,22 @@ Supabase-URL und Publishable Key stehen oben in `index.html` unter `window.GIRI_
 
 ## PDF in jeder Sprache
 - PDF-Button → Sprachauswahl mit allen 13 Sprachen (inkl. Chinesisch). Fehlende Übersetzungen werden vorher per DeepL erstellt und in der Anleitung gespeichert.
+- Aufbau (ab v0.13): Deckblatt (Titel, Dokumentenlenkung, Kapitelverzeichnis mit Seitenzahlen, Historie), jedes Kapitel auf einer neuen Seite, pro bestätigungspflichtigem Schritt ein Kästchen „Bestätigt“, Unterschrift nur einmal ganz am Ende, GIRI-Go-Logo oben rechts und Dokument-Nr./Seite unten auf jeder Seite, Schrift Montserrat.
 - Schriften liegen im Repo unter `fonts/` (Montserrat für alle europäischen Sprachen, Noto Sans SC für Chinesisch) und werden beim ersten Export geladen.
 
 ## Checkliste
+- Modus je Anleitung (Einstellungen): **Jeder Schritt**, **Nur pro Kapitel** (eine Bestätigung am Ende jedes Kapitels) oder **Nur markierte Schritte** (im Schritt „Bestätigung nötig“ ankreuzen). Zähler, Job-Done-Protokoll, Auto-Abschluss und PDF-Kästchen richten sich nach den bestätigungspflichtigen Schritten.
 - Jeder Schritt hat neben „Erledigt / Nicht OK“ einen Notiz-Button: Anmerkung und Foto sind bei jedem Schritt möglich, nicht nur bei „Nicht OK“.
 - Sprache lässt sich schon auf dem Start-Screen („Bereit?“) über die Flagge wählen.
 - Sind alle Schritte bestätigt, wird die Durchführung beim Verlassen automatisch abgeschlossen; beim Wiedereinstieg mit allem bestätigt bietet die App direkt „Abschließen“ an.
+
+## Kapitelübersicht & Kapitel-Links (ab v0.13)
+- Hat eine Anleitung mehr als ein Kapitel, startet der Viewer mit einer Kapitelübersicht (Kacheln mit Vorschaubild, Schrittzahl, Fortschritt). Ein Kapitel → direkt in die Anleitung.
+- Kapitel sind direkt verlinkbar: `…#/v/<id>/1`, `…#/v/<id>/2` usw. (auch mit Sprache: `…#/v/<id>/2/en`). Beim Scrollen aktualisiert sich die URL auf das aktuelle Kapitel; die Übersicht ist über den Titel oben oder das Menü jederzeit erreichbar.
+
+## Eigene Symbole (ab v0.13)
+- Editor → Werkzeug „Eigene“ → „Hochladen“: PNG (mit Transparenz), JPG, WebP oder SVG. Bilder werden im Browser auf 512 px verkleinert, als PNG nach `media/<workspace>/symbols/` geladen und in `workspaces.symbols` für den ganzen Workspace gespeichert (Mehrfachauswahl möglich, Löschen über das × in der Bibliothek).
+- Darstellung je Symbol umschaltbar (Chip unter dem Bild): **Leuchten** (weißer Rand + farbiges Leuchten, ideal für transparente PNGs) oder **Sticker** (weiße Karte mit farbigem Rahmen, ideal für Fotos). Farbe über die Farbfelder, Größe/Drehung wie bei allen Symbolen. Gilt in Bild, Video, Viewer und PDF.
 
 ## Fotos & Videos importieren
 - Editor: „Importieren“ im Schritte-Panel (Handy: Fotomediathek, Mehrfachauswahl) oder Dateien einfach auf die Seite ziehen (PC). Aufnahme-Screen: Import-Symbol oben rechts.

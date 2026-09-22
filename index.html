@@ -305,6 +305,46 @@ h1,h2,h3{margin:0;text-wrap:balance;font-weight:700}
 .vw-start .field input{background:#12305C;border-color:#22437A;color:#fff}
 .vw-start .field label{color:#7F93B3}
 .vw-end{position:absolute;inset:0;z-index:7;background:#02132B;display:flex;align-items:center;justify-content:center;padding:24px;overflow:auto}
+/* chapter overview */
+.vw-chap{position:absolute;inset:0;z-index:8;background:#02132B;color:#fff;overflow:auto;-webkit-overflow-scrolling:touch;padding:calc(12px + env(safe-area-inset-top,0px)) 16px calc(28px + env(safe-area-inset-bottom,0px));animation:chfade .25s ease}
+.vw-chap.out{animation:chout .22s ease forwards}
+@keyframes chfade{from{opacity:0}to{opacity:1}}
+@keyframes chout{to{opacity:0;transform:scale(1.02)}}
+.vw-chap .ch-head{max-width:960px;margin:0 auto 18px}
+.vw-chap .ch-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:22px}
+.vw-chap .ch-bar .round{width:40px;height:40px;background:rgba(255,255,255,.12);color:#fff;display:inline-flex;align-items:center;justify-content:center;border-radius:50%}
+.vw-chap .brandline{display:flex;align-items:center;gap:10px;color:var(--mint);font-weight:800;font-size:12px;letter-spacing:.1em;text-transform:uppercase;min-width:0}
+.vw-chap .brandline img{height:26px;max-width:120px;object-fit:contain}
+.vw-chap h1{font-size:clamp(24px,4.5vw,36px);margin:0 0 6px;line-height:1.12;letter-spacing:-.02em}
+.vw-chap .ch-sub{color:#9AA7BC;font-size:13px;font-weight:600}
+.vw-chap .ch-sub2{color:#7F93B3;font-size:13px;margin-top:14px}
+.ch-grid{max-width:960px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+@media(max-width:480px){.ch-grid{grid-template-columns:repeat(2,1fr);gap:10px}}
+.ch-tile{position:relative;aspect-ratio:4/3;border-radius:18px;overflow:hidden;background:#0D2447;cursor:pointer;text-align:left;color:#fff;border:0;padding:0;isolation:isolate;transform:translateY(14px);opacity:0;animation:chin .55s cubic-bezier(.2,.8,.2,1) forwards;box-shadow:0 10px 30px rgba(0,0,0,.35);-webkit-tap-highlight-color:transparent}
+@keyframes chin{to{transform:none;opacity:1}}
+.ch-tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-1;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.ch-tile:hover img,.ch-tile:focus-visible img{transform:scale(1.06)}
+.ch-tile::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(2,19,43,.05) 0%,rgba(2,19,43,.3) 45%,rgba(2,19,43,.92) 100%)}
+.ch-tile:hover{outline:2px solid var(--mint)}
+.ch-tile .cn{position:absolute;top:12px;left:12px;width:36px;height:36px;border-radius:11px;background:var(--brand);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 6px 16px rgba(0,0,0,.45)}
+.ch-tile .done{position:absolute;top:14px;right:12px;width:30px;height:30px;border-radius:50%;background:var(--mint);color:#000;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,.45)}
+.ch-tile .done svg{width:18px;height:18px}
+.ch-tile .txt{position:absolute;left:14px;right:14px;bottom:14px;display:block}
+.ch-tile .txt b{display:block;font-size:17px;line-height:1.2;margin-bottom:4px;text-shadow:0 2px 10px rgba(0,0,0,.7);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ch-tile .txt>span{font-size:12px;color:#C9D3E3;font-weight:600}
+.ch-tile .bar{display:block;height:4px;border-radius:2px;background:rgba(255,255,255,.22);margin-top:8px;overflow:hidden}
+.ch-tile .bar i{display:block;height:100%;background:var(--mint)}
+@media(max-width:480px){.ch-tile .txt b{font-size:14px}.ch-tile .cn{width:30px;height:30px;font-size:13px;border-radius:9px}}
+.vw-chap .ch-foot{max-width:960px;margin:22px auto 0;display:flex;justify-content:center}
+.vw-chap .ch-foot .btn{padding:14px 26px}
+.viewer.light .vw-chap{background:#fff;color:#000}
+.viewer.light .vw-chap .ch-bar .round{background:rgba(0,0,0,.08);color:#000}
+.viewer.light .vw-chap .ch-sub,.viewer.light .vw-chap .ch-sub2{color:#525252}
+.viewer.light .ch-tile{background:#EFEFEF;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+.tt-wrap.clickable{cursor:pointer}
+.chkmodes{display:flex;flex-direction:column;gap:8px;margin:10px 0 0 30px}
+.chkmodes label{display:flex;gap:8px;align-items:flex-start;font-size:13px;font-weight:600;cursor:pointer}
+.chkmodes input{margin-top:3px}
 .vw-end .card{background:#0D2447;color:#fff;padding:24px;max-width:480px;width:100%}
 .vw-end .sum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
 .vw-end .sum div{background:#12305C;border-radius:10px;padding:10px;text-align:center}
@@ -447,7 +487,7 @@ body{-webkit-tap-highlight-color:transparent}
 .cap-top .cnt,.zoom-btns{background:rgba(0,0,0,.55)}
 .zoom-btns button.on{background:#fff;color:#000}
 .cap-strip .st{border-radius:6px}
-.viewer,.vw-start,.vw-end{background:#000}
+.viewer,.vw-start,.vw-end,.vw-chap{background:#000}
 .vstep .vtext{background:#000}
 .vw-top{background:linear-gradient(rgba(0,0,0,.85),transparent)}
 .vw-top .ch{color:var(--mint)}
@@ -462,6 +502,8 @@ body{-webkit-tap-highlight-color:transparent}
 .vw-side h3{color:var(--blue-light)}
 .vw-side .it.ok .n{color:var(--mint)}
 .vw-start .card,.vw-end .card{background:#161616;border-color:#333}
+.ch-tile{background:#161616}
+.ch-tile::after{background:linear-gradient(180deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,.3) 45%,rgba(0,0,0,.92) 100%)}
 .vw-start .field input{background:#222;border-color:#333}
 .vw-end .sum div{background:#222}
 .vw-end .sum span{color:#8A8A8A}
@@ -509,6 +551,18 @@ body{-webkit-tap-highlight-color:transparent}
 .retake{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
 .tool-ghost{position:fixed;z-index:300;pointer-events:none;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:14px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,.3)}
 .tool-ghost svg{width:28px;height:28px}
+.tool-ghost span{font-size:26px}
+.sym-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;max-height:52vh;overflow:auto;padding:2px}
+.sym{position:relative;aspect-ratio:1;border-radius:12px;background:var(--surface-2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:8px;border:1.5px solid transparent;cursor:pointer;color:var(--ink-2);min-width:0}
+.sym:hover{border-color:var(--blue)}
+.sym img{max-width:72%;max-height:58%;object-fit:contain;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))}
+.sym span{font-size:10px;font-weight:700;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sym .x{position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:var(--surface);color:var(--red);font-size:15px;font-style:normal;line-height:20px;text-align:center;opacity:.75;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.sym .x:hover{opacity:1}
+.sym.add{border:1.5px dashed var(--line);color:var(--blue);background:transparent}
+.sym.add svg{width:26px;height:26px}
+.pimg{width:18px;height:18px;object-fit:contain;vertical-align:middle;margin-right:2px}
+.ann-pill .pst{font-size:11px;font-weight:600;padding:2px 7px;border-radius:6px;background:var(--surface);color:var(--ink-2);margin-left:4px;border:1px solid var(--line)}
 .media-box.drop-ok{outline:3px solid var(--blue);outline-offset:-3px}
 .timeline{margin-top:8px}
 .modebar{position:absolute;left:50%;top:calc(66px + env(safe-area-inset-top,0px));transform:translateX(-50%);z-index:4;display:flex;align-items:center;gap:8px;background:var(--blue);color:#fff;padding:6px 8px 6px 14px;border-radius:999px;font-weight:700;font-size:13px}
@@ -803,7 +857,7 @@ select.sel{padding:9px 12px;border:1.5px solid var(--line);border-radius:10px;ba
 (() => {
 'use strict';
 
-const APP_VERSION = '0.12.0';
+const APP_VERSION = '0.13.0';
 /* ---------- i18n ---------- */
 const I18N = {
 de:{
@@ -835,7 +889,9 @@ de:{
   vw_start_title:'Bereit?', vw_start_sub:'Trage deinen Namen ein – jeder Schritt wird mit Zeitstempel bestätigt.', your_name:'Dein Name', begin:'Starten', scroll_hint:'Nach oben wischen',
   done:'Erledigt', not_ok:'Nicht OK', nok_note:'Was ist das Problem?', nok_photo:'Foto als Beleg', save:'Speichern', cancel:'Abbrechen', finish:'Abschließen',
   vw_end_title:'Abgeschlossen', vw_end_sub:'Ergebnis wurde gespeichert.', ok_count:'OK', nok_count:'Nicht OK', open_count:'Offen', close:'Schließen', again:'Neu starten',
-  chapters:'Kapitel', all_steps:'Alle Schritte',
+  chapters:'Kapitel', all_steps:'Alle Schritte', chapter_overview:'Kapitelübersicht', pick_chapter:'Kapitel wählen – oder von vorne beginnen.', intro:'Einstieg', confirmed_short:'bestätigt', checklist_short:'Checkliste', continue_run:'Weiter', start_begin:'Von vorne beginnen', done_chapter:'Kapitel bestätigen',
+  cm_all:'Jeder Schritt', cm_all_sub:'Werker bestätigt jeden Schritt einzeln.', cm_chapter:'Nur pro Kapitel', cm_chapter_sub:'Eine Bestätigung am Ende jedes Kapitels.', cm_custom:'Nur markierte Schritte', cm_custom_sub:'Im Schritt „Bestätigung nötig“ ankreuzen – z. B. nur Prüfschritte.', step_confirm:'Bestätigung nötig', step_confirm_sub:'Dieser Schritt erscheint in der Checkliste.',
+  instr_access:'Zugriff (Teams)', instr_access_sub:'Zusätzlich zum Projekt: Diese Anleitung sehen nur die angehakten Teams. Nichts angehakt = wie das Projekt.', instr_access_admin_sub:'Einzelne Anleitungen direkt Teams zuordnen – zusätzlich zu den Projekt-Teams (grau = über das Projekt).', via_project:'über Projekt', no_teams_short:'Noch keine Teams – im Admin-Panel anlegen.',
   res_title:'Ergebnisse', res_sub:'Jede Durchführung mit Checkliste', worker:'Ausführender', started:'Gestartet', duration:'Dauer', export_csv:'CSV exportieren', no_runs:'Noch keine Durchführungen.', details:'Details',
   pdf_making:'PDF wird erstellt …', pdf_done:'PDF gespeichert', pdf_fail:'PDF konnte nicht gespeichert werden',
   pdf_h_created:'Erstellt von', pdf_h_date:'Datum', pdf_h_version:'Version', pdf_h_status:'Status', pdf_h_tech:'Technische Freigabe', pdf_h_dsgvo:'DSGVO-Freigabe', pdf_h_pages:'Seite', pdf_h_hist:'Änderungshistorie', pdf_h_check:'Bestätigt', pdf_h_sig:'Unterschrift Ausführender', pdf_h_date2:'Datum',
@@ -848,7 +904,7 @@ de:{
   uploading:'Upload', upload_failed:'Upload fehlgeschlagen – wird erneut versucht', remote_changed:'Auf anderem Gerät geändert – tippen zum Aktualisieren',
   loading_backend:'Verbindung zum Backend wird geladen …', update_avail:'Neue Version {v} verfügbar – tippen zum Laden', reload:'Neu laden',
   profile:'Profil', role_note:'Prototyp: Rolle selbst wählbar. In v2 vergibt der Admin die Rollen.',
-  tab_settings:'Freigabe & Einstellungen', translations:'Übersetzungen', tx_sub:'Per DeepL. Titel, Kapitel, Schritt-Texte und Warnhinweise. Der Link bekommt dann einen Sprachumschalter.', tx_add:'Übersetzen', tx_ok:'Aktuell – erneut übersetzen', tx_stale:'Text geändert – neu übersetzen', tx_running:'Übersetze …', tx_done:'{l} übersetzt', hero_h1:'Arbeitsanleitungen in 10 Minuten. Nicht in 3 Tagen.', hero_p:'Handy raus, Schritt für Schritt filmen, freigeben – fertig. Dein Team hat die Anleitung sofort am Arbeitsplatz. Ohne Schulung, ohne Papier, ohne Agentur.', hero_p1:'Aufnehmen: 3–5 Sekunden pro Schritt', hero_p2:'Freigeben: zwei Klicks, revisionssicher', hero_p3:'Teilen: QR-Code am Arbeitsplatz, kein Login für Werker', hero_cap:'Video-Arbeitsanleitungen für die Produktion', login_note:'Kein Passwort. Du bekommst einen Login-Link per E-Mail – Kolleginnen und Kollegen mit derselben Domain landen automatisch in deinem Workspace.', otp_label:'Oder Code aus der E-Mail eingeben (z. B. in der installierten App):', otp_go:'Anmelden', install_app:'Als App installieren', install_sub:'GIRI Go auf dem Home-Bildschirm – startet im Vollbild, Kamera sofort bereit.', install_ios:'iPhone/iPad: Teilen-Symbol → „Zum Home-Bildschirm“.', install_done:'App installiert', later:'Später', hero_ch:'Montage', hero_step:'Schrauben M6 über Kreuz anziehen', hero_step_d:'Drehmomentschlüssel Nr. 3 · 10 Nm', hero_f1:'Checkliste bestätigt', hero_f2:'SOP-Export', hero_f3:'Am Arbeitsplatz', rename:'Umbenennen', native_cam:'Mit Kamera-App aufnehmen', new_title_ph:'z. B. Spannvorrichtung rüsten', chapter_before:'Neues Kapitel vor Schritt {n}', chapter_ph:'z. B. Vorbereitung', chapter_added:'Kapitel vor Schritt {n} eingefügt', qr_pdf_opts:'QR-Code-Blatt: Was soll draufstehen?', qr_date:'Datum', qr_creator:'Ersteller', qr_image:'Erstes Bild', qr_brand:'Firma / Logo', qr_download:'QR-Code als PDF', qr_scan:'Scannen für die Anleitung · GIRI Go', stats:'Statistik', stats_sub:'Aufrufe der Anleitung und Job-Done-Protokoll', views_tab:'Aufrufe', jobdone:'Job-Done-Protokoll', views_total:'Aufrufe', views_reload:'davon Neuladen', views_avg:'Ø Zeit pro Aufruf', views_done:'bis zum Ende', views_steps:'Ø Schritte gesehen', views_completed:'komplett', views_reloaded:'neu geladen', device:'Gerät', no_views:'Noch keine Aufrufe – Aufrufe werden gezählt, sobald die Anleitung veröffentlicht ist und über den Link geöffnet wird.', jobdone_hint:'Checkliste in den Einstellungen aktivieren, damit Werker jeden Schritt bestätigen.', tool_emoji:'Emoji', recent:'Zuletzt', all:'Alle', trim_hint:'Video kürzen: Griffe ziehen', record_next:'Nächsten Schritt aufnehmen', branding:'Branding', branding_sub:'So erscheint die Anleitung unter dem Link und im PDF.', brand_name:'Firmenname', brand_color:'Akzentfarbe', brand_logo:'Logo', brand_nologo:'Kein Logo', brand_theme:'Anleitungs-Ansicht', theme_dark:'Dunkel', theme_light:'Hell', upload:'Hochladen', remove:'Entfernen', end_title:'Geschafft – alle Schritte durch.', undo:'Rückgängig', undone:'Rückgängig gemacht', retake:'Neu aufnehmen', rec_after:'Danach aufnehmen', replace_file:'Datei ersetzen', replacing:'Ersetzt Schritt {n}', inserting:'Nach Schritt {n}', tap_thumb:'Tippe auf ein Vorschaubild, um diesen Schritt neu aufzunehmen', more:'Mehr', approve_publish:'Freigeben & veröffentlichen', approve_all_q:'Technische und DSGVO-Freigabe erteilen und veröffentlichen?', tool_hint:'Symbol antippen → erscheint im Bild. Ziehen zum Verschieben, weiße Anfasser zum Anpassen.', expand:'Aufklappen', collapse:'Einklappen',
+  tab_settings:'Freigabe & Einstellungen', translations:'Übersetzungen', tx_sub:'Per DeepL. Titel, Kapitel, Schritt-Texte und Warnhinweise. Der Link bekommt dann einen Sprachumschalter.', tx_add:'Übersetzen', tx_ok:'Aktuell – erneut übersetzen', tx_stale:'Text geändert – neu übersetzen', tx_running:'Übersetze …', tx_done:'{l} übersetzt', hero_h1:'Arbeitsanleitungen in 10 Minuten. Nicht in 3 Tagen.', hero_p:'Handy raus, Schritt für Schritt filmen, freigeben – fertig. Dein Team hat die Anleitung sofort am Arbeitsplatz. Ohne Schulung, ohne Papier, ohne Agentur.', hero_p1:'Aufnehmen: 3–5 Sekunden pro Schritt', hero_p2:'Freigeben: zwei Klicks, revisionssicher', hero_p3:'Teilen: QR-Code am Arbeitsplatz, kein Login für Werker', hero_cap:'Video-Arbeitsanleitungen für die Produktion', login_note:'Kein Passwort. Du bekommst einen Login-Link per E-Mail – Kolleginnen und Kollegen mit derselben Domain landen automatisch in deinem Workspace.', otp_label:'Oder Code aus der E-Mail eingeben (z. B. in der installierten App):', otp_go:'Anmelden', install_app:'Als App installieren', install_sub:'GIRI Go auf dem Home-Bildschirm – startet im Vollbild, Kamera sofort bereit.', install_ios:'iPhone/iPad: Teilen-Symbol → „Zum Home-Bildschirm“.', install_done:'App installiert', later:'Später', hero_ch:'Montage', hero_step:'Schrauben M6 über Kreuz anziehen', hero_step_d:'Drehmomentschlüssel Nr. 3 · 10 Nm', hero_f1:'Checkliste bestätigt', hero_f2:'SOP-Export', hero_f3:'Am Arbeitsplatz', rename:'Umbenennen', native_cam:'Mit Kamera-App aufnehmen', new_title_ph:'z. B. Spannvorrichtung rüsten', chapter_before:'Neues Kapitel vor Schritt {n}', chapter_ph:'z. B. Vorbereitung', chapter_added:'Kapitel vor Schritt {n} eingefügt', qr_pdf_opts:'QR-Code-Blatt: Was soll draufstehen?', qr_date:'Datum', qr_creator:'Ersteller', qr_image:'Erstes Bild', qr_brand:'Firma / Logo', qr_download:'QR-Code als PDF', qr_scan:'Scannen für die Anleitung · GIRI Go', stats:'Statistik', stats_sub:'Aufrufe der Anleitung und Job-Done-Protokoll', views_tab:'Aufrufe', jobdone:'Job-Done-Protokoll', views_total:'Aufrufe', views_reload:'davon Neuladen', views_avg:'Ø Zeit pro Aufruf', views_done:'bis zum Ende', views_steps:'Ø Schritte gesehen', views_completed:'komplett', views_reloaded:'neu geladen', device:'Gerät', no_views:'Noch keine Aufrufe – Aufrufe werden gezählt, sobald die Anleitung veröffentlicht ist und über den Link geöffnet wird.', jobdone_hint:'Checkliste in den Einstellungen aktivieren, damit Werker jeden Schritt bestätigen.', tool_emoji:'Emoji', tool_img:'Eigene', sym_title:'Eigene Symbole', sym_upload:'Hochladen', sym_sub:'PNG mit Transparenz, JPG oder SVG – Logos, Piktogramme, Bauteil-Fotos. Werden auf 512 px verkleinert und stehen dem ganzen Workspace zur Verfügung.', sym_empty:'Noch keine eigenen Symbole. Erstes Bild über „Hochladen“ hinzufügen.', sym_del_q:'Symbol „{n}“ für den ganzen Workspace löschen?', sym_bad:'{n}: kein lesbares Bild', img_style:'Darstellung', style_glow:'Leuchten', style_sticker:'Sticker', recent:'Zuletzt', all:'Alle', trim_hint:'Video kürzen: Griffe ziehen', record_next:'Nächsten Schritt aufnehmen', branding:'Branding', branding_sub:'So erscheint die Anleitung unter dem Link und im PDF.', brand_name:'Firmenname', brand_color:'Akzentfarbe', brand_logo:'Logo', brand_nologo:'Kein Logo', brand_theme:'Anleitungs-Ansicht', theme_dark:'Dunkel', theme_light:'Hell', upload:'Hochladen', remove:'Entfernen', end_title:'Geschafft – alle Schritte durch.', undo:'Rückgängig', undone:'Rückgängig gemacht', retake:'Neu aufnehmen', rec_after:'Danach aufnehmen', replace_file:'Datei ersetzen', replacing:'Ersetzt Schritt {n}', inserting:'Nach Schritt {n}', tap_thumb:'Tippe auf ein Vorschaubild, um diesen Schritt neu aufzunehmen', more:'Mehr', approve_publish:'Freigeben & veröffentlichen', approve_all_q:'Technische und DSGVO-Freigabe erteilen und veröffentlichen?', tool_hint:'Symbol antippen → erscheint im Bild. Ziehen zum Verschieben, weiße Anfasser zum Anpassen.', expand:'Aufklappen', collapse:'Einklappen',
   cooldown:'Mail wurde gerade verschickt – bitte {s} s warten.', cooldown_sub:'Der letzte Link ist unterwegs. Prüfe Posteingang und Spam, bevor du neu anforderst – jeder neue Link macht den alten ungültig.',
   rate_limit:'Mail-Limit erreicht – es wurde keine neue Mail verschickt.', rate_limit_sub:'Der Test-Mailversand erlaubt nur 2 Mails pro Stunde. Bist du auf diesem Gerät schon eingeloggt gewesen? Dann einfach die App neu öffnen – die Sitzung bleibt erhalten, kein erneuter Link nötig.',
   /* v0.9 */
@@ -897,7 +953,9 @@ en:{
   vw_start_title:'Ready?', vw_start_sub:'Enter your name – every step is confirmed with a timestamp.', your_name:'Your name', begin:'Start', scroll_hint:'Swipe up',
   done:'Done', not_ok:'Not OK', nok_note:'What is the problem?', nok_photo:'Photo as evidence', save:'Save', cancel:'Cancel', finish:'Finish',
   vw_end_title:'Completed', vw_end_sub:'Result has been saved.', ok_count:'OK', nok_count:'Not OK', open_count:'Open', close:'Close', again:'Restart',
-  chapters:'Chapters', all_steps:'All steps',
+  chapters:'Chapters', all_steps:'All steps', chapter_overview:'Chapter overview', pick_chapter:'Pick a chapter – or start from the beginning.', intro:'Intro', confirmed_short:'confirmed', checklist_short:'Checklist', continue_run:'Continue', start_begin:'Start from the beginning', done_chapter:'Confirm chapter',
+  cm_all:'Every step', cm_all_sub:'The worker confirms each step.', cm_chapter:'Per chapter only', cm_chapter_sub:'One confirmation at the end of each chapter.', cm_custom:'Marked steps only', cm_custom_sub:'Tick “Confirmation required” in the step – e.g. inspection steps only.', step_confirm:'Confirmation required', step_confirm_sub:'This step appears in the checklist.',
+  instr_access:'Access (teams)', instr_access_sub:'In addition to the project: only the ticked teams see this instruction. Nothing ticked = same as the project.', instr_access_admin_sub:'Assign single instructions to teams – in addition to the project teams (grey = via project).', via_project:'via project', no_teams_short:'No teams yet – create them in the admin panel.',
   res_title:'Results', res_sub:'Every run with checklist', worker:'Worker', started:'Started', duration:'Duration', export_csv:'Export CSV', no_runs:'No runs yet.', details:'Details',
   pdf_making:'Creating PDF …', pdf_done:'PDF saved', pdf_fail:'PDF could not be saved',
   pdf_h_created:'Created by', pdf_h_date:'Date', pdf_h_version:'Version', pdf_h_status:'Status', pdf_h_tech:'Technical approval', pdf_h_dsgvo:'GDPR approval', pdf_h_pages:'Page', pdf_h_hist:'Change history', pdf_h_check:'Confirmed', pdf_h_sig:'Signature worker', pdf_h_date2:'Date',
@@ -910,7 +968,7 @@ en:{
   uploading:'Upload', upload_failed:'Upload failed – will retry', remote_changed:'Changed on another device – tap to refresh',
   loading_backend:'Loading backend connection …', update_avail:'New version {v} available – tap to load', reload:'Reload',
   profile:'Profile', role_note:'Prototype: you pick your own role. In v2 an admin assigns roles.',
-  tab_settings:'Approval & settings', translations:'Translations', tx_sub:'Via DeepL. Title, chapters, step texts and warnings. The link then gets a language switch.', tx_add:'Translate', tx_ok:'Up to date – translate again', tx_stale:'Text changed – re-translate', tx_running:'Translating …', tx_done:'{l} translated', hero_h1:'Work instructions in 10 minutes. Not 3 days.', hero_p:'Grab your phone, film step by step, approve – done. Your team has the instruction at the workstation right away. No training, no paper, no agency.', hero_p1:'Record: 3–5 seconds per step', hero_p2:'Approve: two clicks, audit-proof', hero_p3:'Share: QR code at the workstation, no login for workers', hero_cap:'Video work instructions for production', login_note:'No password. You get a login link by email – colleagues with the same domain automatically join your workspace.', otp_label:'Or enter the code from the email (e.g. in the installed app):', otp_go:'Sign in', install_app:'Install as app', install_sub:'GIRI Go on your home screen – full screen, camera ready.', install_ios:'iPhone/iPad: Share icon → “Add to Home Screen”.', install_done:'App installed', later:'Later', hero_ch:'Assembly', hero_step:'Tighten M6 screws crosswise', hero_step_d:'Torque wrench no. 3 · 10 Nm', hero_f1:'Checklist confirmed', hero_f2:'SOP export', hero_f3:'At the workstation', rename:'Rename', native_cam:'Record with camera app', new_title_ph:'e.g. Set up clamping fixture', chapter_before:'New chapter before step {n}', chapter_ph:'e.g. Preparation', chapter_added:'Chapter inserted before step {n}', qr_pdf_opts:'QR sheet: what to print', qr_date:'Date', qr_creator:'Creator', qr_image:'First image', qr_brand:'Company / logo', qr_download:'QR code as PDF', qr_scan:'Scan to open the instruction · GIRI Go', stats:'Statistics', stats_sub:'Views of this instruction and job-done log', views_tab:'Views', jobdone:'Job-done log', views_total:'Views', views_reload:'of which reloads', views_avg:'Avg. time per view', views_done:'reached the end', views_steps:'Avg. steps seen', views_completed:'completed', views_reloaded:'reloaded', device:'Device', no_views:'No views yet – views are counted once the instruction is published and opened via the link.', jobdone_hint:'Enable the checklist in settings so workers confirm each step.', tool_emoji:'Emoji', recent:'Recent', all:'All', trim_hint:'Trim: drag the handles', record_next:'Record next step', branding:'Branding', branding_sub:'How the instruction appears under the link and in the PDF.', brand_name:'Company name', brand_color:'Accent colour', brand_logo:'Logo', brand_nologo:'No logo', brand_theme:'Instruction view', theme_dark:'Dark', theme_light:'Light', upload:'Upload', remove:'Remove', end_title:'Done – all steps completed.', undo:'Undo', undone:'Undone', retake:'Retake', rec_after:'Record after this', replace_file:'Replace file', replacing:'Replacing step {n}', inserting:'After step {n}', tap_thumb:'Tap a thumbnail to re-record that step', more:'More', approve_publish:'Approve & publish', approve_all_q:'Grant technical and GDPR approval and publish?', tool_hint:'Tap a symbol → it appears on the image. Drag to move, white handles to adjust.', expand:'Expand', collapse:'Collapse',
+  tab_settings:'Approval & settings', translations:'Translations', tx_sub:'Via DeepL. Title, chapters, step texts and warnings. The link then gets a language switch.', tx_add:'Translate', tx_ok:'Up to date – translate again', tx_stale:'Text changed – re-translate', tx_running:'Translating …', tx_done:'{l} translated', hero_h1:'Work instructions in 10 minutes. Not 3 days.', hero_p:'Grab your phone, film step by step, approve – done. Your team has the instruction at the workstation right away. No training, no paper, no agency.', hero_p1:'Record: 3–5 seconds per step', hero_p2:'Approve: two clicks, audit-proof', hero_p3:'Share: QR code at the workstation, no login for workers', hero_cap:'Video work instructions for production', login_note:'No password. You get a login link by email – colleagues with the same domain automatically join your workspace.', otp_label:'Or enter the code from the email (e.g. in the installed app):', otp_go:'Sign in', install_app:'Install as app', install_sub:'GIRI Go on your home screen – full screen, camera ready.', install_ios:'iPhone/iPad: Share icon → “Add to Home Screen”.', install_done:'App installed', later:'Later', hero_ch:'Assembly', hero_step:'Tighten M6 screws crosswise', hero_step_d:'Torque wrench no. 3 · 10 Nm', hero_f1:'Checklist confirmed', hero_f2:'SOP export', hero_f3:'At the workstation', rename:'Rename', native_cam:'Record with camera app', new_title_ph:'e.g. Set up clamping fixture', chapter_before:'New chapter before step {n}', chapter_ph:'e.g. Preparation', chapter_added:'Chapter inserted before step {n}', qr_pdf_opts:'QR sheet: what to print', qr_date:'Date', qr_creator:'Creator', qr_image:'First image', qr_brand:'Company / logo', qr_download:'QR code as PDF', qr_scan:'Scan to open the instruction · GIRI Go', stats:'Statistics', stats_sub:'Views of this instruction and job-done log', views_tab:'Views', jobdone:'Job-done log', views_total:'Views', views_reload:'of which reloads', views_avg:'Avg. time per view', views_done:'reached the end', views_steps:'Avg. steps seen', views_completed:'completed', views_reloaded:'reloaded', device:'Device', no_views:'No views yet – views are counted once the instruction is published and opened via the link.', jobdone_hint:'Enable the checklist in settings so workers confirm each step.', tool_emoji:'Emoji', tool_img:'Custom', sym_title:'Custom symbols', sym_upload:'Upload', sym_sub:'PNG with transparency, JPG or SVG – logos, pictograms, part photos. Downscaled to 512 px and shared with the whole workspace.', sym_empty:'No custom symbols yet. Add the first image via “Upload”.', sym_del_q:'Delete symbol “{n}” for the whole workspace?', sym_bad:'{n}: not a readable image', img_style:'Style', style_glow:'Glow', style_sticker:'Sticker', recent:'Recent', all:'All', trim_hint:'Trim: drag the handles', record_next:'Record next step', branding:'Branding', branding_sub:'How the instruction appears under the link and in the PDF.', brand_name:'Company name', brand_color:'Accent colour', brand_logo:'Logo', brand_nologo:'No logo', brand_theme:'Instruction view', theme_dark:'Dark', theme_light:'Light', upload:'Upload', remove:'Remove', end_title:'Done – all steps completed.', undo:'Undo', undone:'Undone', retake:'Retake', rec_after:'Record after this', replace_file:'Replace file', replacing:'Replacing step {n}', inserting:'After step {n}', tap_thumb:'Tap a thumbnail to re-record that step', more:'More', approve_publish:'Approve & publish', approve_all_q:'Grant technical and GDPR approval and publish?', tool_hint:'Tap a symbol → it appears on the image. Drag to move, white handles to adjust.', expand:'Expand', collapse:'Collapse',
   cooldown:'Email was just sent – please wait {s} s.', cooldown_sub:'The last link is on its way. Check inbox and spam before requesting again – every new link invalidates the old one.',
   rate_limit:'Email limit reached – no new email was sent.', rate_limit_sub:'The test mailer allows only 2 emails per hour. Already signed in on this device? Just reopen the app – the session persists, no new link needed.',
   /* v0.9 */
@@ -1007,17 +1065,22 @@ S.brand = Object.assign({}, BRAND_DEFAULT); const brandCache = new Map();
 async function loadBrand(ws){ if(!sb || !ws) return S.brand; if(brandCache.has(ws)){ S.brand = brandCache.get(ws); return S.brand; } const {data} = await sb.from('workspaces').select('brand').eq('ws', ws).maybeSingle(); S.brand = Object.assign({}, BRAND_DEFAULT, (data && data.brand) || {}); brandCache.set(ws, S.brand); return S.brand; }
 async function saveBrand(brand){ const {error} = await sb.from('workspaces').upsert({ws:S.user.ws, brand, updated_at:new Date().toISOString()}); if(error) throw error; S.brand = Object.assign({}, BRAND_DEFAULT, brand); brandCache.set(S.user.ws, S.brand); }
 /* ---------- Workspace row: Projekte (folders), Teams, Einladungen ---------- */
-S.wsRow = {folders:[], teams:[], invites:[]}; let wsLoaded = false;
-async function loadWs(force){ if(!sb || !S.user) return S.wsRow; if(wsLoaded && !force) return S.wsRow; const {data} = await sb.from('workspaces').select('*').eq('ws', S.user.ws).maybeSingle(); S.wsRow = {folders:(data&&data.folders)||[], teams:(data&&data.teams)||[], invites:(data&&data.invites)||[]}; if(data && data.brand){ S.brand = Object.assign({}, BRAND_DEFAULT, data.brand); brandCache.set(S.user.ws, S.brand); } wsLoaded = true; return S.wsRow; }
+S.wsRow = {folders:[], teams:[], invites:[], symbols:[]}; let wsLoaded = false;
+async function loadWs(force){ if(!sb || !S.user) return S.wsRow; if(wsLoaded && !force) return S.wsRow; const {data} = await sb.from('workspaces').select('*').eq('ws', S.user.ws).maybeSingle(); S.wsRow = {folders:(data&&data.folders)||[], teams:(data&&data.teams)||[], invites:(data&&data.invites)||[], symbols:(data&&data.symbols)||[]}; if(data && data.brand){ S.brand = Object.assign({}, BRAND_DEFAULT, data.brand); brandCache.set(S.user.ws, S.brand); } wsLoaded = true; return S.wsRow; }
 async function saveWs(patch){ Object.assign(S.wsRow, patch); const {error} = await sb.from('workspaces').upsert(Object.assign({ws:S.user.ws, updated_at:new Date().toISOString()}, patch)); if(error){ toast(error.message); throw error; } }
 const myEmail = () => ((S.user&&S.user.email)||'').toLowerCase();
 const teamsOf = () => (S.wsRow.teams||[]).filter(tm => (tm.members||[]).some(m => (m.email||'').toLowerCase()===myEmail()));
 const folderTeams = fid => { const f = (S.wsRow.folders||[]).find(x=>x.id===fid); return f ? (f.teams||[]) : []; };
 const folderName = fid => { const f = (S.wsRow.folders||[]).find(x=>x.id===fid); return f ? f.name : ''; };
 // Sichtbarkeit + effektive Rolle je Anleitung: Projekt ohne Team-Zuordnung = alle im Workspace; sonst nur Team-Mitglieder (Admins immer)
-const canSee = instr => { if(!S.user) return false; if(S.user.isAdmin) return true; const ft = folderTeams(instr.folder); if(!ft.length) return true; return teamsOf().some(tm => ft.includes(tm.id)); };
+// teams of an instruction = teams of its project + teams assigned to the instruction itself
+const instrTeams = instr => { const ids = new Set([...folderTeams(instr && instr.folder), ...((instr && instr.teams)||[])]); const have = new Set((S.wsRow.teams||[]).map(tm=>tm.id)); return [...ids].filter(x => have.has(x)); };
+const canSee = instr => { if(!S.user) return false; if(S.user.isAdmin) return true; const ft = instrTeams(instr); if(!ft.length) return true; return teamsOf().some(tm => ft.includes(tm.id)); };
+// checklist modes: all = every step, chapter = last step of each chapter, custom = steps marked by the creator
+const needsConfirm = (instr, st, idx, arr) => { if(!instr.checklist || st.kind==='chapter') return false; const m = instr.checkMode||'all'; if(m==='custom') return !!st.confirm; if(m==='chapter'){ const nx = arr[idx+1]; return !nx || nx.kind==='chapter'; } return true; };
+const confirmSteps = instr => (instr.steps||[]).filter((st,i,arr) => needsConfirm(instr, st, i, arr));
 const ROLE_RANK = {viewer:0, reviewer:1, creator:2, admin:3};
-const effRole = instr => { if(!S.user) return 'viewer'; if(S.user.isAdmin) return 'creator'; const ft = folderTeams(instr && instr.folder); const mine = teamsOf().filter(tm => ft.includes(tm.id)); const roles = mine.map(tm => ((tm.members||[]).find(m => (m.email||'').toLowerCase()===myEmail())||{}).role).filter(r => ROLE_RANK[r]!=null); if(roles.length) return roles.sort((a,b)=>ROLE_RANK[b]-ROLE_RANK[a])[0]; return S.user.role; };
+const effRole = instr => { if(!S.user) return 'viewer'; if(S.user.isAdmin) return 'creator'; const ft = instrTeams(instr); const mine = teamsOf().filter(tm => ft.includes(tm.id)); const roles = mine.map(tm => ((tm.members||[]).find(m => (m.email||'').toLowerCase()===myEmail())||{}).role).filter(r => ROLE_RANK[r]!=null); if(roles.length) return roles.sort((a,b)=>ROLE_RANK[b]-ROLE_RANK[a])[0]; return S.user.role; };
 /* ---------- Rich text (markdown-lite): **fett**, - Liste, 1. Liste, [Text](url), ==nicht übersetzen== ---------- */
 const mdInline = s => s.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/==([^=]+)==/g, '<span class="keep">$1</span>')
   .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
@@ -1175,6 +1238,8 @@ const IC = {
   folder:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>',
   note:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h12l4 4v12H4z"/><path d="M8 12h8M8 16h5"/></svg>',
   gear:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
+  grid:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>',
+  image:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="14" height="14" rx="2"/><circle cx="8" cy="11" r="1.6"/><path d="M17 20l-5-6-6 6"/><path d="M19 2v6M16 5h6"/></svg>',
   up:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>',
   down:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>'
 };
@@ -1191,6 +1256,17 @@ function annMetrics(a, r){
   const X = v => r.x + v*r.w, Y = v => r.y + v*r.h; const base = Math.min(r.w, r.h);
   return {X, Y, base, lw: Math.max(3, base*0.011), S: base*(a.size||0.14)*0.85, col: COLORS[a.color] || a.color || COLORS.blue};
 }
+// custom symbols (type 'img'): images are cached per URL; listeners redraw when one arrives
+const IMG_CACHE = new Map(); const imgListeners = new Set();
+const onImgReady = fn => { imgListeners.add(fn); return () => imgListeners.delete(fn); };
+function preloadImg(src){ if(!src) return Promise.resolve(null); let e = IMG_CACHE.get(src); if(e) return e.p; e = {img:null, masks:new Map()}; e.p = new Promise(res => { const i = new Image(); i.crossOrigin='anonymous'; i.onload = () => { e.img = i; res(i); imgListeners.forEach(f => { try{ f(); }catch(x){} }); }; i.onerror = () => res(null); i.src = src; }); IMG_CACHE.set(src, e); return e.p; }
+const getImg = src => { const e = IMG_CACHE.get(src); if(!e){ preloadImg(src); return null; } return e.img; };
+// silhouette of the image in one colour (for outline + glow), cached per image and colour
+function tintMask(src, col){ const e = IMG_CACHE.get(src); if(!e || !e.img) return null; let m = e.masks.get(col); if(m) return m; const img = e.img; m = document.createElement('canvas'); m.width = img.naturalWidth; m.height = img.naturalHeight; const c = m.getContext('2d'); c.drawImage(img, 0, 0); c.globalCompositeOperation = 'source-in'; c.fillStyle = col; c.fillRect(0, 0, m.width, m.height); e.masks.set(col, m); return m; }
+const OFFS8 = [[1,0],[-1,0],[0,1],[0,-1],[.7,.7],[-.7,.7],[.7,-.7],[-.7,-.7]];
+// box of a custom symbol: longest side = S*1.4, aspect ratio from the file
+function imgBox(a, r){ const {X, Y, S} = annMetrics(a, r); const L = S*1.4, ar = a.ar||1; const w = ar>=1 ? L : L*ar, h = ar>=1 ? L/ar : L; return {x:X(a.x)-w/2, y:Y(a.y)-h/2, w, h}; }
+async function preloadAnnImages(instr){ const srcs = new Set(); (instr.steps||[]).forEach(st => (st.ann||[]).forEach(a => { if(a.type==='img' && a.src) srcs.add(a.src); })); await Promise.all([...srcs].map(preloadImg)); }
 const rotP = (x, y, cx, cy, ang) => { const c = Math.cos(ang), s = Math.sin(ang), dx = x-cx, dy = y-cy; return {x: cx + dx*c - dy*s, y: cy + dx*s + dy*c}; };
 const hasRot = a => a.type!=='arrow' && !!a.rot;
 function drawAnn(ctx, a, r, selected){
@@ -1240,6 +1316,24 @@ function drawAnn(ctx, a, r, selected){
       if(a.type==='check'){ ctx.moveTo(x-rad*0.45, y+rad*0.02); ctx.lineTo(x-rad*0.12, y+rad*0.36); ctx.lineTo(x+rad*0.5, y-rad*0.32); }
       else { ctx.moveTo(x-rad*0.38,y-rad*0.38); ctx.lineTo(x+rad*0.38,y+rad*0.38); ctx.moveTo(x+rad*0.38,y-rad*0.38); ctx.lineTo(x-rad*0.38,y+rad*0.38); }
       ctx.stroke(); }
+  } else if(a.type==='img'){
+    const img = getImg(a.src); const b = imgBox(a, r); const {x, y, w, h} = b; const L = Math.max(w, h);
+    if(!img){ ctx.fillStyle='rgba(255,255,255,.25)'; ctx.strokeStyle='rgba(255,255,255,.7)'; ctx.setLineDash([4,4]); ctx.lineWidth=1.5; rr(ctx, x, y, w, h, L*0.06); ctx.fill(); ctx.stroke(); ctx.setLineDash([]); }
+    else if((a.style||'glow')==='sticker'){
+      // sticker: white rounded card, gradient colour frame, soft colour glow + drop shadow
+      const pad = L*0.06, B = Math.max(2.5, L*0.035), rad = L*0.1;
+      const g = ctx.createLinearGradient(x, y, x+w, y+h); g.addColorStop(0, lighten(col, a.color==='black'?0.2:0.3)); g.addColorStop(0.55, col); g.addColorStop(1, darken(col, 0.22));
+      ctx.shadowColor = col; ctx.shadowBlur = L*0.22; ctx.shadowOffsetY = 0; ctx.fillStyle = g; rr(ctx, x-pad-B, y-pad-B, w+2*(pad+B), h+2*(pad+B), rad+B); ctx.fill();
+      ctx.shadowColor = 'rgba(0,0,0,.35)'; ctx.shadowBlur = L*0.08; ctx.shadowOffsetY = L*0.02; ctx.fill();
+      ctx.shadowColor = 'transparent'; ctx.fillStyle = '#fff'; rr(ctx, x-pad, y-pad, w+2*pad, h+2*pad, rad); ctx.fill();
+      ctx.save(); rr(ctx, x-pad, y-pad, w+2*pad, h+2*pad, rad); ctx.clip(); ctx.drawImage(img, x, y, w, h); ctx.restore();
+    } else {
+      // glow: soft colour halo behind the silhouette, crisp white rim, then the image itself
+      const mc = tintMask(a.src, col), mw = tintMask(a.src, '#ffffff'); const o = Math.max(1.5, L*0.03);
+      if(mc){ ctx.save(); ctx.shadowColor = col; ctx.shadowBlur = L*0.2; ctx.globalAlpha = 0.8; for(let k=0;k<3;k++) ctx.drawImage(mc, x, y, w, h); ctx.restore(); }
+      if(mw){ ctx.save(); ctx.shadowColor = 'rgba(255,255,255,.9)'; ctx.shadowBlur = L*0.07; OFFS8.forEach(([dx,dy]) => ctx.drawImage(mw, x+dx*o, y+dy*o, w, h)); ctx.restore(); }
+      ctx.shadowColor = 'rgba(0,0,0,.35)'; ctx.shadowBlur = L*0.05; ctx.shadowOffsetY = L*0.015; ctx.drawImage(img, x, y, w, h);
+    }
   } else if(a.type==='emoji'){
     const x=X(a.x), y=Y(a.y); const fs = S*0.9;
     ctx.font = `${fs}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`; ctx.textAlign='center'; ctx.textBaseline='middle';
@@ -1270,6 +1364,7 @@ function annBoundsRaw(a, r){
   const {X, Y, base, S} = annMetrics(a, r);
   if(a.type==='arrow'||a.type==='circle'||a.type==='rect'){ const x=Math.min(X(a.x),X(a.x2)), y=Math.min(Y(a.y),Y(a.y2)); return {x, y, w:Math.abs(X(a.x2)-X(a.x)), h:Math.abs(Y(a.y2)-Y(a.y))}; }
   if(a.type==='text'){ const fs=Math.max(13, base*0.05*((a.size||0.14)/0.14)); const w = (a.text||'…').length*fs*0.62 + fs*1.3; return {x:X(a.x)-fs*0.65, y:Y(a.y)-fs*0.9, w, h:fs*1.8}; }
+  if(a.type==='img'){ const b = imgBox(a, r); const p = Math.max(b.w, b.h)*0.1; return {x:b.x-p, y:b.y-p, w:b.w+2*p, h:b.h+2*p}; }
   return {x:X(a.x)-S*0.48, y:Y(a.y)-S*0.55, w:S*0.96, h:S*1.05};
 }
 const annCenter = (a, r) => { const b = annBoundsRaw(a, r); return {x:b.x+b.w/2, y:b.y+b.h/2}; };
@@ -1321,7 +1416,7 @@ async function render(){
   const app = $('#app');
   if(!sb){ app.innerHTML = `<main class="page page-narrow"><div class="card empty"><h2>GIRI Go</h2><div>${t('loading_backend')}</div><br><button class="btn" onclick="location.reload()">${t('reload')}</button></div></main>`; return; }
   if(!I18N[LANG]){ app.innerHTML = `<div class="loading"><div class="spin"></div></div>`; const ok = await loadUiLang(LANG); if(stale()) return; if(!ok) LANG = 'en'; }
-  if(view === 'v' && id){ app.innerHTML = ''; return renderViewer(app, id, false, extra); }
+  if(view === 'v' && id){ app.innerHTML = ''; return renderViewer(app, id, false, extra, extra2); }
   if(!authReady){ app.innerHTML = `<div class="loading"><div class="spin"></div></div>`; await loadProfile(); if(stale()) return; authReady = true; }
   app.innerHTML = '';
   if(!S.user){ return renderLogin(app); }
@@ -1333,7 +1428,7 @@ async function render(){
   await loadWs(view==='' || view==='admin' || view==='p'); if(stale()) return;
   if(view === 'rec' && id) return renderCapture(app, id, extra, extra2);
   if(view === 'edit' && id) return renderEditor(app, id, extra);
-  if(view === 'preview' && id) return renderViewer(app, id, true, extra);
+  if(view === 'preview' && id) return renderViewer(app, id, true, extra, extra2);
   if(view === 'results' && id) return renderResults(app, id);
   if(view === 'p' && id) return renderDashboard(app, id);
   if(view === 'stats') return renderGlobalStats(app);
@@ -1472,7 +1567,7 @@ function instrCard(i, statMap, opts={}){
   const card = el(`<article class="card instr">
     <img class="thumb" alt="" src="">
     <div><div class="title">${esc(i.title)} ${i.example?`<span class="example-tag">${t('example')}</span>`:''}</div>
-      <div class="meta"><span class="chip dot ${i.status}">${t(i.status==='review'?'in_review':i.status)}</span>${fname?`<span class="fold">${IC.folder} ${esc(fname)}</span>`:''}<span class="tnum">${st.length} ${t('steps')}</span><span>v${i.version}</span><span>${t('updated')} ${fmtDate(i.updatedAt)}</span>${i.checklist?`<span>☑ ${LANG==='de'?'Checkliste':'Checklist'}</span>`:''}${statMap[i.id]?`<span title="${t('views_total')}">${IC.eye} ${statMap[i.id].views}</span>`:''}${Object.keys(i.translations||{}).length?`<span title="${t('translations')}">${IC.globe} ${Object.keys(i.translations).length}</span>`:''}</div>
+      <div class="meta"><span class="chip dot ${i.status}">${t(i.status==='review'?'in_review':i.status)}</span>${fname?`<span class="fold">${IC.folder} ${esc(fname)}</span>`:''}${(i.teams||[]).length?`<span class="fold" title="${t('teams')}">👥 ${esc((i.teams||[]).map(tid => ((S.wsRow.teams||[]).find(x=>x.id===tid)||{}).name).filter(Boolean).join(', '))}</span>`:''}<span class="tnum">${st.length} ${t('steps')}</span><span>v${i.version}</span><span>${t('updated')} ${fmtDate(i.updatedAt)}</span>${i.checklist?`<span>☑ ${LANG==='de'?'Checkliste':'Checklist'}</span>`:''}${statMap[i.id]?`<span title="${t('views_total')}">${IC.eye} ${statMap[i.id].views}</span>`:''}${Object.keys(i.translations||{}).length?`<span title="${t('translations')}">${IC.globe} ${Object.keys(i.translations).length}</span>`:''}</div>
       <div class="acts">${role!=='viewer' ? `<button class="btn mint" data-a="rec">${IC.cam} ${t('record_next')}</button><button class="btn" data-a="edit">${IC.edit} ${t('edit')}</button>`:''}</div>
       <div class="acts2">
         <button data-a="preview">${IC.play} ${t('preview')}</button><span>·</span>
@@ -1858,8 +1953,10 @@ async function renderEditor(app, id, selStepId){
     <div class="settings" id="tab-settings" ${tab!=='settings'?'hidden':''}>
       <div class="card side-info"><h3>${t('tab_settings')}</h3>
         <label class="toggle"><input type="checkbox" id="chk" ${instr.checklist?'checked':''}> <span>${t('checklist')}<br><span class="muted" style="font-weight:500">${t('checklist_sub')}</span></span></label>
+        <div class="chkmodes" id="chkmodes" ${instr.checklist?'':'hidden'}>${[['all','cm_all','cm_all_sub'],['chapter','cm_chapter','cm_chapter_sub'],['custom','cm_custom','cm_custom_sub']].map(([k,l,sub])=>`<label><input type="radio" name="cm" value="${k}" ${(instr.checkMode||'all')===k?'checked':''}> <span>${t(l)}<br><span class="muted" style="font-weight:500">${t(sub)}</span></span></label>`).join('')}</div>
         <div class="row" style="margin-top:16px"><button class="btn ghost sm" id="share">${t('share')}</button><button class="btn ghost sm" id="pdf">${t('pdf')}</button><button class="btn ghost sm" id="res">${t('stats')}</button></div>
       </div>
+      <div class="card side-info"><h3>${t('instr_access')}</h3><p class="muted" style="margin:0 0 10px">${t('instr_access_sub')}</p><div id="iaccess">${(S.wsRow.teams||[]).length ? (S.wsRow.teams||[]).map(tm => `<label class="opt" style="margin-bottom:6px"><input type="checkbox" data-itm="${tm.id}" ${(instr.teams||[]).includes(tm.id)?'checked':''} ${myRole==='viewer'?'disabled':''}> ${esc(tm.name)}${folderTeams(instr.folder).includes(tm.id)?` <span class="muted" style="font-weight:500">(${t('via_project')})</span>`:''}</label>`).join('') : `<p class="muted" style="margin:0">${t('no_teams_short')}</p>`}</div></div>
       <div class="card side-info" id="txcard"></div>
       <div class="card side-info" id="appr"></div>
     </div></main>`);
@@ -1886,7 +1983,9 @@ async function renderEditor(app, id, selStepId){
   document.addEventListener('keydown', onKey);
   v.querySelector('#ititle').oninput = e => { instr.title = e.target.value; debounce('title', touch); };
   v.querySelector('#rename').onclick = async () => { const nt = await promptM(t('rename'), t('title'), instr.title); if(nt===null || !nt.trim()) return; instr.title = nt.trim(); v.querySelector('#ititle').value = instr.title; await touch(); };
-  v.querySelector('#chk').onchange = async e => { instr.checklist = e.target.checked; await saveInstr(instr); };
+  v.querySelector('#chk').onchange = async e => { instr.checklist = e.target.checked; v.querySelector('#chkmodes').hidden = !instr.checklist; await saveInstr(instr); renderList(); renderStage(); };
+  $$('input[name="cm"]', v).forEach(r => r.onchange = async () => { if(!r.checked) return; instr.checkMode = r.value; await saveInstr(instr); renderList(); renderStage(); });
+  $$('[data-itm]', v).forEach(cb => cb.onchange = async () => { const tid = cb.dataset.itm; instr.teams = (instr.teams||[]).filter(x=>x!==tid); if(cb.checked) instr.teams.push(tid); await saveInstr(instr); toast(t('saved')); });
   let sel = selStepId && instr.steps.find(s=>s.id===selStepId) ? selStepId : (realSteps(instr)[0]||{}).id;
   let stageCleanup = null, stageApi = null;
   let collapsed = new Set(); try{ collapsed = new Set(JSON.parse(localStorage.getItem('gg_coll_'+id)||'[]')); }catch(e){}
@@ -1932,7 +2031,7 @@ async function renderEditor(app, id, selStepId){
       }
       n++;
       if(curCh && collapsed.has(curCh.id)) return;
-      const r = el(`<div class="srow ${s.id===sel?'sel':''} ${curCh?'in-ch':''}" data-id="${s.id}" tabindex="0"><span class="grip" title="drag">${IC.grip}</span><span class="n tnum">${n}</span><div class="th-wrap"><img class="th" alt="">${s.type==='video'?`<span class="vd tnum">${fmtSec(Math.max(0,(s.trimEnd||s.duration)-(s.trimStart||0)))}s</span>`:''}</div><div class="tt">${esc(s.title)||`<span class="muted">${t('step')} ${n}</span>`}<small>${s.ann.length?s.ann.length+' ⌖':''} ${s.desc?'· '+esc(mdToPlain(s.desc).replace(/\n+/g,' ').slice(0,30)):''}</small></div></div>`);
+      const r = el(`<div class="srow ${s.id===sel?'sel':''} ${curCh?'in-ch':''}" data-id="${s.id}" tabindex="0"><span class="grip" title="drag">${IC.grip}</span><span class="n tnum">${n}</span><div class="th-wrap"><img class="th" alt="">${s.type==='video'?`<span class="vd tnum">${fmtSec(Math.max(0,(s.trimEnd||s.duration)-(s.trimStart||0)))}s</span>`:''}</div><div class="tt">${esc(s.title)||`<span class="muted">${t('step')} ${n}</span>`}<small>${instr.checklist && (instr.checkMode||'all')!=='all' && confirmSteps(instr).includes(s) ? '☑ ' : ''}${s.ann.length?s.ann.length+' ⌖':''} ${s.desc?'· '+esc(mdToPlain(s.desc).replace(/\n+/g,' ').slice(0,30)):''}</small></div></div>`);
       stepPoster(s).then(u => { if(u) r.querySelector('.th').src = u; });
       r.onclick = e => { if(e.target.closest('.grip')) return; sel = s.id; renderList(); renderStage(); if(window.innerWidth < 900) setTimeout(()=>v.querySelector('#stage').scrollIntoView({behavior:'smooth', block:'start'}), 60); };
       r.onkeydown = e => {
@@ -2016,7 +2115,7 @@ async function renderEditor(app, id, selStepId){
     const url = await mediaUrl(s.mediaId);
     const isV = s.type==='video';
     const n = realSteps(instr).indexOf(s)+1;
-    const TOOLS = [['arrow',IC.arrow,'tool_arrow'],['circle',IC.circle,'tool_circle'],['rect',IC.rect,'tool_rect'],['number',IC.number,'tool_number'],['text',IC.text,'tool_text'],['check',IC.checkc,'tool_check'],['cross',IC.cross,'tool_cross'],['warn',IC.warn,'tool_warn'],['elec',IC.elec,'tool_elec'],['hot',IC.hot,'tool_hot'],['emoji','<span class="emo">😀</span>','tool_emoji']];
+    const TOOLS = [['arrow',IC.arrow,'tool_arrow'],['circle',IC.circle,'tool_circle'],['rect',IC.rect,'tool_rect'],['number',IC.number,'tool_number'],['text',IC.text,'tool_text'],['check',IC.checkc,'tool_check'],['cross',IC.cross,'tool_cross'],['warn',IC.warn,'tool_warn'],['elec',IC.elec,'tool_elec'],['hot',IC.hot,'tool_hot'],['emoji','<span class="emo">😀</span>','tool_emoji'],['img',IC.image,'tool_img']];
     stage.innerHTML = `<div class="row" style="justify-content:space-between;margin-bottom:10px"><b>${t('step')} ${n} ${t('of')} ${realSteps(instr).length}</b><button class="btn ghost sm del" id="del" title="${t('delete_step')}">${IC.trash} ${t('delete')}</button></div>
       <div class="media-box" id="mbox">${isV?`<video id="med" src="${url}" muted playsinline autoplay loop preload="auto"></video>`:`<img id="med" src="${url}" alt="">`}<canvas class="ann sel-mode" id="acv"></canvas><div class="pausetag" id="ptag" hidden></div></div>
       <div class="ann-list" id="annlist"></div>
@@ -2026,7 +2125,9 @@ async function renderEditor(app, id, selStepId){
       <div class="muted" style="margin-top:6px;font-size:12px">${t('tool_hint3')}</div>
       <div class="retake"><button class="btn ghost sm" id="retake">${IC.cam} ${t('retake')}</button><button class="btn ghost sm" id="after">${IC.plus} ${t('rec_after')}</button><label class="btn ghost sm" style="cursor:pointer">${IC.upload} ${t('replace_file')}<input type="file" accept="video/*,image/*" hidden id="repl-file"></label></div>`;
     props.innerHTML = `<div class="two"><div class="field"><label for="stitle">${t('title')}</label><input id="stitle" value="${esc(s.title)}" placeholder="${t('step_title_ph')}"></div><div class="field"><label for="swarn">${t('warn')}</label><input id="swarn" value="${esc(s.warn||'')}" placeholder="⚠"></div></div>
-      <div class="field"><label for="sdesc">${t('desc')}</label><div class="fmtbar"><button data-f="b" title="${t('fmt_bold')}"><b>B</b></button><button data-f="ul" title="${t('fmt_ul')}">•&thinsp;${t('fmt_ul')}</button><button data-f="ol" title="${t('fmt_ol')}">1.&thinsp;${t('fmt_ol')}</button><button data-f="link" title="${t('fmt_link')}">🔗 ${t('fmt_link')}</button><button data-f="keep" title="${t('fmt_keep')}">🔒 ${t('fmt_keep')}</button></div><textarea id="sdesc" placeholder="${t('desc_ph')}">${esc(s.desc)}</textarea><div class="rich rich-prev" id="sprev" hidden></div><div class="muted" style="font-size:11px;margin-top:4px">${esc(t('fmt_hint'))}</div></div>`;
+      <div class="field"><label for="sdesc">${t('desc')}</label><div class="fmtbar"><button data-f="b" title="${t('fmt_bold')}"><b>B</b></button><button data-f="ul" title="${t('fmt_ul')}">•&thinsp;${t('fmt_ul')}</button><button data-f="ol" title="${t('fmt_ol')}">1.&thinsp;${t('fmt_ol')}</button><button data-f="link" title="${t('fmt_link')}">🔗 ${t('fmt_link')}</button><button data-f="keep" title="${t('fmt_keep')}">🔒 ${t('fmt_keep')}</button></div><textarea id="sdesc" placeholder="${t('desc_ph')}">${esc(s.desc)}</textarea><div class="rich rich-prev" id="sprev" hidden></div><div class="muted" style="font-size:11px;margin-top:4px">${esc(t('fmt_hint'))}</div></div>
+      ${instr.checklist && (instr.checkMode||'all')==='custom' ? `<label class="toggle" style="margin-top:6px"><input type="checkbox" id="sconf" ${s.confirm?'checked':''}> <span>${t('step_confirm')}<br><span class="muted" style="font-weight:500">${t('step_confirm_sub')}</span></span></label>` : ''}`;
+    const sconf = props.querySelector('#sconf'); if(sconf) sconf.onchange = async e => { s.confirm = e.target.checked; if(!s.confirm) delete s.confirm; await touch(); renderList(); };
     props.querySelector('#stitle').oninput = e => { s.title = e.target.value; debounce('st', async()=>{ await touch(); renderList(); }); };
     const ta = props.querySelector('#sdesc'), sprev = props.querySelector('#sprev');
     const updPrev = () => { const has = /\*\*|==|\[.+\]\(|^\s*[-*•]\s|^\s*\d+[.)]\s|https?:\/\//m.test(s.desc||''); sprev.hidden = !has; if(has) sprev.innerHTML = mdToHtml(s.desc); };
@@ -2056,7 +2157,7 @@ async function renderEditor(app, id, selStepId){
     const visibleAnns = () => s.ann.filter(isVis);
     const rectNow = () => { const b = cv.getBoundingClientRect(); return Object.assign(fitRect(b.width, b.height, mw(), mh()), {bx:b.left, by:b.top}); };
     const draw = () => { cv.style.width = box.clientWidth+'px'; cv.style.height = box.clientHeight+'px'; drawAll(cv, s.ann, mw(), mh(), selAnn, isVis); renderAnnList(); };
-    const ro = new ResizeObserver(draw); ro.observe(box);
+    const ro = new ResizeObserver(draw); ro.observe(box); const offImg = onImgReady(draw);
     const scaleAnn = (a, f) => { if(a.x2!=null){ const cx=(a.x+a.x2)/2, cy=(a.y+a.y2)/2; a.x=cx+(a.x-cx)*f; a.y=cy+(a.y-cy)*f; a.x2=cx+(a.x2-cx)*f; a.y2=cy+(a.y2-cy)*f; } else { a.size = Math.min(0.7, Math.max(0.05, (a.size||0.14)*f)); } };
     // rotate: arrows turn their endpoints (pixel space, so the angle is true on any aspect ratio); everything else carries a.rot
     const rotateAnn = (a, dAng, o) => { const r = rectNow(); if(a.type==='arrow'){ const oo = o||a; const cx = (oo.x+oo.x2)/2*r.w, cy = (oo.y+oo.y2)/2*r.h; const p1 = rotP(oo.x*r.w, oo.y*r.h, cx, cy, dAng), p2 = rotP(oo.x2*r.w, oo.y2*r.h, cx, cy, dAng); a.x = p1.x/r.w; a.y = p1.y/r.h; a.x2 = p2.x/r.w; a.y2 = p2.y/r.h; } else { const base = o ? (o.rot||0) : (a.rot||0); let ang = base + dAng; if(o){ const q = Math.round(ang/(Math.PI/2))*(Math.PI/2); if(Math.abs(ang-q) < 0.06) ang = q; } a.rot = ((ang+Math.PI)%(Math.PI*2)+Math.PI*2)%(Math.PI*2)-Math.PI; if(Math.abs(a.rot) < 1e-4) delete a.rot; } };
@@ -2071,6 +2172,7 @@ async function renderEditor(app, id, selStepId){
       else if(k==='circle'||k==='rect') Object.assign(base, {x:px-0.15, y:py-0.2, x2:px+0.15, y2:py+0.2});
       else if(k==='text'){ const txt = await promptM(t('text_prompt'), 'z. B. 10 Nm'); if(!txt) return; Object.assign(base, {x:px-0.1, y:py, text:txt}); }
       else if(k==='emoji'){ const em = await emojiPicker(); if(!em) return; Object.assign(base, {x:px, y:py, emoji:em, size:0.16}); }
+      else if(k==='img'){ const sym = await symbolPicker(); if(!sym) return; Object.assign(base, {x:px, y:py, src:sym.url, name:sym.name||'', ar:sym.ar||1, style: sym.alpha ? 'glow' : 'sticker', size:0.2}); preloadImg(sym.url); }
       else if(k==='number'){ const nums = s.ann.filter(a=>a.type==='number').map(a=>a.n); Object.assign(base, {x:px, y:py, n:(Math.max(0,...nums)||0)+1}); }
       else Object.assign(base, {x:px, y:py});
       s.ann.push(base); selAnn = base.id; draw(); renderList(); touch();
@@ -2078,7 +2180,7 @@ async function renderEditor(app, id, selStepId){
     $$('[data-tool]', stage).forEach(b => {
       b.onclick = () => { if(b._dragged){ b._dragged = false; return; } placeTool(b.dataset.tool); };
       b.addEventListener('pointerdown', e => { const sx = e.clientX, sy = e.clientY; let ghost = null; b._dragged = false;
-        const mv = ev => { if(!ghost){ if(Math.hypot(ev.clientX-sx, ev.clientY-sy) < 8) return; ghost = el(`<div class="tool-ghost">${b.querySelector('svg').outerHTML}</div>`); document.body.appendChild(ghost); b._dragged = true; try{ b.setPointerCapture(e.pointerId); }catch(x){} }
+        const mv = ev => { if(!ghost){ if(Math.hypot(ev.clientX-sx, ev.clientY-sy) < 8) return; ghost = el(`<div class="tool-ghost">${(b.querySelector('svg')||b.querySelector('span')).outerHTML}</div>`); document.body.appendChild(ghost); b._dragged = true; try{ b.setPointerCapture(e.pointerId); }catch(x){} }
           ghost.style.left = ev.clientX+'px'; ghost.style.top = ev.clientY+'px'; const r = rectNow(); const inside = ev.clientX>=r.bx+r.x && ev.clientX<=r.bx+r.x+r.w && ev.clientY>=r.by+r.y && ev.clientY<=r.by+r.y+r.h; box.classList.toggle('drop-ok', inside); };
         const up = ev => { b.removeEventListener('pointermove', mv); b.removeEventListener('pointerup', up); b.removeEventListener('pointercancel', up); box.classList.remove('drop-ok'); if(!ghost) return; ghost.remove(); const r = rectNow(); const nx = (ev.clientX-r.bx-r.x)/r.w, ny = (ev.clientY-r.by-r.y)/r.h; if(nx>=0&&nx<=1&&ny>=0&&ny<=1) placeTool(b.dataset.tool, nx, ny); };
         b.addEventListener('pointermove', mv); b.addEventListener('pointerup', up); b.addEventListener('pointercancel', up); });
@@ -2086,10 +2188,11 @@ async function renderEditor(app, id, selStepId){
     const FIXED_COL = ['check','cross','warn','elec','hot','emoji'];
     function renderAnnList(){ const l = stage.querySelector('#annlist'); if(!l) return;
       const sorted = [...s.ann].sort((a,b) => (a.t||0)-(b.t||0));
-      l.innerHTML = sorted.length ? sorted.map(a => { const on = a.id===selAnn; return `<span class="ann-pill ${on?'on':''}" data-id="${a.id}">${a.type==='emoji'?a.emoji:t('tool_'+a.type)}${a.type==='text'?': '+esc(a.text):''}${a.type==='number'?' '+a.n:''}${isV?` <span class="muted tnum">@${fmtSec(a.t||0)}s</span>`:''}${on && !FIXED_COL.includes(a.type) ? `<span class="pill-sw">${SWATCHES.map(c=>`<button class="sw ${c===(a.color||'blue')?'on':''}" data-col="${c}" style="background:${COLORS[c]}" title="${c}"></button>`).join('')}</span>`:''}<button data-del="${a.id}" title="${t('delete_ann')}">×</button></span>`; }).join('') : `<span class="muted">${t('no_ann')}</span>`;
+      l.innerHTML = sorted.length ? sorted.map(a => { const on = a.id===selAnn; return `<span class="ann-pill ${on?'on':''}" data-id="${a.id}">${a.type==='emoji'?a.emoji:a.type==='img'?`<img class="pimg" src="${esc(a.src)}" alt="">${esc(a.name||t('tool_img'))}`:t('tool_'+a.type)}${a.type==='text'?': '+esc(a.text):''}${a.type==='number'?' '+a.n:''}${isV?` <span class="muted tnum">@${fmtSec(a.t||0)}s</span>`:''}${on && a.type==='img' ? `<button class="pst" data-style="${(a.style||'glow')==='glow'?'sticker':'glow'}" title="${t('img_style')}">${(a.style||'glow')==='glow'?'✨ '+t('style_glow'):'🏷 '+t('style_sticker')}</button>`:''}${on && !FIXED_COL.includes(a.type) ? `<span class="pill-sw">${SWATCHES.map(c=>`<button class="sw ${c===(a.color||'blue')?'on':''}" data-col="${c}" style="background:${COLORS[c]}" title="${c}"></button>`).join('')}</span>`:''}<button data-del="${a.id}" title="${t('delete_ann')}">×</button></span>`; }).join('') : `<span class="muted">${t('no_ann')}</span>`;
       $$('.ann-pill', l).forEach(p => { p.onclick = async e => {
         if(e.target.dataset.del){ s.ann = s.ann.filter(a=>a.id!==e.target.dataset.del); if(selAnn===e.target.dataset.del) selAnn=null; touch(); draw(); renderList(); return; }
         if(e.target.dataset.col){ const a = s.ann.find(x=>x.id===selAnn); if(a){ a.color = e.target.dataset.col; color = a.color; draw(); touch(); } return; }
+        const stB = e.target.closest && e.target.closest('[data-style]'); if(stB){ const a = s.ann.find(x=>x.id===selAnn); if(a){ a.style = stB.dataset.style; draw(); touch(); } return; }
         const a = s.ann.find(x=>x.id===p.dataset.id); if(!a) return;
         if(selAnn===a.id && a.type==='text'){ const txt = await promptM(t('text_prompt'), 'z. B. 10 Nm', a.text||''); if(txt!==null && txt.trim()){ a.text = txt.trim(); draw(); touch(); } return; }
         selAnn = a.id; if(isV){ med.pause(); seekTo(a.t||0); } draw(); }; });
@@ -2169,7 +2272,7 @@ async function renderEditor(app, id, selStepId){
       raf = requestAnimationFrame(loop);
       med.addEventListener('loadeddata', () => seekTo(s.trimStart||0), {once:true});
     } else { med.addEventListener('load', draw, {once:true}); }
-    stageCleanup = () => { stageCleanupDone = true; cancelAnimationFrame(raf); ro.disconnect(); if(isV){ try{ med.pause(); }catch(e){} } };
+    stageCleanup = () => { stageCleanupDone = true; cancelAnimationFrame(raf); ro.disconnect(); offImg(); if(isV){ try{ med.pause(); }catch(e){} } };
     setTimeout(draw, 50);
   }
 
@@ -2244,6 +2347,36 @@ function emojiPicker(){
     bg.querySelector('[data-x]').onclick = () => close(null); });
 }
 
+/* ---------- Custom symbols (workspace library) ---------- */
+// file → PNG ≤ 512 px (alpha kept), uploaded to media/<ws>/symbols/<id>.png, entry in workspaces.symbols
+async function symbolFromFile(file){
+  const img = await new Promise((res, rej) => { const i = new Image(); const u = URL.createObjectURL(file); i.onload = () => { URL.revokeObjectURL(u); res(i); }; i.onerror = () => { URL.revokeObjectURL(u); rej(new Error('bad')); }; i.src = u; });
+  const iw = img.naturalWidth || img.width || 512, ih = img.naturalHeight || img.height || 512; const sc = Math.min(1, 512/Math.max(iw, ih));
+  const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(iw*sc)); c.height = Math.max(1, Math.round(ih*sc)); const ctx = c.getContext('2d'); ctx.drawImage(img, 0, 0, c.width, c.height);
+  let alpha = false; try{ const d = ctx.getImageData(0, 0, c.width, c.height).data; for(let i=3; i<d.length; i+=4*7){ if(d[i] < 240){ alpha = true; break; } } }catch(e){}
+  const blob = await new Promise(res => c.toBlob(res, 'image/png')); if(!blob) throw new Error('png');
+  const id = uid(); const path = `${S.user.ws}/symbols/${id}.png`;
+  const up = await sb.storage.from('media').upload(path, blob, {contentType:'image/png', upsert:true}); if(up.error) throw up.error;
+  const name = (file.name||'Symbol').replace(/\.[a-z0-9]+$/i, '').slice(0, 24);
+  return {id, name, url: PUBLIC_MEDIA(path), path, ar: c.width/c.height, alpha, at: Date.now()};
+}
+// picker: grid of the workspace symbols, "+" tile uploads (several at once), × removes for everyone
+function symbolPicker(){
+  return modal(`<div class="row" style="justify-content:space-between;align-items:center;margin-bottom:4px"><h2 style="margin:0">${t('sym_title')}</h2><label class="btn sm" style="cursor:pointer">${IC.plus} ${t('sym_upload')}<input type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml,image/gif" multiple hidden id="sym-file"></label></div><p class="muted" style="margin:0 0 10px;font-size:12px">${t('sym_sub')}</p><div class="sym-grid" id="sym-grid"></div><div class="actions"><button class="btn ghost" data-x>${t('cancel')}</button></div>`, (bg, close) => {
+    const grid = bg.querySelector('#sym-grid'), inp = bg.querySelector('#sym-file'); let busy = false;
+    const show = () => { const syms = S.wsRow.symbols||[];
+      grid.innerHTML = `<button class="sym add" id="sym-add" title="${t('sym_upload')}">${IC.plus}<span>${t('sym_upload')}</span></button>` + syms.map(sy => `<button class="sym" data-id="${sy.id}" title="${esc(sy.name||'')}"><img src="${esc(sy.url)}" alt=""><span>${esc(sy.name||'')}</span><i class="x" data-x-id="${sy.id}" title="${t('delete')}">×</i></button>`).join('') + (syms.length ? '' : `<div class="muted" style="grid-column:2/-1;align-self:center;font-size:12px">${t('sym_empty')}</div>`);
+      grid.querySelector('#sym-add').onclick = () => inp.click();
+      $$('[data-id]', grid).forEach(b => b.onclick = async e => { const xid = e.target.dataset && e.target.dataset.xId; const sy = (S.wsRow.symbols||[]).find(x=>x.id===b.dataset.id); if(!sy) return;
+        if(xid){ if(!(await confirmM(t('sym_del_q',{n:sy.name||''})))) return; await saveWs({symbols:(S.wsRow.symbols||[]).filter(x=>x.id!==xid)}); if(sy.path) sb.storage.from('media').remove([sy.path]).catch(()=>{}); show(); return; }
+        close(sy); }); };
+    inp.onchange = async () => { const files = [...inp.files].filter(f => /^image\//.test(f.type) || /\.(png|jpe?g|webp|svg|gif)$/i.test(f.name)); inp.value = ''; if(!files.length || busy) return; busy = true; const add = bg.querySelector('#sym-add'); if(add) add.disabled = true; const added = [];
+      for(const f of files){ try{ added.push(await symbolFromFile(f)); }catch(e){ toast(t('sym_bad',{n:f.name})); } }
+      if(added.length){ try{ await saveWs({symbols:[...(S.wsRow.symbols||[]), ...added]}); added.forEach(sy => preloadImg(sy.url)); }catch(e){} }
+      busy = false; show(); if(added.length===1 && files.length===1) close(added[0]); };
+    show(); bg.querySelector('[data-x]').onclick = () => close(null); });
+}
+
 /* ---------- Share ---------- */
 function shareModal(instr){
   const link = location.href.split('#')[0] + '#/v/' + instr.id;
@@ -2308,7 +2441,9 @@ async function exportQrPdf(instr, link, opts, qrEl){
 }
 
 /* ---------- Viewer ---------- */
-async function renderViewer(app, id, isPreview, langArg){
+async function renderViewer(app, id, isPreview, langArg, arg2){
+  // #/v/<id>/<lang>, #/v/<id>/<chapter>, #/v/<id>/<chapter>/<lang> – in any order
+  const urlArgs = [langArg, arg2].filter(Boolean); const chapArg = +(urlArgs.find(x => /^\d+$/.test(x))||0); langArg = urlArgs.find(x => /^[a-z]{2}$/i.test(x)) || '';
   if(!authReady){ await loadProfile(); authReady = true; }
   app.innerHTML = `<div class="empty" style="padding-top:120px">…</div>`;
   const instr0 = (S.instrs.find(i=>i.id===id)) || await fetchInstr(id);
@@ -2338,14 +2473,20 @@ async function renderViewer(app, id, isPreview, langArg){
   const onHide = () => { if(document.visibilityState==='hidden') trackUpdate(true); }; document.addEventListener('visibilitychange', onHide); window.addEventListener('pagehide', () => trackUpdate(true));
   instr.steps.forEach(s => { if(s.kind==='chapter'){ curCh = {title:s.title, first:null, id:s.id}; chapters.push(curCh); } else if(curCh && !curCh.first){ curCh.first = s.id; } });
   const chapterOf = sid => { let c = null; for(const s of cur.steps){ if(s.kind==='chapter') c = s.title; if(s.id===sid) return c; } return null; };
-  const useChk = !!instr.checklist;
+  const useChk = !!instr.checklist; const chkSteps = confirmSteps(instr); const chkSet = new Set(chkSteps.map(s=>s.id)); const chMode = instr.checkMode||'all';
+  const okLbl = () => chMode==='chapter' ? t('done_chapter') : t('done');
+  const isDone = it => !!(it && it.ok!=null);
+  // chapter groups for the overview (steps before the first heading form an intro group)
+  const groups = []; { let g = null; for(const st of instr.steps){ if(st.kind==='chapter'){ g = {id:st.id, title:st.title, steps:[]}; groups.push(g); } else { if(!g){ g = {id:'_intro', title:'', steps:[]}; groups.push(g); } g.steps.push(st); } } }
+  const groupOf = sid => groups.findIndex(g => g.steps.some(st => st.id===sid));
+  let chosenGroup = -1;
   const run = {id:uid(), instrId:instr.id, ws:instr.ws, version:instr.version, worker:'', startedAt:isPreview?Date.now():0, finishedAt:0, items:{}};
   const RUNKEY = 'gg_run_'+instr.id; let runDone = false;
   const runRow = () => ({id:run.id, instr_id:run.instrId, ws:run.ws, worker:run.worker, version:run.version, started_at:new Date(run.startedAt).toISOString(), finished_at: run.finishedAt ? new Date(run.finishedAt).toISOString() : null, items:run.items});
   const pushRun = async () => { if(isPreview || !run.startedAt || !sb) return; try{ const {error} = await sb.from('runs').upsert(runRow()); if(error) console.warn(error.message); }catch(e){} };
   const saveRun = () => { if(!run.startedAt || runDone) return; if(isPreview) return; LS.set(RUNKEY, {id:run.id, worker:run.worker, startedAt:run.startedAt, version:run.version, items:run.items, at:Date.now()}); debounce('pushrun', pushRun, 600); };
   const inRun = () => useChk && !isPreview && !!run.startedAt && !runDone;
-  const inRunOpen = () => inRun() && !steps.every(s => run.items[s.id] && run.items[s.id].ok!=null);
+  const inRunOpen = () => inRun() && !chkSteps.every(s => isDone(run.items[s.id]));
   const backHref = isPreview ? '#/edit/'+instr.id : '#/';
   const v = el(`<div class="viewer ${brand.theme==='light'?'light':''}" style="--brand:${esc(brand.color||'#004EAD')}">
     <div class="vw-top">${(isPreview || S.user) ? `<a class="round" href="${backHref}" id="vback" style="width:40px;height:40px;flex:0 0 auto" aria-label="back">${IC.back}</a>` : ''}${brand.logo?`<img class="vlogo" src="${esc(brand.logo)}" alt="">`:''}<div class="tt-wrap"><div class="ch" id="vch">${esc(brand.name||'')}</div><div class="ttl" id="vttl"></div></div><span class="cnt tnum" id="vcnt" style="flex:0 0 auto;font-weight:800;font-size:13px;background:rgba(255,255,255,.18);padding:4px 10px;border-radius:999px"></span><button class="round langbtn" id="langbtn" style="width:40px;height:40px;flex:0 0 auto" title="${t('language')}">${IC.globe}</button><button class="round" id="menu" style="width:40px;height:40px;flex:0 0 auto" aria-label="menu">${IC.menu}</button></div>
@@ -2356,13 +2497,13 @@ async function renderViewer(app, id, isPreview, langArg){
   const vs = v.querySelector('#vs');
   if(!steps.length){ vs.innerHTML = `<div class="empty" style="color:#fff;padding-top:120px"><h2 style="color:#fff">${t('no_steps')}</h2></div>`; return; }
   // steps
-  const players = new Map(); const refreshers = [];
+  const players = new Map(); const refreshers = []; const imgOffs = [];
   for(const [i,s] of steps.entries()){
     const url = await mediaUrl(s.mediaId);
     const sec = el(`<section class="vstep" data-id="${s.id}" data-i="${i}">
       <div class="vmedia">${s.type==='video'?`<video src="${url}" muted playsinline loop preload="auto"></video>`:`<img src="${url}" alt="">`}<canvas></canvas>${s.type==='video'?'<div class="prog"><i></i></div>':''}${i===0 && steps.length>1 ? `<div class="vw-hint">↑ ${t('scroll_hint')}</div>`:''}</div>
       <div class="vtext"><div class="num"></div><h2></h2><div class="rich" hidden></div><div class="warnbox" hidden></div>
-        ${useChk?`<div class="chk"><button class="btn done off" data-ok>${IC.check} ${t('done')}</button><button class="btn nok" data-nok>${t('not_ok')}</button><button class="btn note" data-note title="${t('add_note')}">${IC.note}</button></div>`:''}</div>
+        ${useChk?`<div class="chk">${chkSet.has(s.id)?`<button class="btn done off" data-ok>${IC.check} ${okLbl()}</button><button class="btn nok" data-nok>${t('not_ok')}</button>`:''}<button class="btn note" data-note title="${t('add_note')}">${IC.note}</button></div>`:''}</div>
     </section>`);
     vs.appendChild(sec);
     const med = sec.querySelector('video,img'), cv = sec.querySelector('canvas'), box = sec.querySelector('.vmedia');
@@ -2371,7 +2512,7 @@ async function renderViewer(app, id, isPreview, langArg){
     let cur2 = s.trimStart||0, lastT=-1, pausedUntil=0, raf=0, active=false;
     let showing = null;
     const draw = () => { cv.style.width = box.clientWidth+'px'; cv.style.height = box.clientHeight+'px'; drawAll(cv, s.ann, mw(), mh(), null, s.type==='video' ? (a => !!(showing && showing.has(a.id))) : null); };
-    new ResizeObserver(draw).observe(box);
+    new ResizeObserver(draw).observe(box); if(s.ann.some(a => a.type==='img')) imgOffs.push(onImgReady(draw));
     if(s.type==='video'){
       const prog = sec.querySelector('.prog i');
       const loop = () => { if(!active) return; if(!med.paused){ const ct = med.currentTime, st = s.trimStart||0, en = s.trimEnd||s.duration||med.duration||5; if(ct >= en || ct < st-0.2){ med.currentTime = st; lastT = st-0.05; }
@@ -2385,7 +2526,7 @@ async function renderViewer(app, id, isPreview, langArg){
     setTimeout(draw, 80);
     if(useChk){
       const okB = sec.querySelector('[data-ok]'), nokB = sec.querySelector('[data-nok]'), noteB = sec.querySelector('[data-note]');
-      const refresh = () => { const it = run.items[s.id]; okB.classList.toggle('off', !(it && it.ok)); okB.innerHTML = `${IC.check} ${t('done')}`; nokB.classList.toggle('on', !!(it && it.ok===false)); nokB.textContent = it && it.ok===false ? `✗ ${t('not_ok')}` : t('not_ok'); noteB.classList.toggle('on', !!(it && (it.note || it.photoId || it.photoUrl))); updateSide(); updateEndSum(); };
+      const refresh = () => { const it = run.items[s.id]; if(okB){ okB.classList.toggle('off', !(it && it.ok)); okB.innerHTML = `${IC.check} ${okLbl()}`; nokB.classList.toggle('on', !!(it && it.ok===false)); nokB.textContent = it && it.ok===false ? `✗ ${t('not_ok')}` : t('not_ok'); } noteB.title = t('add_note'); noteB.classList.toggle('on', !!(it && (it.note || it.photoId || it.photoUrl))); updateSide(); updateEndSum(); };
       refreshers.push(refresh);
       let pvHint = false; const pv = () => { if(isPreview && !pvHint){ pvHint = true; toast(t('preview_local')); } };
       // note + photo dialog (used for "not OK" and for optional remarks on any step)
@@ -2397,8 +2538,8 @@ async function renderViewer(app, id, isPreview, langArg){
         if(!r) return null; let photoId = it.photoId||null, photoUrl = it.photoUrl||null;
         if(r.photo){ photoId = uid(); photoUrl = null; await putMedia({id:photoId, blob:r.photo, type:'photo'}); if(!isPreview){ const path = `runs/${run.id}/${photoId}.${extOf(r.photo)}`; const up = await sb.storage.from('media').upload(path, r.photo, {contentType:r.photo.type||undefined}); if(!up.error){ photoUrl = PUBLIC_MEDIA(path); S.remoteUrl.set(photoId, photoUrl); } } }
         return {note:r.note, photoId, photoUrl}; };
-      okB.onclick = () => { pv(); run.items[s.id] = Object.assign({}, run.items[s.id]||{}, {ok:true, at:Date.now()}); refresh(); saveRun(); if(navigator.vibrate) try{navigator.vibrate(20);}catch(e){} const nx = sec.nextElementSibling; if(nx) setTimeout(()=>nx.scrollIntoView({behavior:'smooth'}), 250); };
-      nokB.onclick = async () => { pv(); const r = await noteDialog(t('not_ok'), true); if(!r) return; run.items[s.id] = Object.assign({}, run.items[s.id]||{}, r, {ok:false, at:Date.now()}); refresh(); saveRun(); };
+      if(okB){ okB.onclick = () => { pv(); run.items[s.id] = Object.assign({}, run.items[s.id]||{}, {ok:true, at:Date.now()}); refresh(); saveRun(); if(navigator.vibrate) try{navigator.vibrate(20);}catch(e){} const nx = sec.nextElementSibling; if(nx) setTimeout(()=>nx.scrollIntoView({behavior:'smooth'}), 250); };
+      nokB.onclick = async () => { pv(); const r = await noteDialog(t('not_ok'), true); if(!r) return; run.items[s.id] = Object.assign({}, run.items[s.id]||{}, r, {ok:false, at:Date.now()}); refresh(); saveRun(); }; }
       noteB.onclick = async () => { pv(); const r = await noteDialog(t('add_note'), false); if(!r) return; run.items[s.id] = Object.assign({}, run.items[s.id]||{}, r, {at:(run.items[s.id]||{}).at||Date.now()}); refresh(); saveRun(); };
     }
   }
@@ -2408,13 +2549,36 @@ async function renderViewer(app, id, isPreview, langArg){
     </div></section>`);
   vs.appendChild(endSec);
   const ag = endSec.querySelector('#again2'); if(ag) ag.onclick = () => { vs.scrollTo({top:0, behavior:'smooth'}); };
-  const updateEndSum = () => { const e2 = endSec.querySelector('#vend-sum'); if(!e2) return; const its = Object.values(run.items); const ok = its.filter(i=>i.ok).length, nok = its.filter(i=>i.ok===false).length, open = steps.length-ok-nok; e2.innerHTML = `<span class="ok">${ok} ${t('ok_count')}</span><span class="nok">${nok} ${t('nok_count')}</span><span>${open} ${t('open_count')}</span>`; };
+  const updateEndSum = () => { const e2 = endSec.querySelector('#vend-sum'); if(!e2) return; const its = Object.values(run.items); const ok = its.filter(i=>i.ok).length, nok = its.filter(i=>i.ok===false).length, open = Math.max(0, chkSteps.length-ok-nok); e2.innerHTML = `<span class="ok">${ok} ${t('ok_count')}</span><span class="nok">${nok} ${t('nok_count')}</span><span>${open} ${t('open_count')}</span>`; };
   // side list
   function updateSide(){
     const sl = v.querySelector('#sidelist'); let html=''; let n=0;
+    if(groups.length > 1) html += `<button class="btn ghost sm" id="side-ov" style="width:100%;margin-bottom:10px">${IC.grid} ${t('chapter_overview')}</button>`;
     if(!chapters.length) html += `<h3>${t('all_steps')}</h3>`;
     for(const s of cur.steps){ if(s.kind==='chapter'){ html += `<h3>${esc(s.title)}</h3>`; continue; } n++; const it = run.items[s.id]; const st = it && it.ok!=null ? (it.ok?'ok':'nok') : ''; html += `<div class="it ${st}" data-go="${s.id}"><span class="n tnum">${st ? (it.ok?'✓':'✗') : n}</span><span>${esc(s.title)||t('step')+' '+n}</span>${it && (it.note||it.photoId||it.photoUrl) ? `<span class="n">${IC.note}</span>` : ''}</div>`; }
     sl.innerHTML = html; $$('[data-go]', sl).forEach(d => d.onclick = () => { const sec = vs.querySelector(`[data-id="${d.dataset.go}"]`); if(sec) sec.scrollIntoView({behavior:'smooth'}); v.querySelector('#side').classList.remove('open'); });
+    const ov = sl.querySelector('#side-ov'); if(ov) ov.onclick = () => { v.querySelector('#side').classList.remove('open'); showOverview(true); };
+  }
+  // ---- chapter overview: entry screen when there is more than one chapter; also reachable from the top bar / side panel ----
+  const urlFor = n => { const base = location.href.split('#')[0]; return `${base}#/${isPreview?'preview':'v'}/${instr.id}${n>0?'/'+n:''}${langArg?'/'+langArg.toLowerCase():''}`; };
+  const setUrl = n => { try{ history.replaceState(null, '', urlFor(n)); }catch(e){} };
+  const gotoGroup = (gi, smooth) => { const g = groups[gi]; if(!g) return; chosenGroup = gi; const first = g.steps[0]; const sec = first ? vs.querySelector(`.vstep[data-id="${first.id}"]`) : null; if(sec) setTimeout(() => sec.scrollIntoView({behavior: smooth ? 'smooth' : 'auto'}), 40); if(groups.length > 1) setUrl(gi+1); };
+  function showOverview(reopen){
+    if(v.querySelector('.vw-chap')) return;
+    const saved = LS.get(RUNKEY); const items = run.startedAt ? run.items : ((saved && saved.items && saved.version===instr.version) ? saved.items : {});
+    const tiles = groups.map((g, gi) => { const title = g.id==='_intro' ? t('intro') : ((cur.steps.find(x=>x.id===g.id)||{}).title || g.title || `${t('chapter')} ${gi+1}`); const chk = g.steps.filter(st => chkSet.has(st.id)); const done = chk.filter(st => isDone(items[st.id])).length; const all = chk.length && done===chk.length;
+      return `<button class="ch-tile" data-g="${gi}" style="animation-delay:${Math.min(gi,10)*60}ms"><img alt="" data-poster="${g.steps[0]?g.steps[0].id:''}"><span class="cn tnum">${gi+1}</span>${all?`<span class="done">${IC.check}</span>`:''}<span class="txt"><b>${esc(title)}</b><span>${g.steps.length} ${t('steps')}${chk.length && useChk ? ` · ${done}/${chk.length} ${t('confirmed_short')}` : ''}</span>${chk.length && useChk && done ? `<span class="bar"><i style="width:${Math.round(100*done/chk.length)}%"></i></span>` : ''}</span></button>`; }).join('');
+    const ov = el(`<div class="vw-chap"><div class="ch-head"><div class="ch-bar">${(isPreview || S.user) && !reopen ? `<a class="round" href="${backHref}" id="ov-back" aria-label="back">${IC.back}</a>` : `<span></span>`}<div class="brandline">${brand.logo?`<img src="${esc(brand.logo)}" alt="">`:''}<span>${esc(brand.name||'GIRI Go')}</span></div><div class="row" style="gap:6px"><button class="round" id="ov-lang" title="${t('language')}">${vlang?`<span class="flag">${FLAGS[vlang]||vlang}</span>`:IC.globe}</button>${reopen?`<button class="round" id="ov-close" aria-label="close">${IC.close}</button>`:''}</div></div>
+      <h1>${esc(cur.title)}</h1><div class="ch-sub">${groups.length} ${t('chapters')} · ${steps.length} ${t('steps')}${useChk?' · ☑ '+t('checklist_short'):''}</div><div class="ch-sub2">${t('pick_chapter')}</div></div>
+      <div class="ch-grid">${tiles}</div>
+      <div class="ch-foot"><button class="btn mint big" id="ov-start">${IC.play} ${chosenGroup>=0 || run.startedAt ? t('continue_run') : t('start_begin')}</button></div></div>`);
+    v.appendChild(ov);
+    $$('[data-poster]', ov).forEach(async im => { const st = steps.find(x=>x.id===im.dataset.poster); if(!st) return; const p = await stepPoster(st); if(p) im.src = p; else im.remove(); });
+    const pick = gi => { ov.classList.add('out'); setTimeout(() => ov.remove(), 220); gotoGroup(gi, !!reopen); };
+    $$('[data-g]', ov).forEach(b => b.onclick = () => pick(+b.dataset.g));
+    ov.querySelector('#ov-start').onclick = () => { if(run.startedAt || chosenGroup>=0){ ov.classList.add('out'); setTimeout(() => ov.remove(), 220); const open = chkSteps.find(st => !isDone(run.items[st.id])); const gi = open ? groupOf(open.id) : Math.max(0, chosenGroup); if(gi>=0) gotoGroup(gi, true); } else pick(0); };
+    const oc = ov.querySelector('#ov-close'); if(oc) oc.onclick = () => { ov.classList.add('out'); setTimeout(() => ov.remove(), 220); };
+    ov.querySelector('#ov-lang').onclick = openLangMenu; guard(ov.querySelector('#ov-back'));
   }
   // all translatable text lives here, so switching the language never touches the media
   let curStepId = null;
@@ -2433,6 +2597,7 @@ async function renderViewer(app, id, isPreview, langArg){
     const sc = v.querySelector('.vw-start'); if(sc){ sc.querySelector('h1').textContent = t('vw_start_title'); sc.querySelector('p').textContent = t('vw_start_sub'); sc.querySelector('label').textContent = t('your_name'); sc.querySelector('#begin').textContent = t('begin'); const lb2 = sc.querySelector('#langbtn2'); if(lb2) lb2.innerHTML = vlang ? `<span class="flag">${FLAGS[vlang]||vlang}</span>` : IC.globe; }
     const hint = vs.querySelector('.vw-hint'); if(hint) hint.textContent = '↑ '+t('scroll_hint');
     const lb = v.querySelector('#langbtn'); lb.innerHTML = vlang ? `<span class="flag">${FLAGS[vlang]||vlang}</span>` : IC.globe; lb.classList.toggle('on', !!vlang);
+    const ovl = v.querySelector('.vw-chap'); if(ovl){ const reopen = !!ovl.querySelector('#ov-close'); ovl.remove(); showOverview(reopen); }
   }
   let langBusy = false;
   async function switchLang(l){
@@ -2452,36 +2617,37 @@ async function renderViewer(app, id, isPreview, langArg){
   applyTexts();
   if(vlang && (!fresh(vlang) || !I18N[vlang.toLowerCase()])) switchLang(vlang); // remembered language → translate live (cached after the first time)
   v.querySelector('#menu').onclick = () => v.querySelector('#side').classList.add('open');
+  if(groups.length > 1){ const tw = v.querySelector('.tt-wrap'); tw.classList.add('clickable'); tw.title = t('chapter_overview'); tw.onclick = () => showOverview(true); }
   v.querySelector('#sclose').onclick = () => v.querySelector('#side').classList.remove('open');
   // visibility → play
-  const io = new IntersectionObserver(entries => { entries.forEach(en => { const p = players.get(en.target.dataset.id); if(!p){ if(en.isIntersecting && en.target.classList.contains('vend')){ v.querySelector('#vcnt').textContent = '✓'; v.querySelector('#vch').textContent = brand.name||''; track.completed = true; track.seen = steps.length; } return; } if(en.isIntersecting && en.intersectionRatio > 0.6){ p.play(); const i = +en.target.dataset.i; curStepId = en.target.dataset.id; track.seen = Math.max(track.seen, i+1); v.querySelector('#vcnt').textContent = `${i+1} / ${steps.length}`; v.querySelector('#vch').textContent = chapterOf(en.target.dataset.id)||brand.name||''; } else p.stop(); }); }, {root:vs, threshold:[0.6]});
+  const io = new IntersectionObserver(entries => { entries.forEach(en => { const p = players.get(en.target.dataset.id); if(!p){ if(en.isIntersecting && en.target.classList.contains('vend')){ v.querySelector('#vcnt').textContent = '✓'; v.querySelector('#vch').textContent = brand.name||''; track.completed = true; track.seen = steps.length; } return; } if(en.isIntersecting && en.intersectionRatio > 0.6){ p.play(); const i = +en.target.dataset.i; curStepId = en.target.dataset.id; track.seen = Math.max(track.seen, i+1); if(groups.length > 1){ const gi = groupOf(curStepId); if(gi>=0 && gi!==chosenGroup){ chosenGroup = gi; if(!v.querySelector('.vw-chap')) setUrl(gi+1); } } v.querySelector('#vcnt').textContent = `${i+1} / ${steps.length}`; v.querySelector('#vch').textContent = chapterOf(en.target.dataset.id)||brand.name||''; } else p.stop(); }); }, {root:vs, threshold:[0.6]});
   $$('.vstep', vs).forEach(s => io.observe(s));
   // leaving mid-run: ask (in-app links) / browser prompt (tab close); progress is saved on the device either way
   const onUnload = e => { if(inRunOpen()){ saveRun(); e.preventDefault(); e.returnValue = ''; } }; window.addEventListener('beforeunload', onUnload);
   const guard = a => { if(!a) return; a.addEventListener('click', async e => { if(!inRunOpen()) return; e.preventDefault(); saveRun(); if(await confirmM(t('leave_q'), t('leave'))) location.hash = a.getAttribute('href'); }); };
   guard(v.querySelector('#vback')); guard(endSec.querySelector('a.btn'));
   let onLeave = null;
-  activeCleanup = () => { if(onLeave) onLeave(); io.disconnect(); players.forEach(p=>p.stop()); clearInterval(hb); document.removeEventListener('visibilitychange', onHide); window.removeEventListener('beforeunload', onUnload); trackUpdate(true); LANG = prevLang; };
+  activeCleanup = () => { if(onLeave) onLeave(); io.disconnect(); imgOffs.forEach(f=>f()); players.forEach(p=>p.stop()); clearInterval(hb); document.removeEventListener('visibilitychange', onHide); window.removeEventListener('beforeunload', onUnload); trackUpdate(true); LANG = prevLang; };
   // checklist start / resume / finish
   if(useChk && !isPreview){
     const start = el(`<div class="vw-start"><div class="card"><button class="round langbtn2" id="langbtn2" title="${t('language')}">${vlang?`<span class="flag">${FLAGS[vlang]||vlang}</span>`:IC.globe}</button>${brand.logo?`<div class="vend-logo sm"><img src="${esc(brand.logo)}" alt=""></div>`:(brand.name?`<div class="vend-name sm">${esc(brand.name)}</div>`:'')}<h1>${t('vw_start_title')}</h1><p style="color:#B8C6DB;margin:0 0 16px">${t('vw_start_sub')}</p><div class="field"><label for="wname">${t('your_name')}</label><input id="wname" autocomplete="name"></div><button class="btn mint" id="begin" style="width:100%;padding:14px">${t('begin')}</button></div></div>`);
     v.appendChild(start); start.querySelector('#langbtn2').onclick = openLangMenu;
     try{ start.querySelector('#wname').value = localStorage.getItem('gg_worker')||''; }catch(e){}
-    const scrollToOpen = () => { const first = steps.find(s => !run.items[s.id]); const sec = first ? vs.querySelector(`.vstep[data-id="${first.id}"]`) : endSec; if(sec) setTimeout(() => sec.scrollIntoView({behavior:'auto'}), 60); };
+    const scrollToOpen = () => { const inG = chosenGroup>=0 ? chkSteps.find(s => groupOf(s.id)===chosenGroup && !isDone(run.items[s.id])) : null; const first = inG || chkSteps.find(s => !isDone(run.items[s.id])); const sec = first ? vs.querySelector(`.vstep[data-id="${first.id}"]`) : endSec; if(sec) setTimeout(() => sec.scrollIntoView({behavior:'auto'}), 60); };
     start.querySelector('#begin').onclick = async () => {
       const n = start.querySelector('#wname').value.trim(); if(!n){ start.querySelector('#wname').focus(); return; }
       try{ localStorage.setItem('gg_worker', n); }catch(e){}
-      const saved = LS.get(RUNKEY); const savedDone = saved && saved.items ? steps.filter(s => saved.items[s.id] && saved.items[s.id].ok!=null).length : 0;
+      const saved = LS.get(RUNKEY); const savedDone = saved && saved.items ? chkSteps.filter(s => isDone(saved.items[s.id])).length : 0;
       if(saved && savedDone && saved.version===instr.version){
-        const all = savedDone >= steps.length;
-        const c = await modal(`<h2>${all ? t('resume_all_title') : t('resume_title')}</h2><p class="muted" style="margin:0 0 14px">${esc(t('resume_sub',{n:savedDone, total:steps.length, w:saved.worker||n, d:fmtDate(saved.at||saved.startedAt)}))}</p><div class="actions"><button class="btn ghost" data-restart>${t('restart')}</button><button class="btn" data-resume>${all ? t('finish') : t('resume')}</button></div>`, (bg, close) => { bg.querySelector('[data-restart]').onclick = () => close('restart'); bg.querySelector('[data-resume]').onclick = () => close('resume'); });
+        const all = savedDone >= chkSteps.length;
+        const c = await modal(`<h2>${all ? t('resume_all_title') : t('resume_title')}</h2><p class="muted" style="margin:0 0 14px">${esc(t('resume_sub',{n:savedDone, total:chkSteps.length, w:saved.worker||n, d:fmtDate(saved.at||saved.startedAt)}))}</p><div class="actions"><button class="btn ghost" data-restart>${t('restart')}</button><button class="btn" data-resume>${all ? t('finish') : t('resume')}</button></div>`, (bg, close) => { bg.querySelector('[data-restart]').onclick = () => close('restart'); bg.querySelector('[data-resume]').onclick = () => close('resume'); });
         if(c===null) return;
         if(c==='resume'){ run.id = saved.id || run.id; run.startedAt = saved.startedAt || Date.now(); run.items = saved.items || {}; run.worker = n; refreshers.forEach(f => f()); start.remove(); if(all){ finishRun(); } else { saveRun(); scrollToOpen(); } return; }
         LS.del(RUNKEY); }
       run.worker = n; run.startedAt = Date.now(); saveRun(); start.remove(); };
     const finishRun = async () => {
       if(!run.startedAt) run.startedAt = Date.now();
-      const its = Object.values(run.items); const ok = its.filter(i=>i.ok).length, nok = its.filter(i=>i.ok===false).length, open = steps.length-ok-nok;
+      const its = Object.values(run.items); const ok = its.filter(i=>i.ok).length, nok = its.filter(i=>i.ok===false).length, open = Math.max(0, chkSteps.length-ok-nok);
       if(!runDone){ run.finishedAt = Date.now(); runDone = true; LS.del(RUNKEY); clearTimeout(debounces['pushrun']); const {error} = await sb.from('runs').upsert(runRow()); if(error){ toast(error.message); await DB.put('runs', run); } }
       if(v.querySelector('.vw-end')) return;
       const nokHtml = await Promise.all(steps.filter(s=>run.items[s.id] && run.items[s.id].ok===false).map(async (s,k) => { const it = run.items[s.id]; const u = it.photoUrl || (it.photoId ? await mediaUrl(it.photoId) : null); const cs = realSteps(cur).find(x=>x.id===s.id)||s; return `<div>✗ <b>${esc(cs.title)||t('step')}</b> – ${esc(it.note||'')}${u?`<img src="${u}" alt="">`:''}</div>`; }));
@@ -2491,11 +2657,14 @@ async function renderViewer(app, id, isPreview, langArg){
     };
     v.querySelector('#finish').onclick = finishRun; const f2 = endSec.querySelector('#finish2'); if(f2) f2.onclick = finishRun;
     // all steps confirmed and the worker just leaves → the run is closed automatically (no orphaned "in progress" rows)
-    const allDone = () => steps.every(s => run.items[s.id] && run.items[s.id].ok!=null);
+    const allDone = () => chkSteps.length > 0 && chkSteps.every(s => isDone(run.items[s.id]));
     const pushRunBeacon = async () => { try{ const {data:{session}} = await sb.auth.getSession(); const tok = session ? session.access_token : CFG.SUPABASE_KEY; await fetch(`${CFG.SUPABASE_URL}/rest/v1/runs?on_conflict=id`, {method:'POST', keepalive:true, headers:{apikey:CFG.SUPABASE_KEY, Authorization:'Bearer '+tok, 'Content-Type':'application/json', Prefer:'resolution=merge-duplicates,return=minimal'}, body:JSON.stringify(runRow())}); }catch(e){} };
     const autoFinish = () => { if(!inRun() || !allDone()) return; run.finishedAt = Date.now(); runDone = true; LS.del(RUNKEY); clearTimeout(debounces['pushrun']); pushRunBeacon(); };
     window.addEventListener('pagehide', autoFinish); document.addEventListener('visibilitychange', () => { if(document.visibilityState==='hidden') autoFinish(); }); onLeave = autoFinish;
   }
+  // entry: #/v/<id>/<n> jumps straight to chapter n; several chapters without a number → chapter overview first
+  if(chapArg > 0 && chapArg <= groups.length) gotoGroup(chapArg-1, false);
+  else if(groups.length > 1) showOverview(false);
 }
 
 /* ---------- Charts (canvas, no library) ---------- */
@@ -2589,6 +2758,7 @@ async function renderAdmin(app){
         <div id="invites"></div></div>
       <div class="card side-info"><div class="row" style="justify-content:space-between;align-items:center"><h3 style="margin:0">${t('teams')}</h3><button class="btn ghost sm" id="newteam">${IC.plus} ${t('new_team')}</button></div><div id="teams" style="margin-top:10px"></div></div>
       <div class="card side-info"><h3>${t('folder_access')}</h3><p class="muted" style="margin:0 0 10px">${t('folder_access_sub')}</p><div id="faccess"></div></div>
+      <div class="card side-info"><h3>${t('instr_access')}</h3><p class="muted" style="margin:0 0 10px">${t('instr_access_admin_sub')}</p><div id="iaccess2"></div></div>
     </div></main>`);
   app.appendChild(v);
   const emails = () => [...new Set([...people.map(p=>p.email), ...(ws.invites||[]).map(i=>i.email)])];
@@ -2625,6 +2795,10 @@ async function renderAdmin(app){
     const fa = v.querySelector('#faccess'); const folders = ws.folders||[], teams = ws.teams||[];
     fa.innerHTML = folders.length ? `<div class="tbl-wrap"><table class="res"><thead><tr><th>${t('folder')}</th>${teams.map(tm=>`<th>${esc(tm.name)}</th>`).join('')}<th class="muted">${t('instructions')}</th></tr></thead><tbody>${folders.map(f=>`<tr data-f="${f.id}"><td><b>${IC.folder} ${esc(f.name)}</b></td>${teams.map(tm=>`<td><input type="checkbox" data-tm="${tm.id}" ${(f.teams||[]).includes(tm.id)?'checked':''}></td>`).join('')}<td class="tnum muted">${S.instrs.filter(i=>i.folder===f.id).length}</td></tr>`).join('')}</tbody></table></div>` : `<p class="muted" style="margin:0">${t('no_folders')}</p>`;
     $$('tr[data-f]', fa).forEach(tr => { const f = folders.find(x=>x.id===tr.dataset.f); $$('[data-tm]', tr).forEach(cb => cb.onchange = async () => { f.teams = f.teams||[]; if(cb.checked){ if(!f.teams.includes(cb.dataset.tm)) f.teams.push(cb.dataset.tm); } else f.teams = f.teams.filter(x=>x!==cb.dataset.tm); await saveWs({folders}); toast(t('saved')); }); });
+    // single instructions → teams (in addition to the project's teams)
+    const ia = v.querySelector('#iaccess2'); if(!ia) return; const list = [...S.instrs].sort((a,b) => (folderName(a.folder)||'').localeCompare(folderName(b.folder)||'') || a.title.localeCompare(b.title));
+    ia.innerHTML = (teams.length && list.length) ? `<div class="tbl-wrap"><table class="res"><thead><tr><th>${t('instruction')}</th><th class="muted">${t('folder')}</th>${teams.map(tm=>`<th>${esc(tm.name)}</th>`).join('')}</tr></thead><tbody>${list.map(i=>`<tr data-i="${i.id}"><td><b>${esc(i.title)}</b></td><td class="muted">${esc(folderName(i.folder)||'–')}</td>${teams.map(tm=>`<td><input type="checkbox" data-tm="${tm.id}" ${(i.teams||[]).includes(tm.id)?'checked':''} ${folderTeams(i.folder).includes(tm.id)?'disabled title="'+t('via_project')+'"':''}></td>`).join('')}</tr>`).join('')}</tbody></table></div>` : `<p class="muted" style="margin:0">${teams.length ? t('empty_title') : t('no_teams_short')}</p>`;
+    $$('tr[data-i]', ia).forEach(tr => { const i = S.instrs.find(x=>x.id===tr.dataset.i); $$('[data-tm]', tr).forEach(cb => cb.onchange = async () => { i.teams = (i.teams||[]).filter(x=>x!==cb.dataset.tm); if(cb.checked) i.teams.push(cb.dataset.tm); await saveInstr(i); toast(t('saved')); }); });
   }
   renderUsers(); renderTeams(); renderAccess();
 }
@@ -2653,7 +2827,7 @@ async function renderResults(app, id){
       <div class="card tbl-wrap">${vN?`<table class="res"><thead><tr><th>${t('started')}</th><th>${t('device')}</th><th>${t('duration')}</th><th>${t('steps')}</th><th>${t('version')}</th><th></th></tr></thead><tbody>${views.map(x=>`<tr><td class="tnum">${fmtDate(x.started_at)}</td><td>${esc(x.device||'')}</td><td class="tnum">${fmtDur(x.duration_s||0)}</td><td class="tnum">${x.steps_seen||0} / ${x.steps_total||steps.length}</td><td>v${x.version}</td><td>${x.completed?`<span class="ok-n">✓ ${t('views_completed')}</span>`:(x.reload?`<span class="muted">${t('views_reloaded')}</span>`:'')}</td></tr>`).join('')}</tbody></table>`:`<div class="empty">${t('no_views')}</div>`}</div>
     </div>
     <div id="tab-runs" ${tab!=='runs'?'hidden':''}>
-      <div class="card tbl-wrap">${runs.length?`<table class="res"><thead><tr><th>${t('worker')}</th><th>${t('started')}</th><th>Status</th><th>${t('duration')}</th><th>${t('version')}</th><th>${t('ok_count')}</th><th>${t('nok_count')}</th><th>${t('open_count')}</th><th></th></tr></thead><tbody>${runs.map(r => { const its = Object.values(r.items); const ok = its.filter(i=>i.ok).length, nok = its.filter(i=>i.ok===false).length; return `<tr><td><b>${esc(r.worker)}</b></td><td class="tnum">${fmtDate(r.startedAt)}</td><td>${r.finishedAt?`<span class="ok-n">✓</span>`:`<span class="chip review">${t('running')}</span>`}</td><td class="tnum">${dur(r)}</td><td>v${r.version}</td><td class="ok-n tnum">${ok}</td><td class="nok-n tnum">${nok}</td><td class="tnum">${Math.max(0, steps.length-ok-nok)}</td><td><button class="btn ghost sm" data-d="${r.id}">${t('details')}</button></td></tr>`; }).join('')}</tbody></table>`:`<div class="empty">${t('no_runs')}${instr.checklist?'':'<br><span class="muted">'+t('jobdone_hint')+'</span>'}</div>`}</div>
+      <div class="card tbl-wrap">${runs.length?`<table class="res"><thead><tr><th>${t('worker')}</th><th>${t('started')}</th><th>Status</th><th>${t('duration')}</th><th>${t('version')}</th><th>${t('ok_count')}</th><th>${t('nok_count')}</th><th>${t('open_count')}</th><th></th></tr></thead><tbody>${runs.map(r => { const its = Object.values(r.items); const ok = its.filter(i=>i.ok).length, nok = its.filter(i=>i.ok===false).length; return `<tr><td><b>${esc(r.worker)}</b></td><td class="tnum">${fmtDate(r.startedAt)}</td><td>${r.finishedAt?`<span class="ok-n">✓</span>`:`<span class="chip review">${t('running')}</span>`}</td><td class="tnum">${dur(r)}</td><td>v${r.version}</td><td class="ok-n tnum">${ok}</td><td class="nok-n tnum">${nok}</td><td class="tnum">${Math.max(0, confirmSteps(instr).length-ok-nok)}</td><td><button class="btn ghost sm" data-d="${r.id}">${t('details')}</button></td></tr>`; }).join('')}</tbody></table>`:`<div class="empty">${t('no_runs')}${instr.checklist?'':'<br><span class="muted">'+t('jobdone_hint')+'</span>'}</div>`}</div>
     </div></main>`);
   app.appendChild(v);
   const drawDay = () => { const c = v.querySelector('#c-day'); if(c && !c.closest('[hidden]')) barChart(c, days.map(d => d.toLocaleDateString(LOCALE(), {day:'2-digit', month:'2-digit'})), days.map(d=>perDay[dkey(d)]), {color:S.brand.color||'#004EAD'}); };
@@ -2682,58 +2856,90 @@ async function exportPDF(instr){
   try{ await exportPDF2(instr); } finally { LANG = prevL; }
 }
 async function exportPDF2(instr){
-  const {jsPDF} = window.jspdf; const doc = new jsPDF({unit:'mm', format:'a4', putOnlyUsedFonts:true}); const F = await pdfFonts(doc, instr._lang||'DE');
-  const brand = await loadBrand(instr.ws); const bc = hexToRgb(brand.color||'#004EAD'); let logoData = null, logoRatio = 1;
-  if(brand.logo){ try{ const img = await new Promise((res, rej) => { const i = new Image(); i.crossOrigin='anonymous'; i.onload=()=>res(i); i.onerror=rej; i.src = brand.logo; }); const c = document.createElement('canvas'); c.width = img.naturalWidth; c.height = img.naturalHeight; c.getContext('2d').drawImage(img,0,0); logoData = c.toDataURL('image/png'); logoRatio = c.width / c.height; }catch(e){} }
-  const W = 210, H = 297, M = 15; let y = M; const navy = [0,0,0], mint=[0,78,173], grey=[115,115,115];
-  const steps = realSteps(instr); const ap = instr.approvals; const lastHist = instr.history[instr.history.length-1];
-  const statusTxt = t(instr.status==='review'?'in_review':instr.status);
-  const docNo = 'GG-' + instr.id.slice(0,6).toUpperCase();
-  const header = () => { doc.setFillColor(...bc); doc.rect(0,0,W,16,'F'); doc.setTextColor(255); F(true); doc.setFontSize(11); let lx = M; if(logoData){ try{ const lh = 10, lw = Math.min(40, lh*logoRatio); doc.addImage(logoData, 'PNG', M, 3, lw, lh); lx = M + lw + 4; }catch(e){} } doc.text((brand.name||'GIRI GO')+' · '+t('pdf_h_doc'), lx, 10); doc.setFontSize(9); F(false); doc.text(`${docNo} · v${instr.version} · ${statusTxt}`, W-M, 10, {align:'right'}); y = 24; };
-  const footer = (p, total) => { doc.setFontSize(8); doc.setTextColor(...grey); F(false); doc.text(`${instr.title} · v${instr.version} · ${ap.tech?t('pdf_h_tech')+': '+ap.tech.by+' '+fmtD(ap.tech.at):t('pdf_h_tech')+': '+t('pending')} · ${ap.dsgvo?t('pdf_h_dsgvo')+': '+ap.dsgvo.by+' '+fmtD(ap.dsgvo.at):t('pdf_h_dsgvo')+': '+t('pending')}`, M, H-8, {maxWidth:W-2*M-30}); doc.text(`${t('pdf_h_pages')} ${p}/${total}`, W-M, H-8, {align:'right'}); };
-  const ensure = need => { if(y+need > H-18){ doc.addPage(); header(); } };
+  const {jsPDF} = window.jspdf; const doc = new jsPDF({unit:'mm', format:'a4', putOnlyUsedFonts:true, compress:true}); const F = await pdfFonts(doc, instr._lang||'DE');
+  const brand = await loadBrand(instr.ws); const bc = hexToRgb(brand.color||'#004EAD');
+  const imgData = async (src, maxW=700) => { if(!src) return null; try{ const img = await new Promise((res, rej) => { const i = new Image(); i.crossOrigin='anonymous'; i.onload=()=>res(i); i.onerror=rej; i.src = src; }); const sc = Math.min(1, maxW/(img.naturalWidth||1)); const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(img.naturalWidth*sc)); c.height = Math.max(1, Math.round(img.naturalHeight*sc)); c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); return {data:c.toDataURL('image/png'), ratio:c.width/c.height}; }catch(e){ return null; } };
+  const brandLogo = await imgData(brand.logo);
+  const ggLogo = await imgData((/url\(["']?(data:[^"')]+)["']?\)/.exec(getComputedStyle(document.documentElement).getPropertyValue('--logo-dark')||'')||[])[1]);
+  const W = 210, H = 297, M = 16, CW = W-2*M; const ink = [17,17,17], grey = [120,120,120], soft = [244,246,249], line = [222,226,232];
+  const steps = realSteps(instr); const ap = instr.approvals||{}; const chk = new Set(confirmSteps(instr).map(s=>s.id)); const lastHist = (instr.history||[])[instr.history.length-1];
+  const docNo = 'GG-' + instr.id.slice(0,6).toUpperCase(); const statusTxt = t(instr.status==='review'?'in_review':instr.status);
+  const TOP = 24, BOT = H-20; let y = TOP;
+  const txt = (s, x, yy, o) => doc.text(String(s==null?'':s), x, yy, o);
+  // ---- every page: document line top left, GIRI Go top right, hairline; footer with doc no. + page ----
+  const header = () => {
+    F(true); doc.setFontSize(7.5); doc.setTextColor(...grey); txt(((brand.name ? brand.name+'   ·   ' : '') + t('pdf_h_doc')).toUpperCase(), M, 12);
+    const bh = 5.4, bw = 9.5; let x = W-M-bw; doc.setFillColor(0,78,173); doc.roundedRect(x, 7.4, bw, bh, 1.2, 1.2, 'F'); doc.setTextColor(255); doc.setFontSize(8); txt('GO', x+bw/2, 11.2, {align:'center'});
+    if(ggLogo){ const lh = 6.6, lw = lh*ggLogo.ratio; try{ doc.addImage(ggLogo.data, 'PNG', x-lw-2.2, 6.8, lw, lh); }catch(e){} }
+    doc.setDrawColor(...line); doc.setLineWidth(.25); doc.line(M, 16, W-M, 16);
+  };
+  const footer = (p, total) => { doc.setDrawColor(...line); doc.setLineWidth(.25); doc.line(M, H-13, W-M, H-13); F(false); doc.setFontSize(7.5); doc.setTextColor(...grey);
+    txt(`${docNo}   ·   v${instr.version}   ·   ${statusTxt}   ·   ${fmtD(instr.updatedAt||instr.createdAt)}`, M, H-8.5); txt(`${t('pdf_h_pages')} ${p} / ${total}`, W-M, H-8.5, {align:'right'}); };
+  const newPage = () => { doc.addPage(); header(); y = TOP; return doc.getNumberOfPages(); };
+  const ensure = need => { if(y+need > BOT) newPage(); };
+  const label = (s, x, yy) => { F(true); doc.setFontSize(7); doc.setTextColor(...grey); txt(String(s).toUpperCase(), x, yy); };
+  // ================= page 1: cover with document control, contents, history =================
   header();
-  doc.setTextColor(...navy); F(true); doc.setFontSize(20); const tl = doc.splitTextToSize(instr.title, W-2*M); doc.text(tl, M, y+2); y += tl.length*8 + 4;
-  // control table
-  doc.setFontSize(9); F(true); doc.setTextColor(...grey); doc.text(t('pdf_h_ctrl').toUpperCase(), M, y); y+=3;
-  const ctrl = [[t('pdf_h_created'), `${instr.createdBy} · ${fmtD(instr.createdAt)}`],[t('pdf_h_version'), `v${instr.version}${lastHist?' · '+fmtD(lastHist.at):''}`],[t('pdf_h_status'), statusTxt],[t('pdf_h_tech'), ap.tech?`${ap.tech.by} · ${fmtDate(ap.tech.at)}`:t('pending')],[t('pdf_h_dsgvo'), ap.dsgvo?`${ap.dsgvo.by} · ${fmtDate(ap.dsgvo.at)}`:t('pending')],[t('steps'), `${steps.length}${instr.checklist?' · Checklist':''}`],['Doc-ID', docNo]];
-  doc.setDrawColor(214,222,233); doc.setLineWidth(.2);
-  ctrl.forEach(([k,val]) => { F(true); doc.setTextColor(...navy); doc.setFontSize(9); doc.text(k, M, y+4); F(false); doc.setTextColor(40); doc.text(String(val), M+50, y+4); doc.line(M, y+6.5, W-M, y+6.5); y += 7; });
-  y += 4;
-  if(instr.history.length){ F(true); doc.setTextColor(...grey); doc.setFontSize(9); doc.text(t('pdf_h_hist').toUpperCase(), M, y); y+=3;
-    instr.history.slice(-8).forEach(h => { ensure(8); F(true); doc.setTextColor(...navy); doc.text(`v${h.version}`, M, y+4); F(false); doc.setTextColor(40); const txt = doc.splitTextToSize(`${fmtD(h.at)} · ${h.by} — ${h.note||''}`, W-2*M-20); doc.text(txt, M+14, y+4); doc.line(M, y+2+txt.length*4.5, W-M, y+2+txt.length*4.5); y += 3+txt.length*4.5; }); y += 4; }
-  // steps
-  F(true); doc.setTextColor(...grey); doc.setFontSize(9); doc.text(t('pdf_h_steps').toUpperCase(), M, y); y += 5;
-  let chapter = null; let n = 0;
-  for(const s of instr.steps){
-    if(s.kind==='chapter'){ ensure(14); doc.setFillColor(...bc); doc.rect(M, y, 2.5, 8, 'F'); F(true); doc.setFontSize(12); doc.setTextColor(...navy); doc.text(s.title, M+5, y+6); y += 12; continue; }
-    n++;
-    const imgs = await stepImages(s, 3);
-    const imgW = imgs.length>1 ? (W-2*M-4*(imgs.length-1))/imgs.length : 70; const ratio = (s.h||3)/(s.w||4); const imgH = Math.min(imgW*ratio, imgs.length>1?45:52);
-    const textW = imgs.length>1 ? W-2*M : W-2*M-imgW-6;
-    doc.setFontSize(10.5); const titleLines = doc.splitTextToSize(s.title||`${t('step')} ${n}`, textW-12); doc.setFontSize(9); const descLines = s.desc ? doc.splitTextToSize(mdToPlain(s.desc), textW-12) : []; const warnLines = s.warn ? doc.splitTextToSize('! '+s.warn, textW-12) : [];
-    const textH = 6 + titleLines.length*5 + descLines.length*4.2 + (warnLines.length?warnLines.length*4.2+2:0) + (instr.checklist?7:0);
-    const blockH = imgs.length>1 ? imgH + 4 + textH : Math.max(imgH, textH) + 2;
-    ensure(blockH+6);
-    // number badge
-    doc.setFillColor(...bc); doc.circle(M+4, y+4, 4, 'F'); doc.setTextColor(255); F(true); doc.setFontSize(9); doc.text(String(n), M+4, y+5.3, {align:'center'});
-    let tx = M+12, ty = y+5;
-    if(imgs.length>1){ imgs.forEach((im, k) => { try{ doc.addImage(im, 'JPEG', M + k*(imgW+4), y+10, imgW, imgH); }catch(e){} }); ty = y+10+imgH+6; }
-    else if(imgs.length===1){ try{ doc.addImage(imgs[0], 'JPEG', W-M-imgW, y, imgW, imgH); }catch(e){} }
-    doc.setTextColor(...navy); F(true); doc.setFontSize(10.5); doc.text(titleLines, tx, ty); ty += titleLines.length*5;
-    if(descLines.length){ F(false); doc.setFontSize(9); doc.setTextColor(40); doc.text(descLines, tx, ty); ty += descLines.length*4.2; }
-    if(warnLines.length){ F(true); doc.setTextColor(180,110,0); doc.text(warnLines, tx, ty+1); ty += warnLines.length*4.2+2; }
-    if(instr.checklist){ doc.setDrawColor(...navy); doc.setLineWidth(.4); doc.rect(tx, ty+1, 4, 4); F(false); doc.setFontSize(8); doc.setTextColor(...grey); doc.text(`${t('pdf_h_check')}  ____________  ${t('pdf_h_date2')} ________`, tx+6, ty+4.2); ty += 7; }
-    y += blockH + 4; doc.setDrawColor(214,222,233); doc.setLineWidth(.2); doc.line(M, y-2, W-M, y-2);
+  if(brandLogo){ const lh = Math.min(14, 46/brandLogo.ratio), lw = lh*brandLogo.ratio; try{ doc.addImage(brandLogo.data, 'PNG', M, y, lw, lh); }catch(e){} y += lh + 8; } else if(brand.name){ F(true); doc.setFontSize(11); doc.setTextColor(...bc); txt(brand.name, M, y+4); y += 12; }
+  F(true); doc.setFontSize(24); doc.setTextColor(...ink); const tl = doc.splitTextToSize(instr.title, CW); txt(tl, M, y+6); y += tl.length*10 + 2;
+  F(false); doc.setFontSize(10); doc.setTextColor(...grey); txt(`${t('pdf_h_created')}: ${instr.createdBy||''}   ·   ${fmtD(instr.createdAt)}`, M, y+2); y += 12;
+  // document control – six tiles
+  const chapCount = (instr.steps||[]).filter(s=>s.kind==='chapter').length;
+  const cmTxt = !instr.checklist ? '–' : t((instr.checkMode||'all')==='chapter' ? 'cm_chapter' : (instr.checkMode||'all')==='custom' ? 'cm_custom' : 'cm_all');
+  const tiles = [[t('pdf_h_version'), `v${instr.version}${lastHist ? '  ·  '+fmtD(lastHist.at) : ''}`], [t('pdf_h_status'), statusTxt], [t('pdf_h_tech'), ap.tech ? `${ap.tech.by}  ·  ${fmtD(ap.tech.at)}` : t('pending')], [t('pdf_h_dsgvo'), ap.dsgvo ? `${ap.dsgvo.by}  ·  ${fmtD(ap.dsgvo.at)}` : t('pending')], [t('steps'), `${steps.length}${chapCount ? '  ·  '+chapCount+' '+t('chapters') : ''}`], [t('checklist_short'), cmTxt]];
+  const tw = (CW-6)/2, th = 15; tiles.forEach(([k, v], i) => { const x = M + (i%2)*(tw+6), yy = y + Math.floor(i/2)*(th+4); doc.setFillColor(...soft); doc.roundedRect(x, yy, tw, th, 2, 2, 'F'); label(k, x+5, yy+5.5); F(true); doc.setFontSize(10); doc.setTextColor(...ink); txt(doc.splitTextToSize(String(v), tw-10)[0]||'', x+5, yy+11.3); }); y += 3*(th+4) + 6;
+  // contents: chapters with page numbers (filled in after the pages exist)
+  const groups = []; { let g = null; for(const st of instr.steps||[]){ if(st.kind==='chapter'){ g = {title:st.title, steps:[]}; groups.push(g); } else { if(!g){ g = {title:'', intro:true, steps:[]}; groups.push(g); } g.steps.push(st); } } }
+  const histRows = (instr.history||[]).slice(-6).reverse(); const histNeed = histRows.length ? 10 + histRows.length*6.5 : 0;
+  let tocY = 0, tocRows = 0;
+  if(groups.length > 1 || chapCount){ label(t('chapters'), M, y); y += 3; tocY = y; tocRows = Math.min(groups.length, Math.floor((BOT - histNeed - y - 4)/6)); y += tocRows*6 + 6; }
+  if(histRows.length){ label(t('pdf_h_hist'), M, y); y += 3;
+    histRows.forEach(h => { F(true); doc.setFontSize(9); doc.setTextColor(...ink); txt(`v${h.version}`, M, y+4.5); F(false); doc.setTextColor(70); const s = doc.splitTextToSize(`${fmtD(h.at)}  ·  ${h.by||''}${h.note ? '  —  '+h.note : ''}`, CW-16); txt(s[0]||'', M+12, y+4.5); doc.setDrawColor(...line); doc.setLineWidth(.2); doc.line(M, y+6.5, W-M, y+6.5); y += 6.5; }); }
+  // ================= chapters: each one starts on a new page =================
+  const pageOf = []; let n = 0;
+  for(const [gi, g] of groups.entries()){
+    pageOf[gi] = newPage();
+    const title = g.intro ? (groups.length > 1 ? t('intro') : t('pdf_h_steps')) : (g.title || `${t('chapter')} ${gi+1}`);
+    F(true); doc.setFontSize(9); doc.setTextColor(...bc); txt(`${(groups.length > 1 || chapCount) ? t('chapter').toUpperCase()+' '+(gi+1) : t('pdf_h_steps').toUpperCase()}`, M, y);
+    doc.setFontSize(20); doc.setTextColor(...ink); const ct = doc.splitTextToSize(title, CW); txt(ct, M, y+9); y += 9 + ct.length*8;
+    doc.setFillColor(...bc); doc.rect(M, y-3, 14, 1.2, 'F'); y += 6;
+    for(const s of g.steps){
+      n++;
+      const imgs = await stepImages(s, s.type==='video' ? 3 : 1); const ratio = (s.h||3)/(s.w||4);
+      const row = imgs.length > 1; const imgW = row ? (CW-8)/3 : 64; const imgH = row ? Math.min(imgW*ratio, 44) : Math.min(imgW*ratio, 54);
+      const textW = (row || !imgs.length) ? CW-12 : CW-12-imgW-6;
+      F(true); doc.setFontSize(11.5); const titleLines = doc.splitTextToSize(s.title || `${t('step')} ${n}`, textW);
+      F(false); doc.setFontSize(9.5); const descLines = s.desc ? doc.splitTextToSize(mdToPlain(s.desc), textW) : [];
+      const warnLines = s.warn ? doc.splitTextToSize(s.warn, textW-9) : [];
+      const textH = titleLines.length*5.4 + (descLines.length ? descLines.length*4.4 + 1.5 : 0) + (warnLines.length ? warnLines.length*4.4 + 5 : 0) + (chk.has(s.id) ? 8 : 0);
+      const blockH = row ? textH + (imgs.length ? imgH + 5 : 0) : Math.max(textH, imgs.length ? imgH : 0);
+      ensure(blockH + 8);
+      const y0 = y;
+      doc.setFillColor(...bc); doc.circle(M+4, y+3.2, 4, 'F'); doc.setTextColor(255); F(true); doc.setFontSize(9); txt(String(n), M+4, y+4.5, {align:'center'});
+      if(!row && imgs.length){ try{ doc.addImage(imgs[0], 'JPEG', W-M-imgW, y, imgW, imgH); }catch(e){} }
+      let tx = M+12, ty = y+4.8;
+      doc.setTextColor(...ink); F(true); doc.setFontSize(11.5); txt(titleLines, tx, ty); ty += titleLines.length*5.4;
+      if(descLines.length){ F(false); doc.setFontSize(9.5); doc.setTextColor(55); txt(descLines, tx, ty+0.5); ty += descLines.length*4.4 + 1.5; }
+      if(warnLines.length){ const wh = warnLines.length*4.4 + 3; doc.setFillColor(255,246,222); doc.roundedRect(tx, ty, textW, wh, 1.5, 1.5, 'F'); doc.setFillColor(217,144,0); doc.rect(tx, ty, 1.4, wh, 'F'); F(true); doc.setFontSize(9); doc.setTextColor(140,90,0); txt('!', tx+4, ty+4.3); txt(warnLines, tx+8, ty+4.3); ty += wh + 2; }
+      if(chk.has(s.id)){ doc.setDrawColor(...ink); doc.setLineWidth(.45); doc.roundedRect(tx, ty+1, 4.2, 4.2, .8, .8, 'S'); F(true); doc.setFontSize(9); doc.setTextColor(...ink); txt(t('pdf_h_check'), tx+6.5, ty+4.3); ty += 8; }
+      if(row && imgs.length){ const iy = Math.max(ty, y0) + 2; imgs.forEach((im, k) => { try{ doc.addImage(im, 'JPEG', M + k*(imgW+4), iy, imgW, imgH); }catch(e){} }); ty = iy + imgH; }
+      y = Math.max(ty, y0 + (!row && imgs.length ? imgH : 0)) + 5;
+      doc.setDrawColor(...line); doc.setLineWidth(.2); doc.line(M, y, W-M, y); y += 5;
+    }
   }
-  // signature block
-  ensure(30); y += 4; F(true); doc.setFontSize(9); doc.setTextColor(...grey); doc.text(t('pdf_h_sig').toUpperCase(), M, y); y += 12; doc.setDrawColor(...navy); doc.setLineWidth(.4); doc.line(M, y, M+70, y); doc.line(M+90, y, M+130, y); doc.setFontSize(8); doc.text(t('name'), M, y+4); doc.text(t('pdf_h_date2'), M+90, y+4);
+  // ================= signature – once, at the very end =================
+  ensure(44); y += 6; label(t('pdf_h_sig'), M, y); y += 16;
+  doc.setDrawColor(...ink); doc.setLineWidth(.4); const c1 = M, c2 = M+78, c3 = M+128; doc.line(c1, y, c1+68, y); doc.line(c2, y, c2+40, y); doc.line(c3, y, W-M, y);
+  F(false); doc.setFontSize(8); doc.setTextColor(...grey); txt(t('name'), c1, y+4.5); txt(t('pdf_h_date2'), c2, y+4.5); txt(t('pdf_h_sig').split(' ')[0], c3, y+4.5);
+  // contents on page 1 now that the page numbers are known
+  if(tocRows){ doc.setPage(1); let yy = tocY; groups.slice(0, tocRows).forEach((g, gi) => { F(true); doc.setFontSize(9.5); doc.setTextColor(...bc); txt(String(gi+1), M, yy+4.5); doc.setTextColor(...ink); const tt = g.intro ? t('intro') : (g.title || `${t('chapter')} ${gi+1}`); txt(doc.splitTextToSize(tt, CW-40)[0]||'', M+8, yy+4.5); F(false); doc.setTextColor(...grey); txt(`${g.steps.length} ${t('steps')}`, W-M-14, yy+4.5, {align:'right'}); F(true); doc.setTextColor(...ink); txt(String(pageOf[gi]), W-M, yy+4.5, {align:'right'}); doc.setDrawColor(...line); doc.setLineWidth(.2); doc.line(M, yy+6, W-M, yy+6); yy += 6; }); }
   const total = doc.getNumberOfPages(); for(let p=1;p<=total;p++){ doc.setPage(p); footer(p,total); }
   const blob = doc.output('blob');
   const ok = await saveFile(`${slug(instr.title)}-v${instr.version}${instr._lang?'-'+instr._lang.toLowerCase():''}.pdf`, blob, 'application/pdf'); if(ok) toast(t('pdf_done'));
 }
 async function stepImages(s, count){
   const url = await mediaUrl(s.mediaId); if(!url) return [];
+  await Promise.all((s.ann||[]).filter(a => a.type==='img' && a.src).map(a => preloadImg(a.src)));
   const withAnn = (canvas, tm) => { const ctx = canvas.getContext('2d'); const r = {x:0,y:0,w:canvas.width,h:canvas.height}; s.ann.forEach(a => { if(s.type==='video' && Math.abs((a.t||0)-tm) > 1.0) return; drawAnn(ctx, a, r, false); }); return canvas.toDataURL('image/jpeg', .82); };
   if(s.type==='photo'){ const img = await new Promise(res => { const i = new Image(); i.crossOrigin='anonymous'; i.onload=()=>res(i); i.onerror=()=>res(null); i.src=url; }); if(!img) return []; const c = document.createElement('canvas'); const sc = Math.min(1, 900/img.naturalWidth); c.width = Math.round(img.naturalWidth*sc); c.height = Math.round(img.naturalHeight*sc); c.getContext('2d').drawImage(img,0,0,c.width,c.height); return [withAnn(c, 0)]; }
   const st = s.trimStart||0, en = s.trimEnd||s.duration||3; const times = [];

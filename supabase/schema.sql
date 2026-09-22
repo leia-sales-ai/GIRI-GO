@@ -270,3 +270,6 @@ create policy ws_update on public.workspaces for update to authenticated using (
 drop policy if exists runs_update on public.runs;
 create policy runs_update on public.runs for update to anon, authenticated
   using (finished_at is null and started_at > now() - interval '2 days') with check (started_at > now() - interval '2 days');
+
+-- v0.13: eigene Symbole je Workspace – workspaces.symbols: [{id, name, url, path, ar, alpha, at}] (Bilder in media/<ws>/symbols/<id>.png)
+alter table public.workspaces add column if not exists symbols jsonb not null default '[]'::jsonb;
