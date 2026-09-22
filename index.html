@@ -327,7 +327,7 @@ body{-webkit-tap-highlight-color:transparent}
 .card{border:1px solid rgba(1,39,86,.06)}
 .topbar{background:linear-gradient(90deg,#012756 0%,#0a3a7c 100%);backdrop-filter:saturate(1.2);flex-wrap:nowrap;gap:8px}
 .topbar .tb-btn{white-space:nowrap;padding:8px 10px}
-@media(max-width:480px){.brand small{display:none}.topbar .tb-btn[data-profile]{max-width:120px;overflow:hidden;text-overflow:ellipsis}}
+@media(max-width:560px){.brand small{display:none}.topbar .tb-btn[data-logout]{display:none}.topbar .tb-btn[data-profile]{max-width:150px;overflow:hidden;text-overflow:ellipsis}}
 .btn{box-shadow:0 2px 6px rgba(1,39,86,.12)}
 .btn.ghost{box-shadow:none}
 .btn.mint{background:linear-gradient(135deg,#1fe3ad,#03D39B)}
@@ -457,6 +457,39 @@ body{-webkit-tap-highlight-color:transparent}
 .vw-end .sum div{background:#222}
 .vw-end .sum span{color:#8A8A8A}
 .vstep .chk .btn,.vw-start .btn,.vw-end .btn{border-radius:10px}
+
+/* ===== round 3 ===== */
+.ed-head .spacer{flex:1}
+.ed-head input.title{min-width:160px}
+.menu{display:grid;gap:4px}
+.menu button{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;font-weight:600;font-size:15px;text-align:left}
+.menu button:hover{background:var(--surface-2)}
+.drag-ghost{position:fixed;z-index:200;pointer-events:none;box-shadow:0 14px 34px rgba(0,0,0,.28);background:var(--surface);transform:scale(1.02) rotate(-0.5deg);opacity:.96;border-radius:10px}
+.placeholder{opacity:.35;outline:2px dashed var(--blue);outline-offset:-2px;background:var(--blue-lightest)}
+.selbar{position:static !important;display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:10px;padding:8px 10px;background:var(--surface-2);border-radius:10px;backdrop-filter:none}
+.selbar .lbl{margin-right:auto}
+.selbar .sw{width:26px;height:26px;box-shadow:0 0 0 1px var(--line)}
+.selbar .sw.on{box-shadow:0 0 0 2px var(--ink)}
+.sizebtns{display:flex;gap:4px}
+.sizebtns button{width:34px;height:34px;border-radius:8px;background:var(--surface);border:1px solid var(--line);font-weight:800;font-size:18px}
+.media-box,.media-box canvas,.media-box video,.media-box img{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.flow{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.flow span{font-size:12px;font-weight:700;padding:5px 10px;border-radius:8px;background:var(--surface-2);color:var(--ink-3)}
+.flow span.cur{background:var(--blue);color:#fff}
+.flow span.done{background:var(--green-lightest);color:var(--mint-ink)}
+/* calmer surfaces */
+.card{border:0;box-shadow:0 1px 2px rgba(0,0,0,.05),0 6px 20px rgba(0,0,0,.05)}
+.srow{padding:8px 8px 8px 0}
+.srow.in-ch{border-left:0;margin-left:14px}
+.chrow{background:transparent;border-top:1px solid var(--line);border-radius:0;margin-top:14px;padding-top:10px}
+.chrow .cnt{background:var(--surface-2)}
+.steps-panel .ph b{font-size:12px}
+.props{padding:16px}
+.field label,.lbl{font-size:11px;letter-spacing:.08em}
+.tool{border:0;background:var(--surface-2)}
+.tool:hover{background:var(--line)}
+.stat{padding:16px 18px}
+.dash-head h1{font-size:26px;letter-spacing:-.01em}
 </style>
 
 </head>
@@ -509,13 +542,14 @@ de:{
   pdf_h_created:'Erstellt von', pdf_h_date:'Datum', pdf_h_version:'Version', pdf_h_status:'Status', pdf_h_tech:'Technische Freigabe', pdf_h_dsgvo:'DSGVO-Freigabe', pdf_h_pages:'Seite', pdf_h_hist:'Änderungshistorie', pdf_h_check:'Bestätigt', pdf_h_sig:'Unterschrift Ausführender', pdf_h_date2:'Datum',
   pdf_h_doc:'Arbeitsanleitung / SOP', pdf_h_steps:'Arbeitsschritte', pdf_h_ctrl:'Dokumentenlenkung',
   saved:'Gespeichert', deleted:'Gelöscht', lang:'EN', example:'BEISPIEL', all_done_msg:'Alle Schritte bestätigt.',
-  keep_recording:'Weiter aufnehmen', to_editor:'Zum Editor', no_steps:'Noch keine Schritte – tippe auf „Aufnehmen“.',
+  too_short:'Zu kurz – etwas länger halten', keep_recording:'Weiter aufnehmen', to_editor:'Zum Editor', no_steps:'Noch keine Schritte – tippe auf „Aufnehmen“.',
   duplicate:'Duplizieren', of:'von', sec:'s', seconds:'Sekunden',
   send_link:'Login-Link per E-Mail senden', first_time:'nur beim ersten Mal', magic_sent:'Link an {e} gesendet', magic_sub:'Öffne die E-Mail auf diesem Gerät und tippe auf den Link – fertig. Der Link gilt einmal; danach bleibst du auf dem Gerät eingeloggt.',
   ws_note:'Kolleginnen und Kollegen mit derselben E-Mail-Domain landen automatisch im selben Workspace.',
   uploading:'Upload', upload_failed:'Upload fehlgeschlagen – wird erneut versucht', remote_changed:'Auf anderem Gerät geändert – tippen zum Aktualisieren',
   profile:'Profil', role_note:'Prototyp: Rolle selbst wählbar. In v2 vergibt der Admin die Rollen.',
-  tab_settings:'Freigabe & Einstellungen', tool_hint:'Symbol antippen → erscheint im Bild. Ziehen zum Verschieben, weiße Anfasser zum Anpassen.', expand:'Aufklappen', collapse:'Einklappen',
+  tab_settings:'Freigabe & Einstellungen', more:'Mehr', approve_publish:'Freigeben & veröffentlichen', approve_all_q:'Technische und DSGVO-Freigabe erteilen und veröffentlichen?', tool_hint:'Symbol antippen → erscheint im Bild. Ziehen zum Verschieben, weiße Anfasser zum Anpassen.', expand:'Aufklappen', collapse:'Einklappen',
+  cooldown:'Mail wurde gerade verschickt – bitte {s} s warten.', cooldown_sub:'Der letzte Link ist unterwegs. Prüfe Posteingang und Spam, bevor du neu anforderst – jeder neue Link macht den alten ungültig.',
   rate_limit:'Mail-Limit erreicht – es wurde keine neue Mail verschickt.', rate_limit_sub:'Der Test-Mailversand erlaubt nur 2 Mails pro Stunde. Bist du auf diesem Gerät schon eingeloggt gewesen? Dann einfach die App neu öffnen – die Sitzung bleibt erhalten, kein erneuter Link nötig.'
 },
 en:{
@@ -553,13 +587,14 @@ en:{
   pdf_h_created:'Created by', pdf_h_date:'Date', pdf_h_version:'Version', pdf_h_status:'Status', pdf_h_tech:'Technical approval', pdf_h_dsgvo:'GDPR approval', pdf_h_pages:'Page', pdf_h_hist:'Change history', pdf_h_check:'Confirmed', pdf_h_sig:'Signature worker', pdf_h_date2:'Date',
   pdf_h_doc:'Work instruction / SOP', pdf_h_steps:'Work steps', pdf_h_ctrl:'Document control',
   saved:'Saved', deleted:'Deleted', lang:'DE', example:'EXAMPLE', all_done_msg:'All steps confirmed.',
-  keep_recording:'Keep recording', to_editor:'Open editor', no_steps:'No steps yet – tap “Record”.',
+  too_short:'Too short – hold a bit longer', keep_recording:'Keep recording', to_editor:'Open editor', no_steps:'No steps yet – tap “Record”.',
   duplicate:'Duplicate', of:'of', sec:'s', seconds:'seconds',
   send_link:'Send login link by email', first_time:'first time only', magic_sent:'Link sent to {e}', magic_sub:'Open the email on this device and tap the link – done. The link works once; after that you stay signed in on this device.',
   ws_note:'Colleagues with the same email domain automatically share one workspace.',
   uploading:'Upload', upload_failed:'Upload failed – will retry', remote_changed:'Changed on another device – tap to refresh',
   profile:'Profile', role_note:'Prototype: you pick your own role. In v2 an admin assigns roles.',
-  tab_settings:'Approval & settings', tool_hint:'Tap a symbol → it appears on the image. Drag to move, white handles to adjust.', expand:'Expand', collapse:'Collapse',
+  tab_settings:'Approval & settings', more:'More', approve_publish:'Approve & publish', approve_all_q:'Grant technical and GDPR approval and publish?', tool_hint:'Tap a symbol → it appears on the image. Drag to move, white handles to adjust.', expand:'Expand', collapse:'Collapse',
+  cooldown:'Email was just sent – please wait {s} s.', cooldown_sub:'The last link is on its way. Check inbox and spam before requesting again – every new link invalidates the old one.',
   rate_limit:'Email limit reached – no new email was sent.', rate_limit_sub:'The test mailer allows only 2 emails per hour. Already signed in on this device? Just reopen the app – the session persists, no new link needed.'
 }};
 let LANG = 'de';
@@ -719,6 +754,7 @@ const IC = {
   trash:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
   plus:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
   grip:'<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.8"/><circle cx="15" cy="6" r="1.8"/><circle cx="9" cy="12" r="1.8"/><circle cx="15" cy="12" r="1.8"/><circle cx="9" cy="18" r="1.8"/><circle cx="15" cy="18" r="1.8"/></svg>',
+  more:'<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="12" r="2.2"/></svg>',
   up:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>',
   down:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>'
 };
@@ -730,7 +766,7 @@ const SWATCHES = ['blue','mint','yellow','red','black'];
 function rr(ctx, x, y, w, h, r){ if(ctx.roundRect){ ctx.beginPath(); ctx.roundRect(x,y,w,h,r); } else { ctx.beginPath(); ctx.rect(x,y,w,h); } }
 function annMetrics(a, r){
   const X = v => r.x + v*r.w, Y = v => r.y + v*r.h; const base = Math.min(r.w, r.h);
-  return {X, Y, base, lw: Math.max(3, base*0.011), S: base*(a.size||0.14), col: COLORS[a.color] || a.color || COLORS.mint};
+  return {X, Y, base, lw: Math.max(3, base*0.011), S: base*(a.size||0.14)*0.85, col: COLORS[a.color] || a.color || COLORS.blue};
 }
 function drawAnn(ctx, a, r, selected){
   const {X, Y, base, lw, S, col} = annMetrics(a, r);
@@ -740,7 +776,7 @@ function drawAnn(ctx, a, r, selected){
   if(a.type==='arrow'){
     const x1=X(a.x), y1=Y(a.y), x2=X(a.x2), y2=Y(a.y2);
     const ang = Math.atan2(y2-y1, x2-x1); const len = Math.hypot(x2-x1, y2-y1);
-    const W = Math.max(7, base*0.036*((a.size||0.14)/0.14)); const head = Math.min(Math.max(W*2.6, 22), len*0.7);
+    const W = Math.max(6, base*0.03*((a.size||0.14)/0.14)); const head = Math.min(Math.max(W*2.6, 22), len*0.7);
     const hx1 = x2 - head*Math.cos(ang-Math.PI/4), hy1 = y2 - head*Math.sin(ang-Math.PI/4);
     const hx2 = x2 - head*Math.cos(ang+Math.PI/4), hy2 = y2 - head*Math.sin(ang+Math.PI/4);
     const path = () => { ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.moveTo(hx1,hy1); ctx.lineTo(x2,y2); ctx.lineTo(hx2,hy2); };
@@ -861,7 +897,8 @@ function topbar(app, opts={}){
   app.appendChild(tb);
 }
 async function profileModal(){
-  const r = await modal(`<h2>${t('profile')}</h2><div class="field"><label for="pf-name">${t('name')}</label><input id="pf-name" value="${esc(S.user.name)}"></div><div class="lbl" style="margin-bottom:6px">${t('role')}</div><div class="role-grid">${['creator','reviewer','viewer'].map(r=>`<button data-r="${r}" class="${S.user.role===r?'on':''}">${t(r)}</button>`).join('')}</div><p class="muted">${t('role_note')}</p><div class="actions"><button class="btn ghost" data-x>${t('cancel')}</button><button class="btn" data-ok>${t('save')}</button></div>`, (bg, close) => {
+  const r = await modal(`<h2>${t('profile')}</h2><div class="field"><label for="pf-name">${t('name')}</label><input id="pf-name" value="${esc(S.user.name)}"></div><div class="lbl" style="margin-bottom:6px">${t('role')}</div><div class="role-grid">${['creator','reviewer','viewer'].map(r=>`<button data-r="${r}" class="${S.user.role===r?'on':''}">${t(r)}</button>`).join('')}</div><p class="muted">${t('role_note')}</p><div class="actions"><button class="btn ghost" data-logout2 style="margin-right:auto">${t('logout')}</button><button class="btn ghost" data-x>${t('cancel')}</button><button class="btn" data-ok>${t('save')}</button></div>`, (bg, close) => {
+    bg.querySelector('[data-logout2]').onclick = async () => { close(null); await sb.auth.signOut(); S.user = null; S.session = null; if(rtChannel){ sb.removeChannel(rtChannel); rtChannel = null; } go(''); render(); };
     let role = S.user.role; $$('.role-grid button', bg).forEach(b => b.onclick = () => { role = b.dataset.r; $$('.role-grid button', bg).forEach(x=>x.classList.toggle('on', x===b)); });
     bg.querySelector('[data-x]').onclick = () => close(null); bg.querySelector('[data-ok]').onclick = () => close({name: bg.querySelector('#pf-name').value.trim(), role}); });
   if(!r) return; const {error} = await sb.from('profiles').update({name:r.name||S.user.name, role:r.role}).eq('id', S.user.id); if(error){ toast(error.message); return; }
@@ -880,6 +917,7 @@ function renderLogin(app){
     <p class="muted" style="margin-top:14px">${t('ws_note')}</p>
   </div></main>`);
   try{ v.querySelector('#li-email').value = localStorage.getItem('gg_email')||''; }catch(e){}
+  v.querySelector('#li-email').addEventListener('focus', e => e.target.select());
   v.querySelector('#li-go').onclick = async () => {
     const email = v.querySelector('#li-email').value.trim().toLowerCase(); const name = v.querySelector('#li-name').value.trim();
     if(!email.includes('@')){ v.querySelector('#li-email').focus(); return; }
@@ -887,7 +925,7 @@ function renderLogin(app){
     const redirect = location.href.split('#')[0];
     const {error} = await sb.auth.signInWithOtp({email, options:{emailRedirectTo: redirect, data: name ? {name} : undefined}});
     btn.disabled = false;
-    if(error){ const rl = /rate limit/i.test(error.message||'') || error.status===429; v.querySelector('#magic').hidden = false; v.querySelector('#magic .big').textContent = rl ? '⏳' : '⚠️'; v.querySelector('#magic-t').textContent = rl ? t('rate_limit') : error.message; v.querySelector('#magic p').textContent = rl ? t('rate_limit_sub') : ''; return; }
+    if(error){ const m = /after (\d+) seconds/i.exec(error.message||''); const cool = m || /once every|only request this/i.test(error.message||''); const rl = !cool && (/rate limit/i.test(error.message||'') || error.status===429); v.querySelector('#magic').hidden = false; v.querySelector('#magic .big').textContent = (cool||rl) ? '⏳' : '⚠️'; v.querySelector('#magic-t').textContent = cool ? t('cooldown',{s: m ? m[1] : '60'}) : rl ? t('rate_limit') : error.message; v.querySelector('#magic p').textContent = cool ? t('cooldown_sub') : rl ? t('rate_limit_sub') : ''; return; }
     try{ localStorage.setItem('gg_email', email); }catch(e){}
     v.querySelector('#magic').hidden = false; v.querySelector('#magic-t').textContent = t('magic_sent',{e:email}); btn.hidden = true;
   };
@@ -1074,9 +1112,10 @@ async function renderCapture(app, id){
     if(!stream || isRec) return; chunks = [];
     try{ const mime = pickMime(); rec = new MediaRecorder(stream, mime?{mimeType:mime, videoBitsPerSecond:4_000_000}:{}); }catch(e){ toast('MediaRecorder: '+e.message); return; }
     rec.ondataavailable = e => { if(e.data && e.data.size) chunks.push(e.data); };
+    rec.onerror = e => toast('MediaRecorder error: '+((e.error&&e.error.message)||e.name||'?'));
     let poster = null;
-    rec.onstop = async () => { const dur = (performance.now()-recStart)/1000; const blob = new Blob(chunks, {type: rec.mimeType||'video/webm'}); if(dur < 0.4 || !blob.size){ return; } await addStep({type:'video', blob, w:cam.videoWidth||1280, h:cam.videoHeight||720, duration:dur, poster}); };
-    try{ rec.start(250); }catch(e){ try{ rec.start(); }catch(e2){ toast('MediaRecorder: '+e2.message); return; } }
+    rec.onstop = async () => { try{ const dur = (performance.now()-recStart)/1000; const blob = new Blob(chunks, {type: rec.mimeType||'video/webm'}); if(dur < 0.4){ toast(t('too_short')); return; } if(!blob.size){ toast('Clip leer (0 Byte) – '+(rec.mimeType||'?')); return; } await addStep({type:'video', blob, w:cam.videoWidth||1280, h:cam.videoHeight||720, duration:dur, poster}); }catch(err){ toast('Fehler: '+(err&&err.message||err)); } };
+    try{ if((rec.mimeType||'').includes('mp4')) rec.start(); else rec.start(250); }catch(e){ try{ rec.start(); }catch(e2){ toast('MediaRecorder: '+e2.message); return; } }
     isRec = true; recStart = performance.now(); shutter.classList.add('rec'); tick();
     setTimeout(() => { if(isRec){ const pc = document.createElement('canvas'); const w = cam.videoWidth||1280, h = cam.videoHeight||720; pc.width=w; pc.height=h; const x = pc.getContext('2d'); if(facing==='user'){ x.translate(w,0); x.scale(-1,1); } try{ x.drawImage(cam,0,0,w,h); poster = posterFromCanvas(pc, w, h); }catch(e){} } }, 400);
   }
@@ -1121,7 +1160,8 @@ async function renderEditor(app, id, selStepId){
   const v = el(`<main class="page">
     <div class="ed-head"><input class="title" id="ititle" value="${esc(instr.title)}" placeholder="${t('title')}" ${S.user.role==='viewer'?'disabled':''}>
       <span class="chip dot ${instr.status}" id="stchip">${t(instr.status==='review'?'in_review':instr.status)}</span><span class="muted tnum">v${instr.version}</span>
-      <button class="btn mint sm" id="rec">${IC.cam} ${t('record')}</button><button class="btn ghost sm" id="prev">${IC.play} ${t('preview')}</button></div>
+      <span class="spacer"></span>
+      <button class="btn mint sm" id="rec">${IC.cam} ${t('record')}</button><button class="btn sm" id="cta" hidden></button><button class="btn ghost icon" id="more" title="${t('more')}">${IC.more}</button></div>
     <div class="tabs" id="tabs"><button data-tab="steps" class="${tab==='steps'?'on':''}">${t('steps')} <span class="tnum cnt" id="scount"></span></button><button data-tab="settings" class="${tab==='settings'?'on':''}">${t('tab_settings')}</button></div>
     <div class="editor" id="tab-steps" ${tab!=='steps'?'hidden':''}>
       <aside class="card steps-panel"><div class="ph"><b>${t('steps')}</b><button class="btn ghost sm" id="addch" title="${t('add_chapter')}">${IC.plus} ${t('new_chapter')}</button></div>
@@ -1142,11 +1182,16 @@ async function renderEditor(app, id, selStepId){
   app.appendChild(v);
   $$('#tabs button', v).forEach(b => b.onclick = () => { tab = b.dataset.tab; try{ sessionStorage.setItem('gg_tab_'+id, tab); }catch(e){} $$('#tabs button', v).forEach(x=>x.classList.toggle('on', x===b)); v.querySelector('#tab-steps').hidden = tab!=='steps'; v.querySelector('#tab-settings').hidden = tab!=='settings'; if(tab==='steps') setTimeout(()=>window.dispatchEvent(new Event('resize')), 30); });
   v.querySelector('#rec').onclick = () => go('rec/'+instr.id);
-  v.querySelector('#prev').onclick = () => go('preview/'+instr.id);
   v.querySelector('#share').onclick = () => shareModal(instr);
   v.querySelector('#pdf').onclick = () => exportPDF(instr);
   const rb = v.querySelector('#res'); if(rb) rb.onclick = () => go('results/'+instr.id);
-  const setChip = () => { const c = v.querySelector('#stchip'); c.className = 'chip dot '+instr.status; c.textContent = t(instr.status==='review'?'in_review':instr.status); };
+  v.querySelector('#more').onclick = () => modal(`<div class="menu"><button data-m="preview">${IC.play} ${t('preview')}</button><button data-m="share">${t('share')}</button><button data-m="pdf">${t('pdf')}</button>${instr.checklist?`<button data-m="results">${t('results')}</button>`:''}<button data-m="settings">${t('tab_settings')}</button></div>`, (bg, close) => { $$('[data-m]', bg).forEach(b => b.onclick = () => { close(); const m = b.dataset.m; if(m==='preview') go('preview/'+instr.id); else if(m==='share') shareModal(instr); else if(m==='pdf') exportPDF(instr); else if(m==='results') go('results/'+instr.id); else if(m==='settings') v.querySelector('[data-tab="settings"]').click(); }); });
+  const setChip = () => { const c = v.querySelector('#stchip'); c.className = 'chip dot '+instr.status; c.textContent = t(instr.status==='review'?'in_review':instr.status); updateCTA(); };
+  function updateCTA(){ const b = v.querySelector('#cta'); b.hidden = true; b.className = 'btn sm';
+    if(instr.status==='draft' && realSteps(instr).length && S.user.role!=='viewer'){ b.hidden = false; b.textContent = t('submit_review'); b.onclick = submitForReview; }
+    else if(instr.status==='review' && canApprove){ b.hidden = false; b.textContent = t('approve_publish'); b.onclick = approveAll; } }
+  async function submitForReview(){ const note = await promptM(t('publish_note'), LANG==='de'?'z. B. Schritt 4 Drehmoment korrigiert':'e.g. corrected torque in step 4', instr.version===0 ? (LANG==='de'?'Erstversion':'Initial version') : ''); if(note===null) return; instr.pendingNote = note; instr.status='review'; await saveInstr(instr); setChip(); renderApprovals(); toast(t('in_review')); }
+  async function approveAll(){ if(!(await confirmM(t('approve_all_q'), t('approve')))) return; const now = Date.now(); if(!instr.approvals.tech) instr.approvals.tech = {by:S.user.name, at:now}; if(!instr.approvals.dsgvo) instr.approvals.dsgvo = {by:S.user.name, at:now}; instr.status='published'; instr.version++; instr.history.push({version:instr.version, at:now, by:instr.createdBy, note:instr.pendingNote||'', tech:instr.approvals.tech, dsgvo:instr.approvals.dsgvo}); instr.pendingNote=''; await saveInstr(instr); setChip(); renderApprovals(); toast(t('published')+' · v'+instr.version); }
   const touch = async () => { if(instr.status!=='draft'){ instr.status='draft'; instr.approvals={tech:null,dsgvo:null}; renderApprovals(); setChip(); } await saveInstr(instr); };
   v.querySelector('#ititle').oninput = e => { instr.title = e.target.value; debounce('title', touch); };
   v.querySelector('#chk').onchange = async e => { instr.checklist = e.target.checked; await saveInstr(instr); };
@@ -1212,15 +1257,49 @@ async function renderEditor(app, id, selStepId){
   const focusRow = id => { const r = v.querySelector(`.srow[data-id="${id}"]`); if(r){ r.focus(); r.scrollIntoView({block:'nearest'}); } };
   async function move(i, d){ const j = i+d; if(j<0||j>=instr.steps.length) return; const [x] = instr.steps.splice(i,1); instr.steps.splice(j,0,x); await touch(); renderList(); }
   async function delStep(s){ if(!(await confirmM(t('confirm_del_step')))) return; const i = instr.steps.indexOf(s); instr.steps.splice(i,1); if(s.mediaId) await DB.del('media', s.mediaId); if(s.mediaPath) sb.storage.from('media').remove([s.mediaPath]).catch(()=>{}); if(sel===s.id){ sel = (realSteps(instr)[Math.min(i, realSteps(instr).length-1)]||{}).id; } await touch(); renderList(); renderStage(); toast(t('deleted')); }
-  // drag & drop via the left grip (pointer events → mouse + touch)
+  // drag & drop: the whole row follows the finger (ghost), the list reorders live
   function attachDrag(r, idx){
     const grip = r.querySelector('.grip'); if(!grip) return;
-    grip.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); grip.setPointerCapture(e.pointerId); r.classList.add('dragging'); let cur = -1;
-      const list = v.querySelector('#slist');
-      const mv = ev => { const t2 = document.elementFromPoint(ev.clientX, ev.clientY); const row = t2 && t2.closest('[data-id]'); $$('.over', list).forEach(x=>x.classList.remove('over')); if(row && row!==r && list.contains(row)){ row.classList.add('over'); cur = instr.steps.findIndex(s=>s.id===row.dataset.id); }
-        const rect = list.getBoundingClientRect(); if(ev.clientY < rect.top+40) list.scrollBy(0,-8); else if(ev.clientY > rect.bottom-40) list.scrollBy(0,8); };
-      const up = async () => { grip.removeEventListener('pointermove', mv); grip.removeEventListener('pointerup', up); grip.removeEventListener('pointercancel', up); r.classList.remove('dragging'); $$('.over', list).forEach(x=>x.classList.remove('over')); if(cur>=0 && cur!==idx){ await moveItemTo(idx, cur); } };
-      grip.addEventListener('pointermove', mv); grip.addEventListener('pointerup', up); grip.addEventListener('pointercancel', up); });
+    grip.addEventListener('pointerdown', e => {
+      e.preventDefault(); e.stopPropagation();
+      const list = v.querySelector('#slist'); const item = instr.steps[idx]; const isCh = item.kind==='chapter';
+      let hidden = [];
+      if(isCh){ const [cs,ce] = chapterBlock(idx); const ids = new Set(instr.steps.slice(cs+1,ce).map(x=>x.id)); hidden = $$('[data-id]', list).filter(x=>ids.has(x.dataset.id)); hidden.forEach(x=>x.hidden=true); }
+      const rect = r.getBoundingClientRect();
+      const ghost = r.cloneNode(true); ghost.classList.add('drag-ghost'); ghost.style.width = rect.width+'px'; ghost.style.left = rect.left+'px'; ghost.style.top = rect.top+'px'; document.body.appendChild(ghost);
+      r.classList.add('placeholder');
+      const offY = e.clientY - rect.top, offX = e.clientX - rect.left;
+      grip.setPointerCapture(e.pointerId);
+      if(navigator.vibrate) try{ navigator.vibrate(12); }catch(x){}
+      const rowsNow = () => $$('[data-id]', list).filter(x=>!x.hidden);
+      const mv = ev => {
+        ghost.style.top = (ev.clientY-offY)+'px'; ghost.style.left = (ev.clientX-offX)+'px';
+        const els = document.elementsFromPoint(ev.clientX, ev.clientY);
+        const row = els.map(x => x.closest ? x.closest('#slist [data-id]') : null).find(x => x && x!==r && !x.hidden);
+        if(row){
+          const rb = row.getBoundingClientRect(); const before = ev.clientY < rb.top + rb.height/2;
+          if(!isCh){ if(before) row.before(r); else row.after(r); }
+          else { // chapters only move between whole blocks
+            const rowIdx = instr.steps.findIndex(x=>x.id===row.dataset.id); const bs = instr.steps[rowIdx].kind==='chapter' ? rowIdx : blockStartOf(rowIdx);
+            if(bs < 0){ if(before) row.before(r); else row.after(r); }
+            else { const [cs,ce] = chapterBlock(bs); const ids = new Set(instr.steps.slice(cs,ce).map(x=>x.id)); const blockRows = rowsNow().filter(x=>ids.has(x.dataset.id)); const first = blockRows[0], last = blockRows[blockRows.length-1];
+              if(before && row===first) first.before(r); else last.after(r); }
+          }
+        }
+        if(ev.clientY < 90) window.scrollBy(0,-12); else if(ev.clientY > window.innerHeight-90) window.scrollBy(0,12);
+      };
+      const up = async () => {
+        grip.removeEventListener('pointermove',mv); grip.removeEventListener('pointerup',up); grip.removeEventListener('pointercancel',up);
+        ghost.remove(); r.classList.remove('placeholder'); hidden.forEach(x=>x.hidden=false);
+        const byId = Object.fromEntries(instr.steps.map(x=>[x.id,x])); const order = []; const skip = new Set();
+        $$('[data-id]', list).forEach(x => { const it = byId[x.dataset.id]; if(!it || skip.has(it.id)) return;
+          if(it.kind==='chapter'){ const ci = instr.steps.indexOf(it); const [cs,ce] = chapterBlock(ci); order.push(it); if(collapsed.has(it.id) || it===item){ instr.steps.slice(cs+1,ce).forEach(st => { order.push(st); skip.add(st.id); }); } }
+          else order.push(it); });
+        if(order.length === instr.steps.length && order.some((x,i)=>x!==instr.steps[i])){ instr.steps = order; await touch(); }
+        renderList();
+      };
+      grip.addEventListener('pointermove',mv); grip.addEventListener('pointerup',up); grip.addEventListener('pointercancel',up);
+    });
   }
   v.querySelector('#addch').onclick = async () => { const i = sel ? instr.steps.findIndex(s=>s.id===sel) : instr.steps.length; instr.steps.splice(Math.max(0,i), 0, {id:uid(), kind:'chapter', title:t('chapter')+' '+(instr.steps.filter(s=>s.kind==='chapter').length+1)}); await touch(); renderList(); setTimeout(()=>{ const inp = v.querySelector('.chrow input'); if(inp){ inp.focus(); inp.select(); } }, 30); };
 
@@ -1235,8 +1314,8 @@ async function renderEditor(app, id, selStepId){
     const n = realSteps(instr).indexOf(s)+1;
     const TOOLS = [['arrow',IC.arrow,'tool_arrow'],['circle',IC.circle,'tool_circle'],['rect',IC.rect,'tool_rect'],['number',IC.number,'tool_number'],['text',IC.text,'tool_text'],['check',IC.checkc,'tool_check'],['cross',IC.cross,'tool_cross'],['warn',IC.warn,'tool_warn'],['elec',IC.elec,'tool_elec'],['hot',IC.hot,'tool_hot']];
     stage.innerHTML = `<div class="row" style="justify-content:space-between;margin-bottom:10px"><b>${t('step')} ${n} ${t('of')} ${realSteps(instr).length}</b><div class="row" style="gap:4px"><button class="btn ghost sm" id="mup" title="${t('move_up')}">${IC.up}</button><button class="btn ghost sm" id="mdn" title="${t('move_down')}">${IC.down}</button><button class="btn ghost sm" id="del" title="${t('delete_step')}">${IC.trash}</button></div></div>
-      <div class="media-box" id="mbox">${isV?`<video id="med" src="${url}" muted playsinline loop preload="auto"></video>`:`<img id="med" src="${url}" alt="">`}<canvas class="ann sel-mode" id="acv"></canvas><div class="pausetag" id="ptag" hidden></div>
-        <div class="selbar" id="selbar" hidden><div class="swatches">${SWATCHES.map(c=>`<button class="sw" data-col="${c}" style="background:${COLORS[c]}" title="${c}"></button>`).join('')}</div><button class="btn danger sm" id="delann" title="${t('delete_ann')}">${IC.trash}</button></div></div>
+      <div class="media-box" id="mbox">${isV?`<video id="med" src="${url}" muted playsinline autoplay loop preload="auto"></video>`:`<img id="med" src="${url}" alt="">`}<canvas class="ann sel-mode" id="acv"></canvas><div class="pausetag" id="ptag" hidden></div></div>
+      <div class="selbar" id="selbar" hidden><span class="lbl" id="sel-name"></span><div class="swatches">${SWATCHES.map(c=>`<button class="sw" data-col="${c}" style="background:${COLORS[c]}" title="${c}"></button>`).join('')}</div><div class="sizebtns"><button id="sz-minus" aria-label="−">−</button><button id="sz-plus" aria-label="+">+</button></div><button class="btn danger sm" id="delann">${IC.trash} ${t('delete')}</button></div>
       <div class="tools-wrap"><div class="tools" id="tools">${TOOLS.map(([k,ic,lb])=>`<button class="tool" data-tool="${k}" title="${t(lb)}">${ic}<span>${t(lb)}</span></button>`).join('')}</div></div>
       <div class="muted" style="margin-top:6px">${t('tool_hint')}</div>
       <div class="ann-list" id="annlist"></div>
@@ -1258,13 +1337,16 @@ async function renderEditor(app, id, selStepId){
     const rectNow = () => { const b = cv.getBoundingClientRect(); return Object.assign(fitRect(b.width, b.height, mw(), mh()), {bx:b.left, by:b.top}); };
     const draw = () => { cv.style.width = box.clientWidth+'px'; cv.style.height = box.clientHeight+'px'; drawAll(cv, s.ann, mw(), mh(), selAnn, isVis); renderAnnList(); updateSelbar(); };
     const ro = new ResizeObserver(draw); ro.observe(box);
-    function updateSelbar(){ const a = s.ann.find(x=>x.id===selAnn); selbar.hidden = !a; if(!a) return; const fixed = ['check','cross','warn','elec','hot'].includes(a.type); selbar.querySelector('.swatches').hidden = fixed; $$('[data-col]', selbar).forEach(b => b.classList.toggle('on', b.dataset.col===(a.color||'blue'))); }
+    function updateSelbar(){ const a = s.ann.find(x=>x.id===selAnn); selbar.hidden = !a; if(!a) return; const fixed = ['check','cross','warn','elec','hot'].includes(a.type); selbar.querySelector('.swatches').hidden = fixed; selbar.querySelector('#sel-name').textContent = t('tool_'+a.type); $$('[data-col]', selbar).forEach(b => b.classList.toggle('on', b.dataset.col===(a.color||'blue'))); }
+    const scaleAnn = (a, f) => { if(a.x2!=null){ const cx=(a.x+a.x2)/2, cy=(a.y+a.y2)/2; a.x=cx+(a.x-cx)*f; a.y=cy+(a.y-cy)*f; a.x2=cx+(a.x2-cx)*f; a.y2=cy+(a.y2-cy)*f; } else { a.size = Math.min(0.7, Math.max(0.05, (a.size||0.14)*f)); } };
+    stage.querySelector('#sz-minus').onclick = async () => { const a = s.ann.find(x=>x.id===selAnn); if(!a) return; scaleAnn(a, 0.85); await touch(); draw(); };
+    stage.querySelector('#sz-plus').onclick = async () => { const a = s.ann.find(x=>x.id===selAnn); if(!a) return; scaleAnn(a, 1.18); await touch(); draw(); };
     $$('[data-col]', selbar).forEach(b => b.onclick = async e => { e.stopPropagation(); color = b.dataset.col; const a = s.ann.find(x=>x.id===selAnn); if(a){ a.color = color; await touch(); draw(); } });
     stage.querySelector('#delann').onclick = async e => { e.stopPropagation(); if(!selAnn) return; s.ann = s.ann.filter(a=>a.id!==selAnn); selAnn=null; await touch(); draw(); renderList(); };
     // Tool tap = place symbol in the middle (then drag / resize with handles)
     $$('[data-tool]', stage).forEach(b => b.onclick = async () => {
       const k = b.dataset.tool; if(isV) med.pause();
-      const base = {id:uid(), type:k, color, t: isV ? Math.round(curTime*20)/20 : 0};
+      const base = {id:uid(), type:k, color, size:0.12, t: isV ? Math.round(curTime*20)/20 : 0};
       const jitter = (s.ann.length % 5) * 0.03;
       if(k==='arrow') Object.assign(base, {x:0.32+jitter, y:0.62-jitter, x2:0.58+jitter, y2:0.4-jitter});
       else if(k==='circle'||k==='rect') Object.assign(base, {x:0.35+jitter, y:0.3+jitter, x2:0.65+jitter, y2:0.7-jitter});
@@ -1279,18 +1361,22 @@ async function renderEditor(app, id, selStepId){
       const at = stage.querySelector('#annt'); if(at){ const a = s.ann.find(x=>x.id===selAnn); at.textContent = a ? t('ann_at',{t:fmtSec(a.t||0)}) : ''; } }
     // --- pointer: select / move / handles ---
     const toNorm = (e, r) => ({x:(e.clientX-r.bx-r.x)/r.w, y:(e.clientY-r.by-r.y)/r.h});
-    const HIT = 26;
+    const HIT = 34; const pts = new Map(); let pinch = null;
     cv.addEventListener('pointerdown', e => {
-      e.preventDefault(); cv.setPointerCapture(e.pointerId); const r = rectNow(); const px = e.clientX-r.bx, py = e.clientY-r.by; const p = toNorm(e, r);
+      e.preventDefault(); cv.setPointerCapture(e.pointerId); pts.set(e.pointerId, {x:e.clientX, y:e.clientY});
+      if(pts.size===2){ const a = s.ann.find(x=>x.id===selAnn); if(a){ const [p1,p2] = [...pts.values()]; pinch = {a, d0: Math.hypot(p1.x-p2.x, p1.y-p2.y), o:{x:a.x,y:a.y,x2:a.x2,y2:a.y2,size:a.size||0.14}}; drag = null; } return; }
+      const r = rectNow(); const px = e.clientX-r.bx, py = e.clientY-r.by; const p = toNorm(e, r);
       const selA = s.ann.find(x=>x.id===selAnn);
       if(selA){ const h = annHandles(selA, r).find(h => Math.hypot(h.x-px, h.y-py) <= HIT); if(h){ drag = {a:selA, kind:h.kind, sx:p.x, sy:p.y, o:{x:selA.x,y:selA.y,x2:selA.x2,y2:selA.y2,size:selA.size||0.14}, r, moved:false}; return; } }
-      const hit = [...visibleAnns()].reverse().find(a => { const bb = annBounds(a, r); return px>=bb.x-10 && px<=bb.x+bb.w+10 && py>=bb.y-10 && py<=bb.y+bb.h+10; });
+      const hit = [...visibleAnns()].reverse().find(a => { const bb = annBounds(a, r); return px>=bb.x-16 && px<=bb.x+bb.w+16 && py>=bb.y-16 && py<=bb.y+bb.h+16; });
       selAnn = hit ? hit.id : null;
       if(hit) drag = {a:hit, kind:'move', sx:p.x, sy:p.y, o:{x:hit.x,y:hit.y,x2:hit.x2,y2:hit.y2,size:hit.size||0.14}, r, moved:false};
       else drag = {kind:'none', moved:false, sx:p.x, sy:p.y};
       draw();
     });
     cv.addEventListener('pointermove', e => {
+      if(pts.has(e.pointerId)) pts.set(e.pointerId, {x:e.clientX, y:e.clientY});
+      if(pinch && pts.size>=2){ const [p1,p2] = [...pts.values()]; const f = Math.hypot(p1.x-p2.x, p1.y-p2.y) / (pinch.d0||1); const a = pinch.a, o = pinch.o; if(o.x2!=null){ const cx=(o.x+o.x2)/2, cy=(o.y+o.y2)/2; a.x=cx+(o.x-cx)*f; a.y=cy+(o.y-cy)*f; a.x2=cx+(o.x2-cx)*f; a.y2=cy+(o.y2-cy)*f; } else a.size = Math.min(0.7, Math.max(0.05, o.size*f)); draw(); return; }
       if(!drag) return; const r = drag.r || rectNow(); const p = toNorm(e, r); const dx = p.x-drag.sx, dy = p.y-drag.sy;
       if(Math.abs(dx)+Math.abs(dy) > 0.004) drag.moved = true;
       if(drag.kind==='none') return; const a = drag.a, o = drag.o;
@@ -1300,7 +1386,9 @@ async function renderEditor(app, id, selStepId){
       else if(drag.kind==='size'){ a.size = Math.min(0.6, Math.max(0.06, o.size + (dx+dy)*0.8)); }
       draw();
     });
-    const endDrag = async () => {
+    const endDrag = async e => {
+      if(e) pts.delete(e.pointerId);
+      if(pinch){ if(pts.size<2){ pinch = null; await touch(); } return; }
       if(!drag) return; const d = drag; drag = null;
       if(d.kind==='none'){ if(!d.moved && isV){ if(med.paused){ if(curTime>=s.trimEnd-0.05) seekTo(s.trimStart||0); med.play().catch(()=>{}); } else med.pause(); } return; }
       if(d.moved) await touch();
@@ -1338,21 +1426,21 @@ async function renderEditor(app, id, selStepId){
   function renderApprovals(){
     const a = v.querySelector('#appr'); const ap = instr.approvals;
     const note = instr.status==='draft' ? t('status_note_draft') : instr.status==='review' ? t('status_note_review') : t('status_note_pub');
-    a.innerHTML = `<h3>${t('approvals')}</h3><div class="notice ${instr.status==='published'?'':'blue'}" style="margin-bottom:10px">${note}</div>
+    a.innerHTML = `<h3>${t('approvals')}</h3><div class="flow"><span class="${instr.status==='draft'?'cur':'done'}">1 · ${t('draft')}</span><span class="${instr.status==='review'?'cur':(instr.status==='published'?'done':'')}">2 · ${t('in_review')}</span><span class="${instr.status==='published'?'cur':''}">3 · ${t('published')}</span></div><div class="notice ${instr.status==='published'?'':'blue'}" style="margin-bottom:10px">${note}</div>
       <div class="approve-box">
         ${['tech','dsgvo'].map(k => `<div class="appr ${ap[k]?'ok':''}"><div><b>${t(k)}</b><small>${ap[k]?`${t('approved_by')} ${esc(ap[k].by)} · ${fmtDate(ap[k].at)}`:t('pending')}</small></div>
           ${instr.status==='review' && !ap[k] ? (canApprove ? `<div class="row"><button class="btn ghost sm" data-rej="${k}">${t('reject')}</button><button class="btn mint sm" data-ok="${k}">${t('approve')}</button></div>` : `<span class="muted">${t('only_reviewer')}</span>`) : ''}</div>`).join('')}
       </div>
       <div class="row" style="margin-top:12px">${instr.status==='draft' && S.user.role!=='viewer' && realSteps(instr).length ? `<button class="btn" id="submit">${t('submit_review')}</button>`:''}${instr.status==='review' && S.user.role!=='viewer' ? `<button class="btn ghost sm" id="todraft">${t('back_to_draft')}</button>`:''}${instr.status==='published' ? `<span class="muted">${t('locked_hint')}</span>`:''}</div>
       ${instr.history.length ? `<h3 style="margin-top:14px">${t('history')}</h3><div class="hist">${[...instr.history].reverse().map(h=>`<div><b>v${h.version}</b> · ${fmtDate(h.at)} · ${esc(h.by)} — ${esc(h.note)}</div>`).join('')}</div>`:''}`;
-    const sb2 = a.querySelector('#submit'); if(sb2) sb2.onclick = async () => { const note = await promptM(t('publish_note'), LANG==='de'?'z. B. Schritt 4 Drehmoment korrigiert':'e.g. corrected torque in step 4', instr.version===0 ? (LANG==='de'?'Erstversion':'Initial version') : ''); if(note===null) return; instr.pendingNote = note; instr.status='review'; await saveInstr(instr); setChip(); renderApprovals(); };
+    const sb2 = a.querySelector('#submit'); if(sb2) sb2.onclick = submitForReview;
     const td = a.querySelector('#todraft'); if(td) td.onclick = async () => { instr.status='draft'; instr.approvals={tech:null,dsgvo:null}; await saveInstr(instr); setChip(); renderApprovals(); };
     $$('[data-ok]', a).forEach(b => b.onclick = async () => { instr.approvals[b.dataset.ok] = {by:S.user.name, at:Date.now()};
       if(instr.approvals.tech && instr.approvals.dsgvo){ instr.status='published'; instr.version++; instr.history.push({version:instr.version, at:Date.now(), by:instr.createdBy, note:instr.pendingNote||'', tech:instr.approvals.tech, dsgvo:instr.approvals.dsgvo}); instr.pendingNote=''; setChip(); toast(t('published')+' · v'+instr.version); }
       await saveInstr(instr); renderApprovals(); });
     $$('[data-rej]', a).forEach(b => b.onclick = async () => { const r = await promptM(t('reject_reason'), t('reason_ph')); if(r===null) return; instr.status='draft'; instr.approvals={tech:null,dsgvo:null}; instr.history.push({version:instr.version, at:Date.now(), by:S.user.name, note:`${t('reject')} (${t(b.dataset.rej)}): ${r}`}); await saveInstr(instr); setChip(); renderApprovals(); });
   }
-  renderList(); renderStage(); renderApprovals();
+  renderList(); renderStage(); renderApprovals(); updateCTA();
   activeCleanup = () => { if(stageCleanup) stageCleanup(); };
 }
 const debounces = {}; const debounce = (k, fn, ms=400) => { clearTimeout(debounces[k]); debounces[k] = setTimeout(fn, ms); };
@@ -1397,7 +1485,7 @@ async function renderViewer(app, id, isPreview){
   for(const [i,s] of steps.entries()){
     const url = await mediaUrl(s.mediaId);
     const sec = el(`<section class="vstep" data-id="${s.id}" data-i="${i}">
-      <div class="vmedia">${s.type==='video'?`<video src="${url}" muted playsinline loop preload="metadata"></video>`:`<img src="${url}" alt="">`}<canvas></canvas>${s.type==='video'?'<div class="prog"><i></i></div>':''}${i===0 && steps.length>1 ? `<div class="vw-hint">↑ ${t('scroll_hint')}</div>`:''}</div>
+      <div class="vmedia">${s.type==='video'?`<video src="${url}" muted playsinline loop preload="auto"></video>`:`<img src="${url}" alt="">`}<canvas></canvas>${s.type==='video'?'<div class="prog"><i></i></div>':''}${i===0 && steps.length>1 ? `<div class="vw-hint">↑ ${t('scroll_hint')}</div>`:''}</div>
       <div class="vtext"><div class="num">${t('step')} ${i+1} / ${steps.length}${chapterOf(s.id)?` · ${esc(chapterOf(s.id))}`:''}</div><h2>${esc(s.title)||`${t('step')} ${i+1}`}</h2>${s.desc?`<p>${esc(s.desc)}</p>`:''}${s.warn?`<div class="warnbox">⚠ ${esc(s.warn)}</div>`:''}
         ${useChk?`<div class="chk"><button class="btn done off" data-ok>${IC.check} ${t('done')}</button><button class="btn nok" data-nok>${t('not_ok')}</button></div>`:''}</div>
     </section>`);
@@ -1553,6 +1641,8 @@ async function stepImages(s, count){
   return out;
 }
 
+window.addEventListener('error', e => { try{ toast('JS: '+(e.message||'').slice(0,120)); }catch(x){} });
+window.addEventListener('unhandledrejection', e => { try{ const m = e.reason && (e.reason.message||String(e.reason)); if(m && !/AbortError|play\(\)/.test(m)) toast('Fehler: '+m.slice(0,120)); }catch(x){} });
 /* ---------- Boot ---------- */
 render();
 })();
