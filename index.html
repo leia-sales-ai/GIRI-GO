@@ -494,6 +494,9 @@ body{-webkit-tap-highlight-color:transparent}
 .brand .ver{font-size:10px;opacity:.5;font-weight:600;margin-left:4px}
 .diag{position:absolute;left:8px;right:8px;top:calc(64px + env(safe-area-inset-top,0px));z-index:5;background:rgba(0,0,0,.8);color:#9BEDD7;font:11px/1.35 ui-monospace,Menlo,monospace;padding:8px;border-radius:8px;max-height:45vh;overflow:auto;white-space:pre-wrap;margin:0}
 .cap-top .cnt{border:0}
+.loading{display:flex;align-items:center;justify-content:center;padding:80px 0}
+.spin{width:28px;height:28px;border:3px solid var(--line);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 
 </head>
@@ -509,7 +512,7 @@ body{-webkit-tap-highlight-color:transparent}
 (() => {
 'use strict';
 
-const APP_VERSION = '0.4.0';
+const APP_VERSION = '0.4.1';
 /* ---------- i18n ---------- */
 const I18N = {
 de:{
@@ -552,6 +555,7 @@ de:{
   send_link:'Login-Link per E-Mail senden', first_time:'nur beim ersten Mal', magic_sent:'Link an {e} gesendet', magic_sub:'Öffne die E-Mail auf diesem Gerät und tippe auf den Link – fertig. Der Link gilt einmal; danach bleibst du auf dem Gerät eingeloggt.',
   ws_note:'Kolleginnen und Kollegen mit derselben E-Mail-Domain landen automatisch im selben Workspace.',
   uploading:'Upload', upload_failed:'Upload fehlgeschlagen – wird erneut versucht', remote_changed:'Auf anderem Gerät geändert – tippen zum Aktualisieren',
+  loading_backend:'Verbindung zum Backend wird geladen …', reload:'Neu laden',
   profile:'Profil', role_note:'Prototyp: Rolle selbst wählbar. In v2 vergibt der Admin die Rollen.',
   tab_settings:'Freigabe & Einstellungen', more:'Mehr', approve_publish:'Freigeben & veröffentlichen', approve_all_q:'Technische und DSGVO-Freigabe erteilen und veröffentlichen?', tool_hint:'Symbol antippen → erscheint im Bild. Ziehen zum Verschieben, weiße Anfasser zum Anpassen.', expand:'Aufklappen', collapse:'Einklappen',
   cooldown:'Mail wurde gerade verschickt – bitte {s} s warten.', cooldown_sub:'Der letzte Link ist unterwegs. Prüfe Posteingang und Spam, bevor du neu anforderst – jeder neue Link macht den alten ungültig.',
@@ -597,6 +601,7 @@ en:{
   send_link:'Send login link by email', first_time:'first time only', magic_sent:'Link sent to {e}', magic_sub:'Open the email on this device and tap the link – done. The link works once; after that you stay signed in on this device.',
   ws_note:'Colleagues with the same email domain automatically share one workspace.',
   uploading:'Upload', upload_failed:'Upload failed – will retry', remote_changed:'Changed on another device – tap to refresh',
+  loading_backend:'Loading backend connection …', reload:'Reload',
   profile:'Profile', role_note:'Prototype: you pick your own role. In v2 an admin assigns roles.',
   tab_settings:'Approval & settings', more:'More', approve_publish:'Approve & publish', approve_all_q:'Grant technical and GDPR approval and publish?', tool_hint:'Tap a symbol → it appears on the image. Drag to move, white handles to adjust.', expand:'Expand', collapse:'Collapse',
   cooldown:'Email was just sent – please wait {s} s.', cooldown_sub:'The last link is on its way. Check inbox and spam before requesting again – every new link invalidates the old one.',
@@ -639,7 +644,8 @@ const LS = { get:k=>{try{return JSON.parse(localStorage.getItem(k));}catch(e){re
 
 /* ---------- Supabase ---------- */
 const CFG = window.GIRI_CONFIG || {};
-const sb = (window.supabase && CFG.SUPABASE_URL) ? window.supabase.createClient(CFG.SUPABASE_URL, CFG.SUPABASE_KEY, {auth:{persistSession:true, autoRefreshToken:true, detectSessionInUrl:true}}) : null;
+let sb = null;
+function initSb(){ if(sb || !window.supabase || !CFG.SUPABASE_URL) return !!sb; sb = window.supabase.createClient(CFG.SUPABASE_URL, CFG.SUPABASE_KEY, {auth:{persistSession:true, autoRefreshToken:true, detectSessionInUrl:true}}); attachAuth(); return true; }
 const PUBLIC_MEDIA = path => `${CFG.SUPABASE_URL}/storage/v1/object/public/media/${path}`;
 
 /* ---------- State ---------- */
@@ -858,7 +864,7 @@ function drawAll(canvas, anns, mw, mh, selId, timeFilter){
 /* ---------- Router ---------- */
 const go = h => { location.hash = h; };
 window.addEventListener('hashchange', () => { if(/^#(access_token|error|refresh_token)/.test(location.hash) || location.hash.includes('access_token=')) return; render(); });
-let activeCleanup = null, authReady = false, rtChannel = null;
+let activeCleanup = null, authReady = false, rtChannel = null, renderSeq = 0;
 function ensureRealtime(){
   if(!sb || !S.user || rtChannel) return;
   rtChannel = sb.channel('instr-'+S.user.ws).on('postgres_changes', {event:'*', schema:'public', table:'instructions', filter:'ws=eq.'+S.user.ws}, payload => {
@@ -869,17 +875,21 @@ function ensureRealtime(){
   }).subscribe();
 }
 async function render(){
+  const seq = ++renderSeq; const stale = () => seq !== renderSeq;
   if(activeCleanup){ try{ activeCleanup(); }catch(e){} activeCleanup = null; }
   const h = location.hash.replace(/^#\/?/, '');
   const [view, id, extra] = h.split('/');
-  const app = $('#app'); app.innerHTML = '';
-  if(!sb){ app.innerHTML = `<main class="page page-narrow"><div class="card empty"><h2>Supabase</h2><div>SUPABASE_URL / SUPABASE_KEY fehlen oder Script nicht geladen.</div></div></main>`; return; }
-  if(view === 'v' && id){ return renderViewer(app, id, false); }
-  if(!authReady){ await loadProfile(); authReady = true; }
+  const app = $('#app');
+  if(!sb){ app.innerHTML = `<main class="page page-narrow"><div class="card empty"><h2>GIRI Go</h2><div>${t('loading_backend')}</div><br><button class="btn" onclick="location.reload()">${t('reload')}</button></div></main>`; return; }
+  if(view === 'v' && id){ app.innerHTML = ''; return renderViewer(app, id, false); }
+  if(!authReady){ app.innerHTML = `<div class="loading"><div class="spin"></div></div>`; await loadProfile(); if(stale()) return; authReady = true; }
+  app.innerHTML = '';
   if(!S.user){ return renderLogin(app); }
   ensureRealtime(); runUploads();
-  await loadInstrs();
-  if(!S.instrs.length && S.user.role!=='viewer'){ await ensureSeed(); await loadInstrs(); }
+  app.innerHTML = `<div class="loading"><div class="spin"></div></div>`;
+  await loadInstrs(); if(stale()) return;
+  if(!S.instrs.length && S.user.role!=='viewer'){ await ensureSeed(); await loadInstrs(); if(stale()) return; }
+  app.innerHTML = '';
   if(view === 'rec' && id) return renderCapture(app, id);
   if(view === 'edit' && id) return renderEditor(app, id, extra);
   if(view === 'preview' && id) return renderViewer(app, id, true);
@@ -938,13 +948,14 @@ function renderLogin(app){
   v.querySelector('#li-email').addEventListener('keydown', e => { if(e.key==='Enter') v.querySelector('#li-go').click(); });
   app.appendChild(v);
 }
-if(sb){ sb.auth.onAuthStateChange(async (ev, session) => {
+function attachAuth(){ sb.auth.onAuthStateChange(async (ev, session) => {
   if(ev==='SIGNED_IN' || ev==='INITIAL_SESSION'){
     if(location.hash.includes('access_token=') || location.hash.startsWith('#error')) history.replaceState(null, '', location.pathname + location.search + '#/');
-    if(session && !S.user){ await loadProfile(); authReady = true; render(); }
+    if(session && !S.user && authReady){ await loadProfile(); render(); }
   }
   if(ev==='SIGNED_OUT'){ S.user = null; }
 }); }
+initSb();
 
 /* ---------- Seed example ---------- */
 let seedOnce = null;
@@ -1669,7 +1680,12 @@ async function stepImages(s, count){
 window.addEventListener('error', e => { try{ toast('JS: '+(e.message||'').slice(0,120)); }catch(x){} });
 window.addEventListener('unhandledrejection', e => { try{ const m = e.reason && (e.reason.message||String(e.reason)); if(m && !/AbortError|play\(\)/.test(m)) toast('Fehler: '+m.slice(0,120)); }catch(x){} });
 /* ---------- Boot ---------- */
-render();
+(function boot(){
+  if(initSb()){ render(); return; }
+  render();
+  const tryLoad = (src, next) => { const sc = document.createElement('script'); sc.src = src; sc.onload = () => { if(initSb()) render(); else next(); }; sc.onerror = next; document.head.appendChild(sc); };
+  tryLoad('https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js', () => tryLoad('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js', () => {}));
+})();
 })();
 </script>
 </body>
