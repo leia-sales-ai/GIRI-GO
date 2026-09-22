@@ -36,5 +36,30 @@ Supabase-URL und Publishable Key stehen oben in `index.html` unter `window.GIRI_
 - Storage `media/<workspace>/<anleitung>/<id>.mp4|jpg` – Clips und Fotos; `media/runs/<run>/…` – Beweisfotos
 - Clips werden erst lokal (IndexedDB) gespeichert und dann im Hintergrund hochgeladen (Fortschritt oben in der App).
 
-## Auf dem Handy installieren
-Safari/Chrome → Teilen → „Zum Home-Bildschirm" – läuft dann als App im Vollbild.
+## Rollen, Teams, Projekte (ab v0.9)
+- Rollen: **Super Admin** (alles, inkl. Admin-Panel), **Creator** (aufnehmen, bearbeiten, freigeben), **Freigeber/Approver** (freigeben), **Betrachter**. Der erste Benutzer eines Workspace ist Super Admin. Admins laden Benutzer ein (Login-Link per Mail, Rolle vorab wählbar), vergeben Rollen, legen Teams an und ordnen Projekte Teams zu (Zahnrad oben rechts oder „Admin“ auf der Startseite).
+- Startseite = Projektübersicht (Karten), „Alle Anleitungen“ als flache Liste. Im Projekt werden neue Anleitungen direkt im Projekt angelegt.
+- Checklisten-Durchführungen werden schon während der Arbeit gespeichert (Status „läuft“ im Job-Done-Protokoll) und beim Abschließen finalisiert.
+- **Projekte** (Ordner) organisieren Anleitungen. Ohne Team-Zuordnung sehen alle im Workspace das Projekt; mit Zuordnung nur die Team-Mitglieder (Rolle im Team gilt für die Anleitungen des Projekts).
+- Veröffentlichte Links/QR-Codes funktionieren immer ohne Login. Die Projekt-Sichtbarkeit wird derzeit in der App geprüft (Datenbank-Regeln pro Projekt folgen).
+
+## Übersetzungen
+- Ein Link für alle Sprachen: Der Werker wählt oben in der Anleitung die Sprache (Flagge). Die Übersetzung läuft live über die Edge Function `translate` (DeepL, Key im Vault) und wird in der Anleitung zwischengespeichert.
+- Text zwischen `==` und `==` wird nicht übersetzt (z. B. `==M6==`). `**fett**`, Listen (`- ` / `1. `) und Links `[Text](https://…)` bleiben erhalten.
+- Die App-Oberfläche selbst gibt es in Deutsch und Englisch; jede weitere Sprache (FR, ES, IT, NL, PL, CS, TR, PT, RO, HU) wird beim ersten Wechsel einmal per DeepL übersetzt, serverseitig in `ui_tx` zwischengespeichert und auf dem Gerät gemerkt (Sprachmenü oben rechts, im Viewer über die Flagge).
+
+## Fotos & Videos importieren
+- Editor: „Importieren“ im Schritte-Panel (Handy: Fotomediathek, Mehrfachauswahl) oder Dateien einfach auf die Seite ziehen (PC). Aufnahme-Screen: Import-Symbol oben rechts.
+- Jede Datei wird ein eigener Schritt, eingefügt nach dem markierten Schritt, in Aufnahmereihenfolge (Datei-Datum). Fotos werden auf 1600 px verkleinert (JPEG), Videos unverändert übernommen (max. 80 MB, Anfangs-Trim 15 s).
+- iPhone-Videos im HEVC-Format laufen nur in Safari. Für die Bearbeitung am PC in den iPhone-Einstellungen unter Kamera → Formate „Maximale Kompatibilität“ wählen.
+
+## Als App installieren (PWA)
+- Android/Chrome/Edge: Beim ersten Öffnen erscheint „Als App installieren“ (auch im Profil-Menü). iPhone/iPad: Safari → Teilen → „Zum Home-Bildschirm“.
+- Dateien im Repo: `manifest.webmanifest`, `sw.js` (Service Worker: App-Shell offline, Bibliotheken gecacht, Daten immer live), `icons/`.
+- Neue Version: einfach alle Dateien aus dem Release-Ordner hochladen (überschreiben). `sw.js` muss nicht angepasst werden – die App holt `index.html` immer frisch und zeigt „Neue Version verfügbar“.
+- Login in der installierten App: Der Magic Link öffnet sich im Browser, nicht in der App. Deshalb gibt es im Login ein Code-Feld – dafür muss in Supabase (Authentication → Email Templates → Magic Link) der Code in die Mail: `{{ .Token }}`.
+
+## Video-Konvertierung
+- Jeder Clip wird im Browser (WebCodecs) zu H.264-MP4 mit max. 1280 px und ~2 Mbit/s konvertiert: Importe sofort beim Import, Aufnahmen (z. B. WebM von Android) im Hintergrund vor dem Upload. Geht auf iOS 16.4+, Chrome, Edge, Safari; wo WebCodecs fehlt, bleibt das Original.
+- `login.jpg` ist das Bild rechts auf der Login-Seite (austauschbar, ca. 1600 px breit).
+
