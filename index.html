@@ -327,7 +327,7 @@ body{-webkit-tap-highlight-color:transparent}
 .card{border:1px solid rgba(1,39,86,.06)}
 .topbar{background:linear-gradient(90deg,#012756 0%,#0a3a7c 100%);backdrop-filter:saturate(1.2);flex-wrap:nowrap;gap:8px}
 .topbar .tb-btn{white-space:nowrap;padding:8px 10px}
-@media(max-width:560px){.brand small{display:none}.topbar .tb-btn[data-logout]{display:none}.topbar .tb-btn[data-profile]{max-width:150px;overflow:hidden;text-overflow:ellipsis}}
+@media(max-width:560px){.brand small:not(.ver){display:none}.topbar .tb-btn[data-logout]{display:none}.topbar .tb-btn[data-profile]{max-width:150px;overflow:hidden;text-overflow:ellipsis}}
 .btn{box-shadow:0 2px 6px rgba(1,39,86,.12)}
 .btn.ghost{box-shadow:none}
 .btn.mint{background:linear-gradient(135deg,#1fe3ad,#03D39B)}
@@ -497,6 +497,56 @@ body{-webkit-tap-highlight-color:transparent}
 .loading{display:flex;align-items:center;justify-content:center;padding:80px 0}
 .spin{width:28px;height:28px;border:3px solid var(--line);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+.retake{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.tool-ghost{position:fixed;z-index:300;pointer-events:none;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:14px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.tool-ghost svg{width:28px;height:28px}
+.media-box.drop-ok{outline:3px solid var(--blue);outline-offset:-3px}
+.timeline{margin-top:8px}
+.modebar{position:absolute;left:50%;top:calc(66px + env(safe-area-inset-top,0px));transform:translateX(-50%);z-index:4;display:flex;align-items:center;gap:8px;background:var(--blue);color:#fff;padding:6px 8px 6px 14px;border-radius:999px;font-weight:700;font-size:13px}
+.modebar button{color:#fff;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.2);display:inline-flex;align-items:center;justify-content:center}
+.modebar button svg{width:16px;height:16px}
+.cap-strip .st{cursor:pointer}
+.cap-strip .st.sel{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue)}
+.cap-strip .st.aft{border-color:var(--mint)}
+
+/* ===== round 4 ===== */
+.instr .acts2{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center;margin-top:8px;font-size:13px;color:var(--ink-3)}
+.list{grid-template-columns:minmax(0,1fr)}
+.instr>div{min-width:0}
+.instr .title{overflow-wrap:anywhere}
+.instr .acts2 button{color:var(--ink-2);font-weight:600;font-size:13px;padding:4px 2px;display:inline-flex;gap:5px;align-items:center}
+.instr .acts2 button:hover{color:var(--blue)}
+.logo-prev{height:44px;min-width:80px;padding:6px 10px;border:1px dashed var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;background:#fff}
+.logo-prev img{max-height:32px;max-width:160px}
+.viewer{--brand:#004EAD}
+.vw-top .ch,.vstep .vtext .num,.vw-side h3{color:var(--brand)}
+.vstep .prog i{background:var(--brand)}
+.vlogo{height:28px;max-width:120px;object-fit:contain;flex:0 0 auto;margin-right:4px;background:rgba(255,255,255,.92);padding:3px 6px;border-radius:6px}
+.vstep.vend{background:#000;display:flex;align-items:center;justify-content:center;padding:24px}
+.vend-in{text-align:center;max-width:420px;width:100%}
+.bigcheck{width:96px;height:96px;border-radius:50%;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 22px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.bigcheck svg{width:52px;height:52px}
+.vend-in h2{font-size:26px;margin-bottom:8px;letter-spacing:-.01em}
+.vend-in p{color:#B8C6DB;margin:0 0 24px}
+.vend-sum{display:flex;justify-content:center;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.vend-sum span{padding:6px 12px;border-radius:999px;background:#222;font-weight:700;font-size:13px}
+.vend-sum .ok{background:rgba(3,211,155,.2);color:var(--mint)}
+.vend-sum .nok{background:rgba(220,38,38,.25);color:#ff8a8e}
+.btn.big{padding:14px 26px;font-size:16px}
+.viewer a.btn{text-decoration:none}
+.viewer .btn.ghost{color:#fff;border-color:#444}
+.viewer.light .btn.ghost{color:#000;border-color:#DADADA}
+.viewer .btn:not(.ghost):not(.mint):not(.danger):not(.done):not(.nok){background:var(--brand) !important}
+.viewer.light,.viewer.light .vstep .vtext,.viewer.light .vstep.vend,.viewer.light .vw-start,.viewer.light .vw-end{background:#fff;color:#000}
+.viewer.light .vw-top{background:linear-gradient(rgba(255,255,255,.92),transparent);color:#000}
+.viewer.light .round{background:rgba(0,0,0,.08);color:#000}
+.viewer.light .vstep .vtext p,.viewer.light .vend-in p{color:#525252}
+.viewer.light .vstep .chk .done.off,.viewer.light .vstep .chk .nok{background:#EFEFEF;color:#000}
+.viewer.light .vw-side{background:#fff;color:#000}
+.viewer.light .vw-side .it:hover{background:#F4F4F4}
+.viewer.light .vw-start .card,.viewer.light .vw-end .card{background:#fff;color:#000;border:1px solid #DADADA}
+.viewer.light .vend-sum span{background:#EFEFEF}
+.viewer.light .vw-hint{background:rgba(0,0,0,.6)}
 </style>
 
 </head>
@@ -512,7 +562,7 @@ body{-webkit-tap-highlight-color:transparent}
 (() => {
 'use strict';
 
-const APP_VERSION = '0.4.1';
+const APP_VERSION = '0.5.0';
 /* ---------- i18n ---------- */
 const I18N = {
 de:{
@@ -555,9 +605,9 @@ de:{
   send_link:'Login-Link per E-Mail senden', first_time:'nur beim ersten Mal', magic_sent:'Link an {e} gesendet', magic_sub:'Öffne die E-Mail auf diesem Gerät und tippe auf den Link – fertig. Der Link gilt einmal; danach bleibst du auf dem Gerät eingeloggt.',
   ws_note:'Kolleginnen und Kollegen mit derselben E-Mail-Domain landen automatisch im selben Workspace.',
   uploading:'Upload', upload_failed:'Upload fehlgeschlagen – wird erneut versucht', remote_changed:'Auf anderem Gerät geändert – tippen zum Aktualisieren',
-  loading_backend:'Verbindung zum Backend wird geladen …', reload:'Neu laden',
+  loading_backend:'Verbindung zum Backend wird geladen …', update_avail:'Neue Version {v} verfügbar – tippen zum Laden', reload:'Neu laden',
   profile:'Profil', role_note:'Prototyp: Rolle selbst wählbar. In v2 vergibt der Admin die Rollen.',
-  tab_settings:'Freigabe & Einstellungen', more:'Mehr', approve_publish:'Freigeben & veröffentlichen', approve_all_q:'Technische und DSGVO-Freigabe erteilen und veröffentlichen?', tool_hint:'Symbol antippen → erscheint im Bild. Ziehen zum Verschieben, weiße Anfasser zum Anpassen.', expand:'Aufklappen', collapse:'Einklappen',
+  tab_settings:'Freigabe & Einstellungen', record_next:'Nächsten Schritt aufnehmen', branding:'Branding', branding_sub:'So erscheint die Anleitung unter dem Link und im PDF.', brand_name:'Firmenname', brand_color:'Akzentfarbe', brand_logo:'Logo', brand_nologo:'Kein Logo', brand_theme:'Anleitungs-Ansicht', theme_dark:'Dunkel', theme_light:'Hell', upload:'Hochladen', remove:'Entfernen', end_title:'Geschafft – alle Schritte durch.', undo:'Rückgängig', undone:'Rückgängig gemacht', retake:'Neu aufnehmen', rec_after:'Danach aufnehmen', replace_file:'Datei ersetzen', replacing:'Ersetzt Schritt {n}', inserting:'Nach Schritt {n}', tap_thumb:'Tippe auf ein Vorschaubild, um diesen Schritt neu aufzunehmen', more:'Mehr', approve_publish:'Freigeben & veröffentlichen', approve_all_q:'Technische und DSGVO-Freigabe erteilen und veröffentlichen?', tool_hint:'Symbol antippen → erscheint im Bild. Ziehen zum Verschieben, weiße Anfasser zum Anpassen.', expand:'Aufklappen', collapse:'Einklappen',
   cooldown:'Mail wurde gerade verschickt – bitte {s} s warten.', cooldown_sub:'Der letzte Link ist unterwegs. Prüfe Posteingang und Spam, bevor du neu anforderst – jeder neue Link macht den alten ungültig.',
   rate_limit:'Mail-Limit erreicht – es wurde keine neue Mail verschickt.', rate_limit_sub:'Der Test-Mailversand erlaubt nur 2 Mails pro Stunde. Bist du auf diesem Gerät schon eingeloggt gewesen? Dann einfach die App neu öffnen – die Sitzung bleibt erhalten, kein erneuter Link nötig.'
 },
@@ -601,9 +651,9 @@ en:{
   send_link:'Send login link by email', first_time:'first time only', magic_sent:'Link sent to {e}', magic_sub:'Open the email on this device and tap the link – done. The link works once; after that you stay signed in on this device.',
   ws_note:'Colleagues with the same email domain automatically share one workspace.',
   uploading:'Upload', upload_failed:'Upload failed – will retry', remote_changed:'Changed on another device – tap to refresh',
-  loading_backend:'Loading backend connection …', reload:'Reload',
+  loading_backend:'Loading backend connection …', update_avail:'New version {v} available – tap to load', reload:'Reload',
   profile:'Profile', role_note:'Prototype: you pick your own role. In v2 an admin assigns roles.',
-  tab_settings:'Approval & settings', more:'More', approve_publish:'Approve & publish', approve_all_q:'Grant technical and GDPR approval and publish?', tool_hint:'Tap a symbol → it appears on the image. Drag to move, white handles to adjust.', expand:'Expand', collapse:'Collapse',
+  tab_settings:'Approval & settings', record_next:'Record next step', branding:'Branding', branding_sub:'How the instruction appears under the link and in the PDF.', brand_name:'Company name', brand_color:'Accent colour', brand_logo:'Logo', brand_nologo:'No logo', brand_theme:'Instruction view', theme_dark:'Dark', theme_light:'Light', upload:'Upload', remove:'Remove', end_title:'Done – all steps completed.', undo:'Undo', undone:'Undone', retake:'Retake', rec_after:'Record after this', replace_file:'Replace file', replacing:'Replacing step {n}', inserting:'After step {n}', tap_thumb:'Tap a thumbnail to re-record that step', more:'More', approve_publish:'Approve & publish', approve_all_q:'Grant technical and GDPR approval and publish?', tool_hint:'Tap a symbol → it appears on the image. Drag to move, white handles to adjust.', expand:'Expand', collapse:'Collapse',
   cooldown:'Email was just sent – please wait {s} s.', cooldown_sub:'The last link is on its way. Check inbox and spam before requesting again – every new link invalidates the old one.',
   rate_limit:'Email limit reached – no new email was sent.', rate_limit_sub:'The test mailer allows only 2 emails per hour. Already signed in on this device? Just reopen the app – the session persists, no new link needed.'
 }};
@@ -659,6 +709,10 @@ const mediaUrl = async id => {
   if(m && m.remote) return m.remote;
   return S.remoteUrl.get(id) || null;
 };
+const BRAND_DEFAULT = {name:'', color:'#004EAD', logo:null, theme:'dark'};
+S.brand = Object.assign({}, BRAND_DEFAULT); const brandCache = new Map();
+async function loadBrand(ws){ if(!sb || !ws) return S.brand; if(brandCache.has(ws)){ S.brand = brandCache.get(ws); return S.brand; } const {data} = await sb.from('workspaces').select('brand').eq('ws', ws).maybeSingle(); S.brand = Object.assign({}, BRAND_DEFAULT, (data && data.brand) || {}); brandCache.set(ws, S.brand); return S.brand; }
+async function saveBrand(brand){ const {error} = await sb.from('workspaces').upsert({ws:S.user.ws, brand, updated_at:new Date().toISOString()}); if(error) throw error; S.brand = Object.assign({}, BRAND_DEFAULT, brand); brandCache.set(S.user.ws, S.brand); }
 const rememberRemote = instr => { for(const s of instr.steps||[]){ if(s.mediaUrl) S.remoteUrl.set(s.mediaId, s.mediaUrl); } };
 const rowToInstr = r => { const i = r.data || {}; i.id = r.id; i.ws = r.ws; i.status = r.status; i.title = r.title; i.updatedAt = new Date(r.updated_at).getTime(); rememberRemote(i); return i; };
 const loadInstrs = async () => {
@@ -668,11 +722,12 @@ const loadInstrs = async () => {
   S.instrs = data.map(rowToInstr);
 };
 const fetchInstr = async id => { if(!sb) return null; const {data} = await sb.from('instructions').select('*').eq('id', id).maybeSingle(); return data ? rowToInstr(data) : null; };
-let saving = 0;
+let saving = 0; const ownWrites = new Set();
 const saveInstr = async i => {
   i.updatedAt = Date.now(); if(!sb) return;
   const {id, ws, status, title, updatedAt, ...rest} = i; const data = Object.assign({}, rest);
   saving++;
+  ownWrites.add(updatedAt); if(ownWrites.size > 200){ const first = ownWrites.values().next().value; ownWrites.delete(first); }
   const {error} = await sb.from('instructions').upsert({id, ws, status, title, updated_at: new Date(updatedAt).toISOString(), data});
   saving--;
   if(error) toast(error.message);
@@ -767,6 +822,9 @@ const IC = {
   grip:'<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.8"/><circle cx="15" cy="6" r="1.8"/><circle cx="9" cy="12" r="1.8"/><circle cx="15" cy="12" r="1.8"/><circle cx="9" cy="18" r="1.8"/><circle cx="15" cy="18" r="1.8"/></svg>',
   more:'<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="12" r="2.2"/></svg>',
   upload:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></svg>',
+  undo:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg>',
+  brand:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="10" r="1.3" fill="currentColor"/><circle cx="12" cy="7.5" r="1.3" fill="currentColor"/><circle cx="15.5" cy="10" r="1.3" fill="currentColor"/><path d="M12 21c-1.5-2-1-4 1-4.5s3-2 2-4"/></svg>',
+  edit:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10-10-4-4L4 16z"/><path d="M12 8l4 4"/></svg>',
   up:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>',
   down:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>'
 };
@@ -788,19 +846,24 @@ function drawAnn(ctx, a, r, selected){
   if(a.type==='arrow'){
     const x1=X(a.x), y1=Y(a.y), x2=X(a.x2), y2=Y(a.y2);
     const ang = Math.atan2(y2-y1, x2-x1); const len = Math.hypot(x2-x1, y2-y1);
-    const W = Math.max(6, base*0.03*((a.size||0.14)/0.14)); const head = Math.min(Math.max(W*2.6, 22), len*0.7);
+    const W = Math.max(7, base*0.032*((a.size||0.14)/0.14)); const B = Math.max(2, W*0.28); // outline thickness
+    const head = Math.min(Math.max(W*2.4, 20), len*0.7);
+    const ux = Math.cos(ang), uy = Math.sin(ang);
     const hx1 = x2 - head*Math.cos(ang-Math.PI/4), hy1 = y2 - head*Math.sin(ang-Math.PI/4);
     const hx2 = x2 - head*Math.cos(ang+Math.PI/4), hy2 = y2 - head*Math.sin(ang+Math.PI/4);
-    const path = () => { ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.moveTo(hx1,hy1); ctx.lineTo(x2,y2); ctx.lineTo(hx2,hy2); };
-    ctx.lineCap='butt'; ctx.lineJoin='miter'; ctx.miterLimit=4;
-    ctx.shadowColor='rgba(0,0,0,.45)'; ctx.shadowBlur=W*0.6; ctx.shadowOffsetY=W*0.15;
-    ctx.strokeStyle=col; ctx.lineWidth=W; path(); ctx.stroke();
+    // shaft stops inside the head so the tip outline stays closed
+    const sx2 = x2 - ux*W*0.9, sy2 = y2 - uy*W*0.9;
+    const shaft = () => { ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(sx2,sy2); };
+    const chev = () => { ctx.beginPath(); ctx.moveTo(hx1,hy1); ctx.lineTo(x2,y2); ctx.lineTo(hx2,hy2); };
+    ctx.lineCap='butt'; ctx.lineJoin='miter'; ctx.miterLimit=6;
+    ctx.shadowColor='rgba(0,0,0,.35)'; ctx.shadowBlur=W*0.7; ctx.shadowOffsetY=W*0.15;
+    ctx.strokeStyle=col; ctx.lineWidth=W+B*2; shaft(); ctx.stroke(); chev(); ctx.stroke();
     ctx.shadowColor='transparent';
-    ctx.strokeStyle='#fff'; ctx.lineWidth=W*0.42; path(); ctx.stroke();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=W; shaft(); ctx.stroke(); chev(); ctx.stroke();
   } else if(a.type==='circle' || a.type==='rect'){
     const x=Math.min(X(a.x),X(a.x2)), y=Math.min(Y(a.y),Y(a.y2)), w=Math.max(6,Math.abs(X(a.x2)-X(a.x))), h=Math.max(6,Math.abs(Y(a.y2)-Y(a.y)));
     const path = () => { if(a.type==='circle'){ ctx.beginPath(); ctx.ellipse(x+w/2, y+h/2, w/2, h/2, 0, 0, Math.PI*2); } else rr(ctx, x, y, w, h, Math.min(w,h)*0.12); };
-    const W2 = Math.max(6, base*0.03*((a.size||0.14)/0.14)); ctx.shadowColor='rgba(0,0,0,.4)'; ctx.shadowBlur=W2*0.6; ctx.strokeStyle=col; ctx.lineWidth=W2; path(); ctx.stroke(); ctx.shadowColor='transparent'; ctx.strokeStyle='#fff'; ctx.lineWidth=W2*0.4; path(); ctx.stroke();
+    const W2 = Math.max(6, base*0.026*((a.size||0.14)/0.14)); const B2 = Math.max(2, W2*0.3); ctx.shadowColor='rgba(0,0,0,.35)'; ctx.shadowBlur=W2*0.7; ctx.shadowOffsetY=W2*0.15; ctx.strokeStyle=col; ctx.lineWidth=W2+B2*2; path(); ctx.stroke(); ctx.shadowColor='transparent'; ctx.strokeStyle='#fff'; ctx.lineWidth=W2; path(); ctx.stroke();
   } else if(a.type==='text'){
     const fs = Math.max(13, base*0.05*((a.size||0.14)/0.14)); ctx.font = `700 ${fs}px Montserrat, sans-serif`;
     const txt = a.text||'…'; const tw = ctx.measureText(txt).width; const px = fs*0.65, py = fs*0.4;
@@ -869,6 +932,7 @@ function ensureRealtime(){
   if(!sb || !S.user || rtChannel) return;
   rtChannel = sb.channel('instr-'+S.user.ws).on('postgres_changes', {event:'*', schema:'public', table:'instructions', filter:'ws=eq.'+S.user.ws}, payload => {
     if(saving>0) return; // eigene Schreibvorgänge ignorieren
+    if(payload.new && payload.new.updated_at && ownWrites.has(Date.parse(payload.new.updated_at))) return;
     const h = location.hash.replace(/^#\/?/, ''); const [view, id] = h.split('/');
     if(!view || view===''){ debounce('rt', render, 300); }
     else if((view==='edit'||view==='rec') && payload.new && payload.new.id===id){ debounce('rt', () => { if(!$('#rt-note')){ const n = el(`<div class="sync show" id="rt-note" style="pointer-events:auto;cursor:pointer">${t('remote_changed')}</div>`); n.onclick = () => render(); document.body.appendChild(n); setTimeout(()=>n.remove(), 8000); } }, 500); }
@@ -878,7 +942,7 @@ async function render(){
   const seq = ++renderSeq; const stale = () => seq !== renderSeq;
   if(activeCleanup){ try{ activeCleanup(); }catch(e){} activeCleanup = null; }
   const h = location.hash.replace(/^#\/?/, '');
-  const [view, id, extra] = h.split('/');
+  const [view, id, extra, extra2] = h.split('/');
   const app = $('#app');
   if(!sb){ app.innerHTML = `<main class="page page-narrow"><div class="card empty"><h2>GIRI Go</h2><div>${t('loading_backend')}</div><br><button class="btn" onclick="location.reload()">${t('reload')}</button></div></main>`; return; }
   if(view === 'v' && id){ app.innerHTML = ''; return renderViewer(app, id, false); }
@@ -890,7 +954,7 @@ async function render(){
   await loadInstrs(); if(stale()) return;
   if(!S.instrs.length && S.user.role!=='viewer'){ await ensureSeed(); await loadInstrs(); if(stale()) return; }
   app.innerHTML = '';
-  if(view === 'rec' && id) return renderCapture(app, id);
+  if(view === 'rec' && id) return renderCapture(app, id, extra, extra2);
   if(view === 'edit' && id) return renderEditor(app, id, extra);
   if(view === 'preview' && id) return renderViewer(app, id, true);
   if(view === 'results' && id) return renderResults(app, id);
@@ -994,7 +1058,7 @@ async function renderDashboard(app){
   const pub = S.instrs.filter(i=>i.status==='published').length, rev = S.instrs.filter(i=>i.status==='review').length;
   const v = el(`<main class="page">
     <div class="dash-head"><div><h1>${t('instructions')}</h1><div class="sub">${esc(S.user.name)} · ${t(S.user.role)} · ${esc(S.user.ws)}</div></div>
-      ${S.user.role!=='viewer' ? `<button class="btn mint" id="new">${IC.plus} ${t('new_instr')}</button>`:''}</div>
+      <div class="row">${S.user.role!=='viewer' ? `<button class="btn ghost sm" id="brand">${IC.brand} ${t('branding')}</button><button class="btn mint" id="new">${IC.plus} ${t('new_instr')}</button>`:''}</div></div>
     <div class="stats"><div class="card stat"><b class="tnum">${S.instrs.length}</b><span>${t('instructions')}</span></div><div class="card stat"><b class="tnum">${pub}</b><span>${t('published')}</span></div><div class="card stat"><b class="tnum">${rev}</b><span>${t('in_review')}</span></div></div>
     <div class="list" id="list"></div>
   </main>`);
@@ -1007,12 +1071,14 @@ async function renderDashboard(app){
       <div><div class="title">${esc(i.title)} ${i.example?`<span class="example-tag">${t('example')}</span>`:''}</div>
         <div class="meta"><span class="chip dot ${i.status}">${t(i.status==='review'?'in_review':i.status)}</span><span class="tnum">${st.length} ${t('steps')}</span><span>v${i.version}</span><span>${t('updated')} ${fmtDate(i.updatedAt)}</span>${i.checklist?`<span>☑ ${LANG==='de'?'Checkliste':'Checklist'}</span>`:''}</div>
         <div class="acts">
-          ${S.user.role!=='viewer' ? `<button class="btn mint" data-a="rec">${IC.cam} ${t('record')}</button><button class="btn ghost" data-a="edit">${t('edit')}</button>`:''}
-          <button class="btn ghost" data-a="preview">${IC.play} ${t('preview')}</button>
-          <button class="btn ghost" data-a="share">${t('share')}</button>
-          <button class="btn ghost" data-a="pdf">${t('pdf')}</button>
-          ${i.checklist?`<button class="btn ghost" data-a="results">${t('results')}</button>`:''}
-          ${S.user.role!=='viewer' ? `<button class="btn ghost" data-a="del" title="${t('delete')}">${IC.trash}</button>`:''}
+          ${S.user.role!=='viewer' ? `<button class="btn mint" data-a="rec">${IC.cam} ${t('record_next')}</button><button class="btn" data-a="edit">${IC.edit} ${t('edit')}</button>`:''}
+        </div>
+        <div class="acts2">
+          <button data-a="preview">${IC.play} ${t('preview')}</button><span>·</span>
+          <button data-a="share">${t('share')}</button><span>·</span>
+          <button data-a="pdf">${t('pdf')}</button>
+          ${i.checklist?`<span>·</span><button data-a="results">${t('results')}</button>`:''}
+          ${S.user.role!=='viewer' ? `<span>·</span><button data-a="del">${t('delete')}</button>`:''}
         </div></div></article>`);
     if(first) stepPoster(first).then(u => { if(u) card.querySelector('.thumb').src = u; });
     card.onclick = async e => { const b = e.target.closest('[data-a]'); if(!b) return; const a = b.dataset.a;
@@ -1020,6 +1086,7 @@ async function renderDashboard(app){
       else if(a==='del'){ if(await confirmM(t('confirm_del_instr',{t:i.title}))){ await deleteInstr(i); toast(t('deleted')); render(); } } };
     list.appendChild(card);
   }
+  const bb = v.querySelector('#brand'); if(bb) bb.onclick = brandModal;
   const nb = v.querySelector('#new'); if(nb) nb.onclick = async () => { const i = {id:uid(), ws:S.user.ws, title:t('untitled'), createdBy:S.user.name, createdAt:Date.now(), updatedAt:Date.now(), status:'draft', version:0, approvals:{tech:null,dsgvo:null}, checklist:false, steps:[], history:[]}; await saveInstr(i); go('rec/'+i.id); };
   app.appendChild(v);
 }
@@ -1049,13 +1116,15 @@ function grabFrame(url, time, maxW=640){
 const posterFromCanvas = (src, w, h, maxW=320) => { try{ const sc = Math.min(1, maxW/(w||1)); const c = document.createElement('canvas'); c.width = Math.round((w||320)*sc); c.height = Math.round((h||240)*sc); c.getContext('2d').drawImage(src, 0, 0, c.width, c.height); return c.toDataURL('image/jpeg', .6); }catch(e){ return null; } };
 
 /* ---------- Capture ---------- */
-async function renderCapture(app, id){
+async function renderCapture(app, id, modeArg, stepArg){
   const instr = S.instrs.find(i=>i.id===id); if(!instr) return go('');
+  let mode = (modeArg==='replace'||modeArg==='after') && instr.steps.find(x=>x.id===stepArg) ? {type:modeArg, stepId:stepArg} : {type:'append'};
   const v = el(`<div class="capture">
     <video id="cam" autoplay muted playsinline></video>
     <div class="focus-ring" id="focus"></div><div class="flash" id="flash"></div>
     <div class="cap-top"><button class="round" data-close aria-label="close">${IC.close}</button><div class="ttl">${esc(instr.title)}</div><label class="round" title="${t('cap_video')}" style="cursor:pointer">${IC.upload}<input type="file" accept="video/*,image/*" capture="environment" hidden id="alt-file"></label><button class="cnt tnum" id="cnt">${realSteps(instr).length} ${t('steps')}</button></div>
     <pre class="diag" id="diag" hidden></pre>
+    <div class="modebar" id="modebar" hidden><span id="modetxt"></span><button id="modex" aria-label="cancel">${IC.close}</button></div>
     <div class="zoom" id="zoomwrap" hidden><input type="range" id="zoom" min="1" max="5" step="0.1" value="1" aria-label="${t('zoom')}" hidden><div class="zoom-btns" id="zoombtns"></div></div>
     <div class="cap-bottom">
       <div class="cap-strip" id="strip"></div>
@@ -1083,11 +1152,17 @@ async function renderCapture(app, id){
   const MAX = 12, RED = 8, ORANGE = 5;
   const stopStream = () => { if(stream){ stream.getTracks().forEach(t=>t.stop()); stream = null; } };
   activeCleanup = () => { cancelAnimationFrame(raf); stopStream(); };
+  const renderMode = () => { const mb = v.querySelector('#modebar'); const st = realSteps(instr); const idx = st.findIndex(x=>x.id===mode.stepId);
+    if(mode.type==='append' || idx<0){ mb.hidden = true; hint.textContent = t('cap_tap'); return; }
+    mb.hidden = false; v.querySelector('#modetxt').textContent = mode.type==='replace' ? t('replacing',{n:idx+1}) : t('inserting',{n:idx+1}); };
+  v.querySelector('#modex').onclick = () => { mode = {type:'append'}; renderMode(); refreshStrip(); };
   const refreshStrip = async () => {
     const st = realSteps(instr); v.querySelector('#cnt').textContent = st.length+' '+t('steps');
     for(const sid of ['#strip','#strip2']){ const strip = v.querySelector(sid); strip.innerHTML='';
-      for(const [k,s] of st.entries()){ const d = el(`<div class="st"><img alt=""><i>${k+1}</i></div>`); strip.appendChild(d); stepPoster(s).then(u=>{ if(u) d.querySelector('img').src=u; }); }
-      strip.scrollLeft = strip.scrollWidth; }
+      for(const [k,s] of st.entries()){ const d = el(`<div class="st ${mode.stepId===s.id?(mode.type==='replace'?'sel':'aft'):''}"><img alt=""><i>${k+1}</i></div>`); strip.appendChild(d); stepPoster(s).then(u=>{ if(u) d.querySelector('img').src=u; });
+        d.onclick = () => { if(mode.type==='replace' && mode.stepId===s.id) mode = {type:'append'}; else mode = {type:'replace', stepId:s.id}; renderMode(); refreshStrip(); if(navigator.vibrate) try{navigator.vibrate(8);}catch(e){} }; }
+      const selEl = strip.querySelector('.sel,.aft'); if(selEl) selEl.scrollIntoView({inline:'center', block:'nearest'}); else strip.scrollLeft = strip.scrollWidth; }
+    renderMode();
   };
   refreshStrip();
   async function startCam(){
@@ -1168,8 +1243,17 @@ async function renderCapture(app, id){
   async function addStep(m){
     log('addStep', m.type, m.blob.size+'B', m.w+'x'+m.h);
     const mid = uid(); try{ await DB.put('media', {id:mid, blob:m.blob, w:m.w, h:m.h, type:m.type, ws:S.user.ws, instrId:instr.id}); log('db ok'); }catch(err){ log('db ERR', err.message); toast('Speicher-Fehler: '+err.message); }
-    const n = realSteps(instr).length+1;
-    instr.steps.push({id:uid(), type:m.type, mediaId:mid, w:m.w, h:m.h, duration:m.duration, trimStart:0, trimEnd:m.duration, title:'', desc:'', warn:'', ann:[], poster:m.poster||null});
+    let n = realSteps(instr).length+1;
+    const target = mode.stepId ? instr.steps.find(x=>x.id===mode.stepId) : null;
+    if(mode.type==='replace' && target){
+      if(target.mediaId){ await DB.del('media', target.mediaId).catch(()=>{}); } if(target.mediaPath) sb.storage.from('media').remove([target.mediaPath]).catch(()=>{});
+      Object.assign(target, {type:m.type, mediaId:mid, mediaUrl:null, mediaPath:null, w:m.w, h:m.h, duration:m.duration, trimStart:0, trimEnd:m.duration, poster:m.poster||null}); target.ann = (target.ann||[]).map(a => Object.assign({}, a, {t:0}));
+      n = realSteps(instr).indexOf(target)+1; posterCache.clear(); mode = {type:'append'};
+    } else {
+      const ns = {id:uid(), type:m.type, mediaId:mid, w:m.w, h:m.h, duration:m.duration, trimStart:0, trimEnd:m.duration, title:'', desc:'', warn:'', ann:[], poster:m.poster||null};
+      if(mode.type==='after' && target){ const i = instr.steps.indexOf(target); instr.steps.splice(i+1, 0, ns); n = realSteps(instr).indexOf(ns)+1; mode = {type:'after', stepId:ns.id}; }
+      else instr.steps.push(ns);
+    }
     if(instr.status==='published'){ instr.status='draft'; instr.approvals={tech:null,dsgvo:null}; }
     toast(t('cap_saved',{n})); refreshStrip();
     await saveInstr(instr); log('saved instr', realSteps(instr).length); runUploads();
@@ -1179,6 +1263,19 @@ async function renderCapture(app, id){
 }
 const probeVideo = f => new Promise(res => { const u = URL.createObjectURL(f); const v = document.createElement('video'); v.preload='metadata'; v.muted=true; v.onloadedmetadata = () => { let d = v.duration; if(!isFinite(d)) d = 5; res({w:v.videoWidth, h:v.videoHeight, d}); URL.revokeObjectURL(u); }; v.onerror = () => res({w:1280,h:720,d:5}); v.src = u; });
 const probeImage = f => new Promise(res => { const u = URL.createObjectURL(f); const i = new Image(); i.onload = () => { res({w:i.naturalWidth, h:i.naturalHeight}); URL.revokeObjectURL(u); }; i.onerror = () => res({w:1280,h:960}); i.src = u; });
+
+/* ---------- Replace a step's media (file or fresh recording) ---------- */
+async function replaceStepMedia(instr, step, blob, meta){
+  let m = meta;
+  if(!m){ if(blob.type.startsWith('video')){ const pv = await probeVideo(blob); const u = URL.createObjectURL(blob); const c = await grabFrame(u, 0.3, 320); URL.revokeObjectURL(u); m = {type:'video', w:pv.w, h:pv.h, duration:pv.d, poster: c ? c.toDataURL('image/jpeg', .6) : null}; }
+    else { const pi = await probeImage(blob); const u = URL.createObjectURL(blob); const img = await new Promise(r=>{ const i=new Image(); i.onload=()=>r(i); i.onerror=()=>r(null); i.src=u; }); const poster = img ? posterFromCanvas(img, img.naturalWidth, img.naturalHeight) : null; URL.revokeObjectURL(u); m = {type:'photo', w:pi.w, h:pi.h, duration:0, poster}; } }
+  if(step.mediaId){ await DB.del('media', step.mediaId).catch(()=>{}); if(S.mediaURL.has(step.mediaId)){ try{ URL.revokeObjectURL(S.mediaURL.get(step.mediaId)); }catch(e){} S.mediaURL.delete(step.mediaId); } }
+  if(step.mediaPath && sb) sb.storage.from('media').remove([step.mediaPath]).catch(()=>{});
+  const mid = uid(); await DB.put('media', {id:mid, blob, w:m.w, h:m.h, type:m.type, ws:instr.ws, instrId:instr.id});
+  Object.assign(step, {type:m.type, mediaId:mid, mediaUrl:null, mediaPath:null, w:m.w, h:m.h, duration:m.duration, trimStart:0, trimEnd:m.duration, poster:m.poster||null});
+  step.ann = (step.ann||[]).map(a => Object.assign({}, a, {t:0}));
+  runUploads();
+}
 
 /* ---------- Editor ---------- */
 async function renderEditor(app, id, selStepId){
@@ -1190,7 +1287,7 @@ async function renderEditor(app, id, selStepId){
     <div class="ed-head"><input class="title" id="ititle" value="${esc(instr.title)}" placeholder="${t('title')}" ${S.user.role==='viewer'?'disabled':''}>
       <span class="chip dot ${instr.status}" id="stchip">${t(instr.status==='review'?'in_review':instr.status)}</span><span class="muted tnum">v${instr.version}</span>
       <span class="spacer"></span>
-      <button class="btn mint sm" id="rec">${IC.cam} ${t('record')}</button><button class="btn sm" id="cta" hidden></button><button class="btn ghost icon" id="more" title="${t('more')}">${IC.more}</button></div>
+      <button class="btn ghost icon" id="undo" title="${t('undo')}" disabled>${IC.undo}</button><button class="btn mint sm" id="rec">${IC.cam} ${t('record')}</button><button class="btn sm" id="cta" hidden></button><button class="btn ghost icon" id="more" title="${t('more')}">${IC.more}</button></div>
     <div class="tabs" id="tabs"><button data-tab="steps" class="${tab==='steps'?'on':''}">${t('steps')} <span class="tnum cnt" id="scount"></span></button><button data-tab="settings" class="${tab==='settings'?'on':''}">${t('tab_settings')}</button></div>
     <div class="editor" id="tab-steps" ${tab!=='steps'?'hidden':''}>
       <aside class="card steps-panel"><div class="ph"><b>${t('steps')}</b><button class="btn ghost sm" id="addch" title="${t('add_chapter')}">${IC.plus} ${t('new_chapter')}</button></div>
@@ -1211,6 +1308,7 @@ async function renderEditor(app, id, selStepId){
   app.appendChild(v);
   $$('#tabs button', v).forEach(b => b.onclick = () => { tab = b.dataset.tab; try{ sessionStorage.setItem('gg_tab_'+id, tab); }catch(e){} $$('#tabs button', v).forEach(x=>x.classList.toggle('on', x===b)); v.querySelector('#tab-steps').hidden = tab!=='steps'; v.querySelector('#tab-settings').hidden = tab!=='settings'; if(tab==='steps') setTimeout(()=>window.dispatchEvent(new Event('resize')), 30); });
   v.querySelector('#rec').onclick = () => go('rec/'+instr.id);
+  v.querySelector('#undo').onclick = doUndo;
   v.querySelector('#share').onclick = () => shareModal(instr);
   v.querySelector('#pdf').onclick = () => exportPDF(instr);
   const rb = v.querySelector('#res'); if(rb) rb.onclick = () => go('results/'+instr.id);
@@ -1221,7 +1319,13 @@ async function renderEditor(app, id, selStepId){
     else if(instr.status==='review' && canApprove){ b.hidden = false; b.textContent = t('approve_publish'); b.onclick = approveAll; } }
   async function submitForReview(){ const note = await promptM(t('publish_note'), LANG==='de'?'z. B. Schritt 4 Drehmoment korrigiert':'e.g. corrected torque in step 4', instr.version===0 ? (LANG==='de'?'Erstversion':'Initial version') : ''); if(note===null) return; instr.pendingNote = note; instr.status='review'; await saveInstr(instr); setChip(); renderApprovals(); toast(t('in_review')); }
   async function approveAll(){ if(!(await confirmM(t('approve_all_q'), t('approve')))) return; const now = Date.now(); if(!instr.approvals.tech) instr.approvals.tech = {by:S.user.name, at:now}; if(!instr.approvals.dsgvo) instr.approvals.dsgvo = {by:S.user.name, at:now}; instr.status='published'; instr.version++; instr.history.push({version:instr.version, at:now, by:instr.createdBy, note:instr.pendingNote||'', tech:instr.approvals.tech, dsgvo:instr.approvals.dsgvo}); instr.pendingNote=''; await saveInstr(instr); setChip(); renderApprovals(); toast(t('published')+' · v'+instr.version); }
-  const touch = async () => { if(instr.status!=='draft'){ instr.status='draft'; instr.approvals={tech:null,dsgvo:null}; renderApprovals(); setChip(); } await saveInstr(instr); };
+  const undo = []; let lastSnap = JSON.stringify(instr.steps);
+  const snapshot = () => { const cur = JSON.stringify(instr.steps); if(cur !== lastSnap){ undo.push(lastSnap); if(undo.length > 40) undo.shift(); lastSnap = cur; } updateUndo(); };
+  const updateUndo = () => { const b = v.querySelector('#undo'); if(b) b.disabled = !undo.length; };
+  async function doUndo(){ if(!undo.length) return; const prev = undo.pop(); lastSnap = prev; instr.steps = JSON.parse(prev); updateUndo(); if(!instr.steps.find(x=>x.id===sel)) sel = (realSteps(instr)[0]||{}).id; await saveInstr(instr); renderList(); renderStage(); toast(t('undone')); }
+  const touch = async () => { snapshot(); if(instr.status!=='draft'){ instr.status='draft'; instr.approvals={tech:null,dsgvo:null}; renderApprovals(); setChip(); } await saveInstr(instr); };
+  const onKey = e => { if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='z' && !e.shiftKey && !/INPUT|TEXTAREA/.test((e.target.tagName||''))){ e.preventDefault(); doUndo(); } };
+  document.addEventListener('keydown', onKey);
   v.querySelector('#ititle').oninput = e => { instr.title = e.target.value; debounce('title', touch); };
   v.querySelector('#chk').onchange = async e => { instr.checklist = e.target.checked; await saveInstr(instr); };
   let sel = selStepId && instr.steps.find(s=>s.id===selStepId) ? selStepId : (realSteps(instr)[0]||{}).id;
@@ -1351,16 +1455,20 @@ async function renderEditor(app, id, selStepId){
     const TOOLS = [['arrow',IC.arrow,'tool_arrow'],['circle',IC.circle,'tool_circle'],['rect',IC.rect,'tool_rect'],['number',IC.number,'tool_number'],['text',IC.text,'tool_text'],['check',IC.checkc,'tool_check'],['cross',IC.cross,'tool_cross'],['warn',IC.warn,'tool_warn'],['elec',IC.elec,'tool_elec'],['hot',IC.hot,'tool_hot']];
     stage.innerHTML = `<div class="row" style="justify-content:space-between;margin-bottom:10px"><b>${t('step')} ${n} ${t('of')} ${realSteps(instr).length}</b><div class="row" style="gap:4px"><button class="btn ghost sm" id="mup" title="${t('move_up')}">${IC.up}</button><button class="btn ghost sm" id="mdn" title="${t('move_down')}">${IC.down}</button><button class="btn ghost sm" id="del" title="${t('delete_step')}">${IC.trash}</button></div></div>
       <div class="media-box" id="mbox">${isV?`<video id="med" src="${url}" muted playsinline autoplay loop preload="auto"></video>`:`<img id="med" src="${url}" alt="">`}<canvas class="ann sel-mode" id="acv"></canvas><div class="pausetag" id="ptag" hidden></div></div>
+      ${isV?`<div class="timeline"><div class="tl-row"><span class="tnum" id="tcur">0,0 s</span><div class="scrub" id="scrub"><div class="track"></div><div class="keep" id="keep"></div><div id="marks"></div><input type="range" class="trim" id="tstart" min="0" max="${s.duration}" step="0.05" value="${s.trimStart||0}" aria-label="${t('start')}"><input type="range" class="trim" id="tend" min="0" max="${s.duration}" step="0.05" value="${s.trimEnd||s.duration}" aria-label="${t('end')}"><input type="range" id="tpos" min="0" max="${s.duration}" step="0.02" value="${s.trimStart||0}" aria-label="position"></div><span class="tnum" style="width:auto">${fmtSec(s.duration)} s</span></div><div class="muted">${t('trim')}: ${t('start')} <b class="tnum" id="tsv">${fmtSec(s.trimStart||0)}</b> s · ${t('end')} <b class="tnum" id="tev">${fmtSec(s.trimEnd||s.duration)}</b> s &nbsp;·&nbsp; <span id="annt"></span></div></div>`:''}
+      <div class="retake"><button class="btn ghost sm" id="retake">${IC.cam} ${t('retake')}</button><button class="btn ghost sm" id="after">${IC.plus} ${t('rec_after')}</button><label class="btn ghost sm" style="cursor:pointer">${IC.upload} ${t('replace_file')}<input type="file" accept="video/*,image/*" hidden id="repl-file"></label></div>
       <div class="selbar" id="selbar" hidden><span class="lbl" id="sel-name"></span><div class="swatches">${SWATCHES.map(c=>`<button class="sw" data-col="${c}" style="background:${COLORS[c]}" title="${c}"></button>`).join('')}</div><div class="sizebtns"><button id="sz-minus" aria-label="−">−</button><button id="sz-plus" aria-label="+">+</button></div><button class="btn danger sm" id="delann">${IC.trash} ${t('delete')}</button></div>
       <div class="tools-wrap"><div class="tools" id="tools">${TOOLS.map(([k,ic,lb])=>`<button class="tool" data-tool="${k}" title="${t(lb)}">${ic}<span>${t(lb)}</span></button>`).join('')}</div></div>
       <div class="muted" style="margin-top:6px">${t('tool_hint')}</div>
-      <div class="ann-list" id="annlist"></div>
-      ${isV?`<div class="timeline"><div class="tl-row"><span class="tnum" id="tcur">0,0 s</span><div class="scrub" id="scrub"><div class="track"></div><div class="keep" id="keep"></div><div id="marks"></div><input type="range" class="trim" id="tstart" min="0" max="${s.duration}" step="0.05" value="${s.trimStart||0}" aria-label="${t('start')}"><input type="range" class="trim" id="tend" min="0" max="${s.duration}" step="0.05" value="${s.trimEnd||s.duration}" aria-label="${t('end')}"><input type="range" id="tpos" min="0" max="${s.duration}" step="0.02" value="${s.trimStart||0}" aria-label="position"></div><span class="tnum" style="width:auto">${fmtSec(s.duration)} s</span></div><div class="muted">${t('trim')}: ${t('start')} <b class="tnum" id="tsv">${fmtSec(s.trimStart||0)}</b> s · ${t('end')} <b class="tnum" id="tev">${fmtSec(s.trimEnd||s.duration)}</b> s &nbsp;·&nbsp; <span id="annt"></span></div></div>`:''}`;
+      <div class="ann-list" id="annlist"></div>`;
     props.innerHTML = `<div class="two"><div class="field"><label for="stitle">${t('title')}</label><input id="stitle" value="${esc(s.title)}" placeholder="${t('step_title_ph')}"></div><div class="field"><label for="swarn">${t('warn')}</label><input id="swarn" value="${esc(s.warn||'')}" placeholder="⚠"></div></div><div class="field"><label for="sdesc">${t('desc')}</label><textarea id="sdesc" placeholder="${t('desc_ph')}">${esc(s.desc)}</textarea></div>`;
     props.querySelector('#stitle').oninput = e => { s.title = e.target.value; debounce('st', async()=>{ await touch(); renderList(); }); };
     props.querySelector('#sdesc').oninput = e => { s.desc = e.target.value; debounce('sd', touch); };
     props.querySelector('#swarn').oninput = e => { s.warn = e.target.value; debounce('sw', touch); };
     stage.querySelector('#del').onclick = () => delStep(s);
+    stage.querySelector('#retake').onclick = () => go(`rec/${instr.id}/replace/${s.id}`);
+    stage.querySelector('#after').onclick = () => go(`rec/${instr.id}/after/${s.id}`);
+    stage.querySelector('#repl-file').onchange = async e => { const f = e.target.files[0]; if(!f) return; try{ await replaceStepMedia(instr, s, f); await touch(); posterCache.clear(); renderList(); renderStage(); toast(t('saved')); }catch(err){ toast('Fehler: '+err.message); } e.target.value=''; };
     stage.querySelector('#mup').onclick = () => move(instr.steps.indexOf(s), -1);
     stage.querySelector('#mdn').onclick = () => move(instr.steps.indexOf(s), 1);
 
@@ -1379,17 +1487,25 @@ async function renderEditor(app, id, selStepId){
     stage.querySelector('#sz-plus').onclick = async () => { const a = s.ann.find(x=>x.id===selAnn); if(!a) return; scaleAnn(a, 1.18); await touch(); draw(); };
     $$('[data-col]', selbar).forEach(b => b.onclick = async e => { e.stopPropagation(); color = b.dataset.col; const a = s.ann.find(x=>x.id===selAnn); if(a){ a.color = color; await touch(); draw(); } });
     stage.querySelector('#delann').onclick = async e => { e.stopPropagation(); if(!selAnn) return; s.ann = s.ann.filter(a=>a.id!==selAnn); selAnn=null; await touch(); draw(); renderList(); };
-    // Tool tap = place symbol in the middle (then drag / resize with handles)
-    $$('[data-tool]', stage).forEach(b => b.onclick = async () => {
-      const k = b.dataset.tool; if(isV) med.pause();
+    // Tool tap = place symbol in the middle; drag a tool onto the image = place at that point
+    async function placeTool(k, cx, cy){
+      if(isV) med.pause();
       const base = {id:uid(), type:k, color, size:0.12, t: isV ? Math.round(curTime*20)/20 : 0};
-      const jitter = (s.ann.length % 5) * 0.03;
-      if(k==='arrow') Object.assign(base, {x:0.32+jitter, y:0.62-jitter, x2:0.58+jitter, y2:0.4-jitter});
-      else if(k==='circle'||k==='rect') Object.assign(base, {x:0.35+jitter, y:0.3+jitter, x2:0.65+jitter, y2:0.7-jitter});
-      else if(k==='text'){ const txt = await promptM(t('text_prompt'), 'z. B. 10 Nm'); if(!txt) return; Object.assign(base, {x:0.3+jitter, y:0.5+jitter, text:txt}); }
-      else if(k==='number'){ const nums = s.ann.filter(a=>a.type==='number').map(a=>a.n); Object.assign(base, {x:0.5+jitter, y:0.5+jitter, n:(Math.max(0,...nums)||0)+1}); }
-      else Object.assign(base, {x:0.5+jitter, y:0.5+jitter});
+      const jitter = cx==null ? (s.ann.length % 5) * 0.03 : 0; const px = cx==null ? 0.5+jitter : cx, py = cy==null ? 0.5+jitter : cy;
+      if(k==='arrow') Object.assign(base, {x:px-0.13, y:py+0.11, x2:px+0.13, y2:py-0.11});
+      else if(k==='circle'||k==='rect') Object.assign(base, {x:px-0.15, y:py-0.2, x2:px+0.15, y2:py+0.2});
+      else if(k==='text'){ const txt = await promptM(t('text_prompt'), 'z. B. 10 Nm'); if(!txt) return; Object.assign(base, {x:px-0.1, y:py, text:txt}); }
+      else if(k==='number'){ const nums = s.ann.filter(a=>a.type==='number').map(a=>a.n); Object.assign(base, {x:px, y:py, n:(Math.max(0,...nums)||0)+1}); }
+      else Object.assign(base, {x:px, y:py});
       s.ann.push(base); selAnn = base.id; await touch(); draw(); renderList();
+    }
+    $$('[data-tool]', stage).forEach(b => {
+      b.onclick = () => { if(b._dragged){ b._dragged = false; return; } placeTool(b.dataset.tool); };
+      b.addEventListener('pointerdown', e => { const sx = e.clientX, sy = e.clientY; let ghost = null; b._dragged = false;
+        const mv = ev => { if(!ghost){ if(Math.hypot(ev.clientX-sx, ev.clientY-sy) < 8) return; ghost = el(`<div class="tool-ghost">${b.querySelector('svg').outerHTML}</div>`); document.body.appendChild(ghost); b._dragged = true; try{ b.setPointerCapture(e.pointerId); }catch(x){} }
+          ghost.style.left = ev.clientX+'px'; ghost.style.top = ev.clientY+'px'; const r = rectNow(); const inside = ev.clientX>=r.bx+r.x && ev.clientX<=r.bx+r.x+r.w && ev.clientY>=r.by+r.y && ev.clientY<=r.by+r.y+r.h; box.classList.toggle('drop-ok', inside); };
+        const up = ev => { b.removeEventListener('pointermove', mv); b.removeEventListener('pointerup', up); b.removeEventListener('pointercancel', up); box.classList.remove('drop-ok'); if(!ghost) return; ghost.remove(); const r = rectNow(); const nx = (ev.clientX-r.bx-r.x)/r.w, ny = (ev.clientY-r.by-r.y)/r.h; if(nx>=0&&nx<=1&&ny>=0&&ny<=1) placeTool(b.dataset.tool, nx, ny); };
+        b.addEventListener('pointermove', mv); b.addEventListener('pointerup', up); b.addEventListener('pointercancel', up); });
     });
     function renderAnnList(){ const l = stage.querySelector('#annlist'); if(!l) return;
       l.innerHTML = s.ann.length ? s.ann.map(a => `<span class="ann-pill ${a.id===selAnn?'on':''}" data-id="${a.id}">${t('tool_'+a.type)}${a.type==='text'?': '+esc(a.text):''}${a.type==='number'?' '+a.n:''}${isV?` <span class="muted tnum">@${fmtSec(a.t||0)}s</span>`:''}<button data-del="${a.id}" title="${t('delete_ann')}">×</button></span>`).join('') : `<span class="muted">${t('no_ann')}</span>`;
@@ -1477,9 +1593,28 @@ async function renderEditor(app, id, selStepId){
     $$('[data-rej]', a).forEach(b => b.onclick = async () => { const r = await promptM(t('reject_reason'), t('reason_ph')); if(r===null) return; instr.status='draft'; instr.approvals={tech:null,dsgvo:null}; instr.history.push({version:instr.version, at:Date.now(), by:S.user.name, note:`${t('reject')} (${t(b.dataset.rej)}): ${r}`}); await saveInstr(instr); setChip(); renderApprovals(); });
   }
   renderList(); renderStage(); renderApprovals(); updateCTA();
-  activeCleanup = () => { if(stageCleanup) stageCleanup(); };
+  activeCleanup = () => { if(stageCleanup) stageCleanup(); document.removeEventListener('keydown', onKey); };
 }
 const debounces = {}; const debounce = (k, fn, ms=400) => { clearTimeout(debounces[k]); debounces[k] = setTimeout(fn, ms); };
+
+/* ---------- Branding (white label for viewer + PDF) ---------- */
+async function brandModal(){
+  await loadBrand(S.user.ws); const b = Object.assign({}, S.brand); const PRESETS = ['#004EAD','#000000','#03D39B','#DC2626','#F5A524','#7C3AED'];
+  await modal(`<h2>${t('branding')}</h2><p class="muted" style="margin:0 0 14px">${t('branding_sub')}</p>
+    <div class="field"><label for="br-name">${t('brand_name')}</label><input id="br-name" value="${esc(b.name||'')}" placeholder="${esc(S.user.ws)}"></div>
+    <div class="lbl" style="margin-bottom:6px">${t('brand_color')}</div><div class="row" style="margin-bottom:14px" id="br-colors">${PRESETS.map(c=>`<button class="sw ${c.toLowerCase()===(b.color||'').toLowerCase()?'on':''}" data-c="${c}" style="background:${c};width:32px;height:32px"></button>`).join('')}<input type="color" id="br-custom" value="${esc(b.color||'#004EAD')}" title="Custom" style="width:36px;height:32px;border:0;background:none;padding:0"></div>
+    <div class="lbl" style="margin-bottom:6px">${t('brand_logo')}</div><div class="row" style="margin-bottom:14px"><div id="br-logo" class="logo-prev">${b.logo?`<img src="${esc(b.logo)}" alt="">`:`<span class="muted">${t('brand_nologo')}</span>`}</div><label class="btn ghost sm" style="cursor:pointer">${IC.upload} ${t('upload')}<input type="file" accept="image/png,image/jpeg,image/svg+xml" hidden id="br-file"></label>${b.logo?`<button class="btn ghost sm" id="br-rmlogo">${t('remove')}</button>`:''}</div>
+    <div class="lbl" style="margin-bottom:6px">${t('brand_theme')}</div><div class="tabs" id="br-theme"><button data-th="dark" class="${b.theme!=='light'?'on':''}">${t('theme_dark')}</button><button data-th="light" class="${b.theme==='light'?'on':''}">${t('theme_light')}</button></div>
+    <div class="actions"><button class="btn ghost" data-x>${t('cancel')}</button><button class="btn" data-ok>${t('save')}</button></div>`, (bg, close) => {
+    $$('#br-colors .sw', bg).forEach(x => x.onclick = () => { b.color = x.dataset.c; $$('#br-colors .sw', bg).forEach(y=>y.classList.toggle('on', y===x)); bg.querySelector('#br-custom').value = b.color; });
+    bg.querySelector('#br-custom').oninput = e => { b.color = e.target.value; $$('#br-colors .sw', bg).forEach(y=>y.classList.remove('on')); };
+    $$('#br-theme button', bg).forEach(x => x.onclick = () => { b.theme = x.dataset.th; $$('#br-theme button', bg).forEach(y=>y.classList.toggle('on', y===x)); });
+    bg.querySelector('#br-file').onchange = async e => { const f = e.target.files[0]; if(!f) return; const ext = f.type.includes('svg')?'svg':f.type.includes('png')?'png':'jpg'; const path = `${S.user.ws}/brand/logo-${Date.now()}.${ext}`; const up = await sb.storage.from('media').upload(path, f, {contentType:f.type}); if(up.error){ toast(up.error.message); return; } b.logo = PUBLIC_MEDIA(path); bg.querySelector('#br-logo').innerHTML = `<img src="${esc(b.logo)}" alt="">`; };
+    const rm = bg.querySelector('#br-rmlogo'); if(rm) rm.onclick = () => { b.logo = null; bg.querySelector('#br-logo').innerHTML = `<span class="muted">${t('brand_nologo')}</span>`; };
+    bg.querySelector('[data-x]').onclick = () => close(null);
+    bg.querySelector('[data-ok]').onclick = async () => { b.name = bg.querySelector('#br-name').value.trim(); try{ await saveBrand(b); toast(t('saved')); close(true); }catch(err){ toast(err.message); } };
+  });
+}
 
 /* ---------- Share ---------- */
 function shareModal(instr){
@@ -1503,13 +1638,14 @@ async function renderViewer(app, id, isPreview){
   app.innerHTML = '';
   if(!instr){ app.innerHTML = `<main class="page page-narrow"><div class="card empty"><h2>404</h2><div>${t('not_pub')}</div><br><a class="btn" href="#/">GIRI Go</a></div></main>`; return; }
   if(!isPreview && instr.status!=='published' && !(S.user && S.user.ws===instr.ws)){ app.innerHTML = `<main class="page page-narrow"><div class="card empty"><h2>${esc(instr.title)}</h2><div>${t('not_pub')}</div><br><a class="btn" href="#/">GIRI Go</a></div></main>`; return; }
+  const brand = await loadBrand(instr.ws);
   const steps = realSteps(instr); const chapters = []; let curCh = null;
   instr.steps.forEach(s => { if(s.kind==='chapter'){ curCh = {title:s.title, first:null, id:s.id}; chapters.push(curCh); } else if(curCh && !curCh.first){ curCh.first = s.id; } });
   const chapterOf = sid => { let c = null; for(const s of instr.steps){ if(s.kind==='chapter') c = s.title; if(s.id===sid) return c; } return null; };
   const useChk = !!instr.checklist;
   const run = {id:uid(), instrId:instr.id, ws:instr.ws, version:instr.version, worker:'', startedAt:0, finishedAt:0, items:{}};
-  const v = el(`<div class="viewer">
-    <div class="vw-top"><a class="round" href="${isPreview?'#/edit/'+instr.id:'#/'}" style="width:40px;height:40px;flex:0 0 auto" aria-label="back">${IC.back}</a><div class="tt-wrap"><div class="ch" id="vch"></div><div class="ttl">${esc(instr.title)} ${isPreview?`· ${t('preview')}`:''}</div></div><span class="cnt tnum" id="vcnt" style="flex:0 0 auto;font-weight:800;font-size:13px;background:rgba(255,255,255,.18);padding:4px 10px;border-radius:999px"></span><button class="round" id="menu" style="width:40px;height:40px;flex:0 0 auto" aria-label="menu">${IC.menu}</button></div>
+  const v = el(`<div class="viewer ${brand.theme==='light'?'light':''}" style="--brand:${esc(brand.color||'#004EAD')}">
+    <div class="vw-top">${(isPreview || S.user) ? `<a class="round" href="${isPreview?'#/edit/'+instr.id:'#/'}" style="width:40px;height:40px;flex:0 0 auto" aria-label="back">${IC.back}</a>` : ''}${brand.logo?`<img class="vlogo" src="${esc(brand.logo)}" alt="">`:''}<div class="tt-wrap"><div class="ch" id="vch">${esc(brand.name||'')}</div><div class="ttl">${esc(instr.title)} ${isPreview?`· ${t('preview')}`:''}</div></div><span class="cnt tnum" id="vcnt" style="flex:0 0 auto;font-weight:800;font-size:13px;background:rgba(255,255,255,.18);padding:4px 10px;border-radius:999px"></span><button class="round" id="menu" style="width:40px;height:40px;flex:0 0 auto" aria-label="menu">${IC.menu}</button></div>
     <div class="vw-scroll" id="vs"></div>
     <aside class="vw-side" id="side"><div class="row" style="justify-content:space-between"><b>${t('chapters')}</b><button class="round" id="sclose" style="width:36px;height:36px">${IC.close}</button></div><div id="sidelist"></div>${useChk && !isPreview ? `<button class="btn mint" id="finish" style="width:100%;margin-top:16px">${t('finish')}</button>`:''}</aside>
   </div>`);
@@ -1544,7 +1680,7 @@ async function renderViewer(app, id, isPreview){
     setTimeout(draw, 80);
     if(useChk){
       const okB = sec.querySelector('[data-ok]'), nokB = sec.querySelector('[data-nok]');
-      const refresh = () => { const it = run.items[s.id]; okB.classList.toggle('off', !(it && it.ok)); nokB.classList.toggle('on', !!(it && it.ok===false)); nokB.textContent = it && it.ok===false ? `✗ ${t('not_ok')}` : t('not_ok'); updateSide(); };
+      const refresh = () => { const it = run.items[s.id]; okB.classList.toggle('off', !(it && it.ok)); nokB.classList.toggle('on', !!(it && it.ok===false)); nokB.textContent = it && it.ok===false ? `✗ ${t('not_ok')}` : t('not_ok'); updateSide(); updateEndSum(); };
       okB.onclick = () => { if(isPreview) { toast(t('preview')); return; } run.items[s.id] = {ok:true, at:Date.now()}; refresh(); if(navigator.vibrate) try{navigator.vibrate(20);}catch(e){} const nx = sec.nextElementSibling; if(nx) setTimeout(()=>nx.scrollIntoView({behavior:'smooth'}), 250); };
       nokB.onclick = async () => { if(isPreview){ toast(t('preview')); return; }
         const r = await modal(`<h2>${t('not_ok')} – ${t('step')} ${i+1}</h2><div class="field"><label for="nk-note">${t('nok_note')}</label><textarea id="nk-note"></textarea></div><label class="btn ghost" style="cursor:pointer" id="nk-lbl">${IC.cam} ${t('nok_photo')}<input type="file" accept="image/*" capture="environment" hidden id="nk-ph"></label><div class="actions"><button class="btn ghost" data-x>${t('cancel')}</button><button class="btn danger" data-ok>${t('save')}</button></div>`, (bg, close) => {
@@ -1555,6 +1691,14 @@ async function renderViewer(app, id, isPreview){
         run.items[s.id] = {ok:false, at:Date.now(), note:r.note, photoId, photoUrl}; refresh(); };
     }
   }
+  // happy end
+  const endSec = el(`<section class="vstep vend" data-i="${steps.length}"><div class="vend-in"><div class="bigcheck">${IC.check}</div><h2>${t('end_title')}</h2><p>${esc(instr.title)}${brand.name?` · ${esc(brand.name)}`:''}</p>
+    ${useChk && !isPreview ? `<div class="vend-sum" id="vend-sum"></div><button class="btn big" id="finish2">${t('finish')}</button>` : `<div class="row" style="justify-content:center;gap:10px"><button class="btn ghost big" id="again2">${t('again')}</button>${S.user||isPreview?`<a class="btn big" href="${isPreview?'#/edit/'+instr.id:'#/'}">${t('close')}</a>`:''}</div>`}
+    </div></section>`);
+  vs.appendChild(endSec);
+  const ag = endSec.querySelector('#again2'); if(ag) ag.onclick = () => { vs.scrollTo({top:0, behavior:'smooth'}); };
+  const updateEndSum = () => { const e2 = endSec.querySelector('#vend-sum'); if(!e2) return; const its = Object.values(run.items); const ok = its.filter(i=>i.ok).length, nok = its.filter(i=>i.ok===false).length, open = steps.length-ok-nok; e2.innerHTML = `<span class="ok">${ok} ${t('ok_count')}</span><span class="nok">${nok} ${t('nok_count')}</span><span>${open} ${t('open_count')}</span>`; };
+  updateEndSum();
   // side list
   function updateSide(){
     const sl = v.querySelector('#sidelist'); let html='';
@@ -1567,7 +1711,7 @@ async function renderViewer(app, id, isPreview){
   v.querySelector('#menu').onclick = () => v.querySelector('#side').classList.add('open');
   v.querySelector('#sclose').onclick = () => v.querySelector('#side').classList.remove('open');
   // visibility → play
-  const io = new IntersectionObserver(entries => { entries.forEach(en => { const p = players.get(en.target.dataset.id); if(!p) return; if(en.isIntersecting && en.intersectionRatio > 0.6){ p.play(); const i = +en.target.dataset.i; v.querySelector('#vcnt').textContent = `${i+1} / ${steps.length}`; v.querySelector('#vch').textContent = chapterOf(en.target.dataset.id)||''; } else p.stop(); }); }, {root:vs, threshold:[0.6]});
+  const io = new IntersectionObserver(entries => { entries.forEach(en => { const p = players.get(en.target.dataset.id); if(!p){ if(en.isIntersecting && en.target.classList.contains('vend')){ v.querySelector('#vcnt').textContent = '✓'; v.querySelector('#vch').textContent = brand.name||''; } return; } if(en.isIntersecting && en.intersectionRatio > 0.6){ p.play(); const i = +en.target.dataset.i; v.querySelector('#vcnt').textContent = `${i+1} / ${steps.length}`; v.querySelector('#vch').textContent = chapterOf(en.target.dataset.id)||brand.name||''; } else p.stop(); }); }, {root:vs, threshold:[0.6]});
   $$('.vstep', vs).forEach(s => io.observe(s));
   activeCleanup = () => { io.disconnect(); players.forEach(p=>p.stop()); };
   // checklist start / finish
@@ -1576,7 +1720,7 @@ async function renderViewer(app, id, isPreview){
     v.appendChild(start);
     try{ start.querySelector('#wname').value = localStorage.getItem('gg_worker')||''; }catch(e){}
     start.querySelector('#begin').onclick = () => { const n = start.querySelector('#wname').value.trim(); if(!n){ start.querySelector('#wname').focus(); return; } run.worker = n; run.startedAt = Date.now(); try{ localStorage.setItem('gg_worker', n); }catch(e){} start.remove(); };
-    v.querySelector('#finish').onclick = async () => {
+    const finishRun = async () => {
       run.finishedAt = Date.now(); const its = Object.values(run.items); const ok = its.filter(i=>i.ok).length, nok = its.filter(i=>i.ok===false).length, open = steps.length-ok-nok;
       const {error} = await sb.from('runs').insert({id:run.id, instr_id:run.instrId, ws:run.ws, worker:run.worker, version:run.version, started_at:new Date(run.startedAt).toISOString(), finished_at:new Date(run.finishedAt).toISOString(), items:run.items});
       if(error){ toast(error.message); await DB.put('runs', run); }
@@ -1585,6 +1729,7 @@ async function renderViewer(app, id, isPreview){
       v.appendChild(end); v.querySelector('#side').classList.remove('open');
       end.querySelector('#again').onclick = () => render();
     };
+    v.querySelector('#finish').onclick = finishRun; const f2 = endSec.querySelector('#finish2'); if(f2) f2.onclick = finishRun;
   }
 }
 
@@ -1609,6 +1754,7 @@ async function renderResults(app, id){
     const rows = await Promise.all(steps.map(async (s,i) => { const it = r.items[s.id]; const u = it ? (it.photoUrl || (it.photoId ? await mediaUrl(it.photoId) : null)) : null; return `<tr><td class="tnum">${i+1}</td><td>${esc(s.title)||'–'}</td><td class="${it?(it.ok?'ok-n':'nok-n'):''}">${it?(it.ok?'OK':'✗'):'–'}</td><td class="tnum">${it?new Date(it.at).toLocaleTimeString(LANG==='de'?'de-DE':'en-GB'):''}</td><td>${it&&it.note?esc(it.note):''}${u?`<br><img src="${u}" style="width:80px;border-radius:6px" alt="">`:''}</td></tr>`; }));
     modal(`<h2>${esc(r.worker)} · ${fmtDate(r.startedAt)}</h2><div class="tbl-wrap"><table class="res"><thead><tr><th>#</th><th>${t('step')}</th><th>Status</th><th>Zeit</th><th>${t('nok_note')}</th></tr></thead><tbody>${rows.join('')}</tbody></table></div><div class="actions"><button class="btn ghost" data-x>${t('close')}</button></div>`, (bg, close) => bg.querySelector('[data-x]').onclick = () => close()); });
 }
+const hexToRgb = h => { const m = /^#?([0-9a-f]{6})$/i.exec(h||''); if(!m) return [0,78,173]; const n = parseInt(m[1],16); return [(n>>16)&255, (n>>8)&255, n&255]; };
 const slug = s => (s||'anleitung').toLowerCase().replace(/[^a-z0-9äöüß]+/g,'-').replace(/^-|-$/g,'').slice(0,40);
 async function saveFile(filename, data, mime){
   try{ if(window.claude && window.claude.use){ const dl = await window.claude.use('downloads'); if(dl){ await dl.save({filename, data}); toast(t('saved')); return true; } } }catch(e){ if(e && e.code==='declined') return false; }
@@ -1619,11 +1765,13 @@ async function saveFile(filename, data, mime){
 async function exportPDF(instr){
   if(!window.jspdf){ toast('jsPDF n/a'); return; } toast(t('pdf_making'));
   const {jsPDF} = window.jspdf; const doc = new jsPDF({unit:'mm', format:'a4'});
+  const brand = await loadBrand(instr.ws); const bc = hexToRgb(brand.color||'#004EAD'); let logoData = null, logoRatio = 1;
+  if(brand.logo){ try{ const img = await new Promise((res, rej) => { const i = new Image(); i.crossOrigin='anonymous'; i.onload=()=>res(i); i.onerror=rej; i.src = brand.logo; }); const c = document.createElement('canvas'); c.width = img.naturalWidth; c.height = img.naturalHeight; c.getContext('2d').drawImage(img,0,0); logoData = c.toDataURL('image/png'); logoRatio = c.width / c.height; }catch(e){} }
   const W = 210, H = 297, M = 15; let y = M; const navy = [0,0,0], mint=[0,78,173], grey=[115,115,115];
   const steps = realSteps(instr); const ap = instr.approvals; const lastHist = instr.history[instr.history.length-1];
   const statusTxt = t(instr.status==='review'?'in_review':instr.status);
   const docNo = 'GG-' + instr.id.slice(0,6).toUpperCase();
-  const header = () => { doc.setFillColor(...navy); doc.rect(0,0,W,16,'F'); doc.setTextColor(255); doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.text('GIRI GO · '+t('pdf_h_doc'), M, 10); doc.setFontSize(9); doc.setFont('helvetica','normal'); doc.text(`${docNo} · v${instr.version} · ${statusTxt}`, W-M, 10, {align:'right'}); y = 24; };
+  const header = () => { doc.setFillColor(...bc); doc.rect(0,0,W,16,'F'); doc.setTextColor(255); doc.setFont('helvetica','bold'); doc.setFontSize(11); let lx = M; if(logoData){ try{ const lh = 10, lw = Math.min(40, lh*logoRatio); doc.addImage(logoData, 'PNG', M, 3, lw, lh); lx = M + lw + 4; }catch(e){} } doc.text((brand.name||'GIRI GO')+' · '+t('pdf_h_doc'), lx, 10); doc.setFontSize(9); doc.setFont('helvetica','normal'); doc.text(`${docNo} · v${instr.version} · ${statusTxt}`, W-M, 10, {align:'right'}); y = 24; };
   const footer = (p, total) => { doc.setFontSize(8); doc.setTextColor(...grey); doc.setFont('helvetica','normal'); doc.text(`${instr.title} · v${instr.version} · ${ap.tech?t('pdf_h_tech')+': '+ap.tech.by+' '+fmtD(ap.tech.at):t('pdf_h_tech')+': '+t('pending')} · ${ap.dsgvo?t('pdf_h_dsgvo')+': '+ap.dsgvo.by+' '+fmtD(ap.dsgvo.at):t('pdf_h_dsgvo')+': '+t('pending')}`, M, H-8, {maxWidth:W-2*M-30}); doc.text(`${t('pdf_h_pages')} ${p}/${total}`, W-M, H-8, {align:'right'}); };
   const ensure = need => { if(y+need > H-18){ doc.addPage(); header(); } };
   header();
@@ -1640,7 +1788,7 @@ async function exportPDF(instr){
   doc.setFont('helvetica','bold'); doc.setTextColor(...grey); doc.setFontSize(9); doc.text(t('pdf_h_steps').toUpperCase(), M, y); y += 5;
   let chapter = null; let n = 0;
   for(const s of instr.steps){
-    if(s.kind==='chapter'){ ensure(14); doc.setFillColor(...mint); doc.rect(M, y, 2.5, 8, 'F'); doc.setFont('helvetica','bold'); doc.setFontSize(12); doc.setTextColor(...navy); doc.text(s.title, M+5, y+6); y += 12; continue; }
+    if(s.kind==='chapter'){ ensure(14); doc.setFillColor(...bc); doc.rect(M, y, 2.5, 8, 'F'); doc.setFont('helvetica','bold'); doc.setFontSize(12); doc.setTextColor(...navy); doc.text(s.title, M+5, y+6); y += 12; continue; }
     n++;
     const imgs = await stepImages(s, 3);
     const imgW = imgs.length>1 ? (W-2*M-4*(imgs.length-1))/imgs.length : 70; const ratio = (s.h||3)/(s.w||4); const imgH = Math.min(imgW*ratio, imgs.length>1?45:52);
@@ -1650,7 +1798,7 @@ async function exportPDF(instr){
     const blockH = imgs.length>1 ? imgH + 4 + textH : Math.max(imgH, textH) + 2;
     ensure(blockH+6);
     // number badge
-    doc.setFillColor(...navy); doc.circle(M+4, y+4, 4, 'F'); doc.setTextColor(255); doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.text(String(n), M+4, y+5.3, {align:'center'});
+    doc.setFillColor(...bc); doc.circle(M+4, y+4, 4, 'F'); doc.setTextColor(255); doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.text(String(n), M+4, y+5.3, {align:'center'});
     let tx = M+12, ty = y+5;
     if(imgs.length>1){ imgs.forEach((im, k) => { try{ doc.addImage(im, 'JPEG', M + k*(imgW+4), y+10, imgW, imgH); }catch(e){} }); ty = y+10+imgH+6; }
     else if(imgs.length===1){ try{ doc.addImage(imgs[0], 'JPEG', W-M-imgW, y, imgW, imgH); }catch(e){} }
@@ -1679,6 +1827,13 @@ async function stepImages(s, count){
 
 window.addEventListener('error', e => { try{ toast('JS: '+(e.message||'').slice(0,120)); }catch(x){} });
 window.addEventListener('unhandledrejection', e => { try{ const m = e.reason && (e.reason.message||String(e.reason)); if(m && !/AbortError|play\(\)/.test(m)) toast('Fehler: '+m.slice(0,120)); }catch(x){} });
+/* ---------- Update check (GitHub Pages / Safari cache) ---------- */
+async function checkUpdate(){
+  try{ const r = await fetch(location.pathname.endsWith('/') ? location.pathname+'index.html' : location.pathname, {cache:'no-store'}); const txt = await r.text(); const m = /APP_VERSION = '([^']+)'/.exec(txt); if(!m || m[1]===APP_VERSION) return;
+    const n = el(`<div class="sync show" id="upd-note" style="pointer-events:auto;cursor:pointer;background:var(--blue)">${t('update_avail',{v:m[1]})}</div>`); n.onclick = () => location.replace(location.pathname + '?v=' + m[1] + location.hash); document.body.appendChild(n);
+  }catch(e){}
+}
+setTimeout(checkUpdate, 2500);
 /* ---------- Boot ---------- */
 (function boot(){
   if(initSb()){ render(); return; }
