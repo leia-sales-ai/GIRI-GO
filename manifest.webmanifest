@@ -1,0 +1,9 @@
+{
+  "name": "GIRI Go",
+  "short_name": "GIRI Go",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#012756",
+  "theme_color": "#012756",
+  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml"}]
+}
