@@ -11,9 +11,9 @@ window.supabase = { createClient(){
   tables.workspaces.push({ws:'ar-giri.com', brand:{name:'AR-Experts', color:'#004EAD', theme:'dark'}, folders:[{id:'f1', name:'Linie 3', teams:['t1']},{id:'f2', name:'Vorrichtungen', teams:[]}], teams:[{id:'t1', name:'Montage', members:[{email:'anna@ar-giri.com', role:'viewer'}]}], invites:[{email:'max@ar-giri.com', role:'creator'}]});
   window.__tables = tables;
   const q = (tbl) => { const st = {filters:[], order:null, single:false, count:false, head:false, op:'select', payload:null};
-    const api = { select(cols, opts){ if(opts&&opts.count){st.count=true; st.head=!!opts.head;} return api; }, eq(k,v){ st.filters.push([k,v]); return api; }, gte(){ return api; }, order(){ return api; }, limit(){ return api; }, maybeSingle(){ st.single=true; return api; },
+    const api = { select(cols, opts){ if(opts&&opts.count){st.count=true; st.head=!!opts.head;} return api; }, eq(k,v){ st.filters.push([k,v]); return api; }, is(k,v){ st.filters.push([k,v,'is']); return api; }, not(k,op,v){ st.filters.push([k,v,'not-'+op]); return api; }, gte(){ return api; }, order(){ return api; }, limit(){ return api; }, maybeSingle(){ st.single=true; return api; },
       insert(p){ st.op='insert'; st.payload=p; return api; }, upsert(p){ st.op='upsert'; st.payload=p; return api; }, update(p){ st.op='update'; st.payload=p; return api; }, delete(){ st.op='delete'; return api; },
-      then(res, rej){ let rows = tables[tbl].filter(r => st.filters.every(([k,v]) => r[k]===v));
+      then(res, rej){ let rows = tables[tbl].filter(r => st.filters.every(([k,v,op]) => op==='is' ? (r[k]==null ? v==null : r[k]===v) : op==='not-is' ? !(r[k]==null ? v==null : r[k]===v) : r[k]===v));
         if(st.op==='insert'){ const arr = Array.isArray(st.payload)?st.payload:[st.payload]; tables[tbl].push(...arr); rows = arr; }
         if(st.op==='upsert'){ const key = tbl==='workspaces' ? 'ws' : 'id'; const i = tables[tbl].findIndex(r=>r[key]===st.payload[key]); if(i>=0) Object.assign(tables[tbl][i], st.payload); else tables[tbl].push(st.payload); rows=[st.payload]; }
         if(st.op==='update'){ rows.forEach(r=>Object.assign(r, st.payload)); }

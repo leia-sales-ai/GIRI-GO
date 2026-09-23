@@ -79,12 +79,14 @@ async function renderViewer(app, id, isPreview, langArg, arg2){
   const run = {id:uid(), instrId:instr.id, ws:instr.ws, version:instr.version, worker:'', startedAt:isPreview?Date.now():0, finishedAt:0, items:{}};
   // ---- worker feedback: text + category (instruction / process), optional photo or video, lands with the creator ----
   const useFb = instr.feedback !== false;
+  // phones/tablets open the camera for capture="environment"; on a PC the same input is just a file picker – then only offer that
+  const canCapture = () => /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (matchMedia('(pointer:coarse)').matches && matchMedia('(max-width: 1024px)').matches);
   async function feedbackDialog(step, stepNo){
     let wname = run.worker || ''; try{ wname = wname || localStorage.getItem('gg_worker') || ''; }catch(e){}
     const r = await modal(`<h2>${t('feedback')}${step ? ` – ${t('step')} ${stepNo}` : ''}</h2><p class="muted" style="margin:0 0 10px">${t('fb_sub')}</p>
       <div class="seg" id="fb-kind"><button type="button" class="on" data-k="quality">${t('fb_quality')}</button><button type="button" data-k="process">${t('fb_process')}</button></div>
       <div class="field"><label for="fb-text">${t('fb_text')}</label><textarea id="fb-text" placeholder="${t('fb_ph')}"></textarea></div>
-      <div class="lbl" style="margin-bottom:6px">${t('fb_attach')}</div><div class="row" style="gap:6px;flex-wrap:wrap;margin-bottom:4px"><label class="btn ghost sm" style="cursor:pointer">${IC.cam} ${t('fb_photo')}<input type="file" accept="image/*" capture="environment" hidden data-att="photo"></label><label class="btn ghost sm" style="cursor:pointer">${IC.play} ${t('fb_video')}<input type="file" accept="video/*" capture="environment" hidden data-att="video"></label><label class="btn ghost sm" style="cursor:pointer">${IC.upload} ${t('fb_lib')}<input type="file" accept="image/*,video/*" hidden data-att="lib"></label></div><div class="muted" id="fb-att" style="font-size:12px;min-height:16px;margin-bottom:8px"></div>
+      <div class="lbl" style="margin-bottom:6px">${t('fb_attach')}</div><div class="row" style="gap:6px;flex-wrap:wrap;margin-bottom:4px">${canCapture() ? `<label class="btn ghost sm" style="cursor:pointer">${IC.cam} ${t('fb_photo')}<input type="file" accept="image/*" capture="environment" hidden data-att="photo"></label><label class="btn ghost sm" style="cursor:pointer">${IC.play} ${t('fb_video')}<input type="file" accept="video/*" capture="environment" hidden data-att="video"></label>` : ''}<label class="btn ghost sm" style="cursor:pointer">${IC.upload} ${canCapture() ? t('fb_lib') : t('fb_file')}<input type="file" accept="image/*,video/*" hidden data-att="lib"></label></div><div class="muted" id="fb-att" style="font-size:12px;min-height:16px;margin-bottom:8px"></div>
       <div class="field"><label for="fb-name">${t('name')} <span class="muted">(${t('optional')})</span></label><input id="fb-name" value="${esc(wname)}"></div>
       <div class="actions"><button class="btn ghost" data-x>${t('cancel')}</button><button class="btn" data-ok>${t('fb_send')}</button></div>`, (bg, close) => {
         let kind = 'quality', file = null, mtype = null;
@@ -168,7 +170,7 @@ async function renderViewer(app, id, isPreview, langArg, arg2){
     }
   }
   // happy end
-  const endSec = el(`<section class="vstep vend" data-i="${steps.length}"><div class="vend-in">${brand.logo?`<div class="vend-logo"><img src="${esc(brand.logo)}" alt=""></div>`:(brand.name?`<div class="vend-name">${esc(brand.name)}</div>`:'')}<div class="bigcheck">${IC.check}</div><h2 id="vend-h"></h2><p id="vend-p"></p>
+  const endSec = el(`<section class="vstep vend" data-i="${steps.length}"><div class="vend-in">${brand.logo?`<div class="vend-logo big"><img src="${esc(brand.logo)}" alt=""></div>`:(brand.name?`<div class="vend-name">${esc(brand.name)}</div>`:'')}<div class="bigcheck">${IC.check}</div><h2 id="vend-h"></h2><p id="vend-p"></p>
     ${useChk && !isPreview ? `<div class="vend-sum" id="vend-sum"></div><button class="btn big" id="finish2">${t('finish')}</button>` : `<div class="row" style="justify-content:center;gap:10px"><button class="btn ghost big" id="again2">${t('again')}</button>${S.user||isPreview?`<a class="btn big" href="${backHref}">${t('close')}</a>`:''}</div>`}
     ${useFb ? `<button class="btn ghost" id="fb-end" style="margin-top:14px">${IC.msg} ${t('fb_give')}</button>` : ''}
     </div></section>`);

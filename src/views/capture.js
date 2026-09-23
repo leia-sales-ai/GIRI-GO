@@ -1,7 +1,8 @@
+import { trashStep } from '../core/trash.js';
 import { go } from '../app/router.js';
 import { realSteps } from '../core/auth.js';
 import { APP_VERSION } from '../core/config.js';
-import { $$, el, esc, fmtSec, promptM, toast } from '../core/helpers.js';
+import { $$, el, esc, fmtSec, promptM, toast, confirmM } from '../core/helpers.js';
 import { t } from '../core/i18n.js';
 import { saveInstr } from '../core/passwords.js';
 import { G, S, putMedia } from '../core/state.js';
@@ -20,9 +21,9 @@ async function renderCapture(app, id, modeArg, stepArg){
   const v = el(`<div class="capture">
     <video id="cam" autoplay muted playsinline></video>
     <div class="focus-ring" id="focus"></div><div class="flash" id="flash"></div>
-    <div class="cap-top"><button class="round" data-close aria-label="back">${IC.back}</button><button class="ttl" id="cap-title" title="${t('rename')}">${esc(instr.title)} <span class="pen">${IC.edit}</span></button><label class="round" id="cap-imp" title="${t('import_lib')}">${IC.upload}<input type="file" multiple accept="image/*,video/*" hidden></label><button class="cnt tnum" id="cnt">${realSteps(instr).length} ${t('steps')}</button></div>
+    <div class="cap-top"><button class="ttl" id="cap-title" title="${t('rename')}">${esc(instr.title)} <span class="pen">${IC.edit}</span></button><button class="cnt tnum" id="cnt">${realSteps(instr).length} ${t('steps')}</button></div>
     <div class="diagwrap" id="diagwrap" hidden><pre class="diag" id="diag"></pre><label class="btn ghost sm" style="cursor:pointer;color:#fff;border-color:rgba(255,255,255,.4)">${IC.upload} ${t('native_cam')}<input type="file" accept="video/*,image/*" capture="environment" hidden id="alt-file"></label></div>
-    <div class="modebar" id="modebar" hidden><span id="modetxt"></span><button id="modex" aria-label="cancel">${IC.close}</button></div>
+    <div class="modebar" id="modebar" hidden><span id="modetxt"></span><button id="modedel" title="${t('delete')}">${IC.trash}</button><button id="modex" aria-label="cancel">${IC.close}</button></div>
     <div class="cap-bottom">
       <div class="zoomrow" id="zoomwrap" hidden><input type="range" id="zoom" min="1" max="5" step="0.1" value="1" aria-label="${t('zoom')}" hidden><div class="zoom-btns" id="zoombtns"></div></div>
       <div class="cap-strip" id="strip"></div>
@@ -54,7 +55,8 @@ async function renderCapture(app, id, modeArg, stepArg){
     if(mode.type==='append' || idx<0){ mb.hidden = true; hint.textContent = t('cap_tap'); return; }
     mb.hidden = false; v.querySelector('#modetxt').textContent = mode.type==='replace' ? t('replacing',{n:idx+1}) : t('inserting',{n:idx+1}); };
   v.querySelector('#modex').onclick = () => { mode = {type:'append'}; renderMode(); refreshStrip(); };
-  v.querySelector('#cap-imp input').onchange = async e => { const fs = [...e.target.files]; e.target.value = ''; if(!fs.length) return; const after = mode.type==='after' ? mode.stepId : null; const added = await importFiles(instr, fs, after); if(added.length){ if(mode.type==='after') mode = {type:'after', stepId:added[added.length-1].id}; posterCache.clear(); refreshStrip(); } };
+  v.querySelector('#modedel').onclick = async () => { const st = realSteps(instr).find(x => x.id===mode.stepId); if(!st) return; if(!(await confirmM(t('confirm_del_step'), t('delete')))) return; trashStep(instr, st); await saveInstr(instr); mode = {type:'append'}; renderMode(); refreshStrip(); toast(t('trashed_toast')); };
+  const capImp = v.querySelector('#cap-imp input'); if(capImp) capImp.onchange = async e => { const fs = [...e.target.files]; e.target.value = ''; if(!fs.length) return; const after = mode.type==='after' ? mode.stepId : null; const added = await importFiles(instr, fs, after); if(added.length){ if(mode.type==='after') mode = {type:'after', stepId:added[added.length-1].id}; posterCache.clear(); refreshStrip(); } };
   const refreshStrip = async () => {
     const st = realSteps(instr); v.querySelector('#cnt').textContent = st.length+' '+t('steps');
     for(const sid of ['#strip','#strip2']){ const strip = v.querySelector(sid); strip.innerHTML='';
@@ -94,7 +96,7 @@ async function renderCapture(app, id, modeArg, stepArg){
     try{ track.applyConstraints({advanced:[{focusMode:'single-shot', pointsOfInterest:[{x:(e.clientX-r.left)/r.width, y:(e.clientY-r.top)/r.height}]}]}).catch(()=>{ try{ track.applyConstraints({advanced:[{focusMode:'continuous'}]}); }catch(x){} }); }catch(err){}
   });
   v.querySelector('#flip').onclick = () => { facing = facing==='environment'?'user':'environment'; startCam(); };
-  v.querySelector('[data-close]').onclick = () => go('edit/'+instr.id);
+  const closeB = v.querySelector('[data-close]'); if(closeB) closeB.onclick = () => go('edit/'+instr.id);
   v.querySelector('#done').onclick = () => go('edit/'+instr.id);
   v.querySelector('#fb-done').onclick = () => go('edit/'+instr.id);
   // --- photo ---

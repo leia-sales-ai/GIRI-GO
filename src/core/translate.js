@@ -36,7 +36,7 @@ const rowToInstr = r => { const i = r.data || {}; i.id = r.id; i.ws = r.ws; i.st
 
 const loadInstrs = async () => {
   if(!G.sb || !S.user) { S.instrs = []; return; }
-  const {data, error} = await G.sb.from('instructions').select('*').eq('ws', S.user.ws).order('updated_at', {ascending:false});
+  const {data, error} = await G.sb.from('instructions').select('*').eq('ws', S.user.ws).is('deleted_at', null).order('updated_at', {ascending:false});
   if(error){ toast(error.message); S.instrs = []; return; }
   S.instrs = data.map(rowToInstr);
 };

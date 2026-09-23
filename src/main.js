@@ -1,6 +1,6 @@
 import './styles/index.css';
 import { checkUpdate, pickupSession } from './app/pwa.js';
-import { render } from './app/router.js';
+import { render, refreshIfStale } from './app/router.js';
 import { $, $$, toast } from './core/helpers.js';
 import { UI_LANGS, t } from './core/i18n.js';
 import { BRAND_DEFAULT, G, S } from './core/state.js';
@@ -50,7 +50,7 @@ setTimeout(() => checkUpdate(true), 2500);
 setInterval(() => checkUpdate(false), 30*60000);
 
 // from app/pwa
-document.addEventListener('visibilitychange', () => { if(document.visibilityState==='visible'){ checkUpdate(false); pickupSession(); } });
+document.addEventListener('visibilitychange', () => { if(document.visibilityState==='visible'){ checkUpdate(false); pickupSession(); refreshIfStale(); } });
 
 // from app/pwa
 window.addEventListener('pageshow', e => { if(e.persisted){ checkUpdate(true); pickupSession(); } });

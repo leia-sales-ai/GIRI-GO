@@ -2,6 +2,16 @@
 
 Leichtgewichtige Web-App für Video-/Foto-Arbeitsanleitungen: aufnehmen (3–5 s pro Schritt), annotieren, freigeben, per Link/QR ausführen, als SOP-PDF exportieren.
 
+## v0.21 – Feedback-Runde
+- **Papierkorb:** Gelöschte Anleitungen landen 30 Tage im Papierkorb (Dashboard → Papierkorb): wiederherstellen oder endgültig löschen; öffentliche Links gelöschter Anleitungen sind sofort tot. Gelöschte **Schritte** liegen unten in der Schrittliste unter „Papierkorb“ (Medien bleiben erhalten) – zurückholen oder endgültig löschen. Backend: Spalte `deleted_at`, angepasste Policy und `open_instr` (bereits im Projekt), `purge_trash()` als Reserve.
+- **Login-Link auf dem Handy:** Nach dem Klick auf den Link geht es sofort weiter – kein Tippen mehr nötig.
+- **Auf anderem Gerät geändert:** Die geöffnete Anleitung aktualisiert sich automatisch, wenn gerade nichts getippt wird; sonst blauer Banner mit „Aktualisieren“. Beim Zurückkehren in den Tab wird zusätzlich geprüft, ob die Anleitung woanders weiterbearbeitet wurde (Websockets sterben in Hintergrund-Tabs). Projektseiten, Statistik und Papierkorb aktualisieren sich ebenfalls.
+- **Editor:** Kopfzeile der Schrittliste ohne Importieren/Kapitel – beides sitzt in der Karte „Schritt hinzufügen“ (Aufnehmen · Bilder/Videos wählen · Kapitel). Der markierte Schritt hat ein Papierkorb-Symbol direkt in der Zeile. Das Kapitel des markierten Schritts ist immer aufgeklappt (z. B. nach der Aufnahme).
+- **Aufnahme:** nur noch ein Ausgang (grüner Haken), kein Import-Knopf mehr; im „Schritt N ersetzen“-Balken gibt es Löschen.
+- **Feedback:** Auf dem PC nur „Foto / Video wählen“; Aufnehmen-Knöpfe erscheinen nur auf Geräten mit Kamera-Aufruf.
+- **Logo:** Endseite der Anleitung mit großem Logo ohne Rahmen (heller Schein auf dunklem Hintergrund), Startkarte und Kopfzeile etwas größer; PDF: Logo größer auf dem Deckblatt und klein in jeder Kopfzeile.
+- Versionsnummer auch auf dem Handy in der Kopfzeile.
+
 ## Entwicklung & Release (ab v0.20)
 - Der Code ist in **ES-Module** aufgeteilt (`src/`, siehe `src/README.md`) und wird mit **Vite** zu einer statischen Seite gebaut: `index.html` + `assets/` im Repo-Root. Diese beiden sind **generiert** – nicht von Hand ändern; Änderungen in `app/index.html` bzw. `src/`.
 - Lokal: `npm install` → `npm run dev` (Live-Server) → `npm run build` (schreibt `index.html` + `assets/`) → `npm test` (Playwright-Suite gegen den gebauten Stand, Supabase gemockt; braucht ein installiertes Chromium, Pfad über `GG_CHROME=`).

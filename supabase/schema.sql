@@ -440,3 +440,33 @@ drop policy if exists feedback_update on public.feedback;
 create policy feedback_update on public.feedback for update to authenticated using (ws = public.my_ws()) with check (ws = public.my_ws());
 drop policy if exists feedback_delete on public.feedback;
 create policy feedback_delete on public.feedback for delete to authenticated using (ws = public.my_ws() and (public.my_role() in ('admin','creator','reviewer') or public.my_admin()));
+
+-- ---------- v0.21: Papierkorb (soft delete) ----------
+-- Gelöschte Anleitungen bekommen deleted_at und bleiben 30 Tage wiederherstellbar (#/trash). Öffentliche Links und open_instr ignorieren sie sofort.
+-- Gelöschte Schritte wandern in instr.data.trash (mit Medien) und lassen sich im Editor zurückholen.
+alter table public.instructions add column if not exists deleted_at timestamptz;
+create index if not exists instructions_deleted_idx on public.instructions (ws, deleted_at);
+drop policy if exists instr_select_public on public.instructions;
+create policy instr_select_public on public.instructions for select to anon, authenticated
+  using (status = 'published' and deleted_at is null and not public.instr_locked(id));
+create or replace function public.open_instr(p_id text, p_pw text default null) returns jsonb
+language plpgsql security definer set search_path = public, extensions as $$
+declare r record; hs jsonb; h jsonb; ok boolean := false;
+begin
+  select id, ws, status, title, data, updated_at into r from public.instructions where id = p_id and status = 'published' and deleted_at is null;
+  if not found then return null; end if;
+  hs := public.instr_pw_hashes(p_id);
+  if jsonb_array_length(hs) = 0 then ok := true;
+  elsif p_pw is not null and length(p_pw) > 0 then
+    for h in select * from jsonb_array_elements(hs) loop
+      if encode(extensions.digest(convert_to((h->>'s') || p_pw, 'UTF8'), 'sha256'), 'hex') = h->>'h' then ok := true; end if;
+    end loop;
+  end if;
+  if not ok then return jsonb_build_object('locked', true); end if;
+  return jsonb_build_object('locked', false, 'row', to_jsonb(r));
+end $$;
+create or replace function public.purge_trash() returns int language sql security definer set search_path = public as $$
+  with d as (delete from public.instructions where deleted_at is not null and deleted_at < now() - interval '30 days' returning 1) select count(*)::int from d;
+$$;
+revoke all on function public.purge_trash() from public;
+grant execute on function public.purge_trash() to authenticated, service_role;

@@ -1,7 +1,9 @@
+import { renderTrash } from '../views/trash.js';
 import { reloadForUpdate, updateSafe } from './pwa.js';
 import { ensureSeed } from './seed.js';
 import { loadProfile } from '../core/auth.js';
-import { $, el } from '../core/helpers.js';
+import { $, el, toast } from '../core/helpers.js';
+import { IC } from '../ui/icons.js';
 import { I18N, loadUiLang, t } from '../core/i18n.js';
 import { ownWrites } from '../core/passwords.js';
 import { G, S } from '../core/state.js';
@@ -21,14 +23,28 @@ import { renderViewer } from '../views/viewer.js';
 /* ---------- Router ---------- */
 const go = h => { location.hash = h; };
 
+// another device changed the instruction that is open here: refresh right away when nothing is being typed, otherwise show a banner
+function remoteChanged(row){
+  const cur = S.instrs.find(i => i.id===row.id); const remoteAt = row.updated_at ? Date.parse(row.updated_at) : 0;
+  if(cur && remoteAt && remoteAt <= (cur.updatedAt||0)) return;
+  const typing = document.activeElement && /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName) && !document.activeElement.readOnly;
+  if(!typing && G.saving===0 && (!G.busyCheck || !G.busyCheck())){ render(); toast(t('remote_refreshed')); return; }
+  if($('#rt-note')) return; const n = el(`<div class="rt-banner" id="rt-note">${IC.refresh||''}<span>${t('remote_changed')}</span><button class="btn sm">${t('refresh_now')}</button></div>`); n.querySelector('button').onclick = () => { n.remove(); render(); }; document.body.appendChild(n);
+}
+// when the tab comes back to the front: has the open instruction moved on elsewhere? (websockets often die in background tabs)
+async function refreshIfStale(){
+  if(!G.sb || !S.user) return; const h = location.hash.replace(/^#\/?/, ''); const [view, id] = h.split('/');
+  if(!view || ['p','trash','results','stats','admin'].includes(view)){ try{ await loadInstrs(); }catch(e){} render(); return; }
+  if((view==='edit'||view==='rec') && id){ try{ const {data} = await G.sb.from('instructions').select('id, updated_at').eq('id', id).maybeSingle(); if(data) remoteChanged(data); }catch(e){} }
+}
 function ensureRealtime(){
   if(!G.sb || !S.user || G.rtChannel) return;
   G.rtChannel = G.sb.channel('instr-'+S.user.ws).on('postgres_changes', {event:'*', schema:'public', table:'instructions', filter:'ws=eq.'+S.user.ws}, payload => {
     if(G.saving>0) return; // eigene Schreibvorgänge ignorieren
     if(payload.new && payload.new.updated_at && ownWrites.has(Date.parse(payload.new.updated_at))) return;
     const h = location.hash.replace(/^#\/?/, ''); const [view, id] = h.split('/');
-    if(!view || view===''){ debounce('rt', render, 300); }
-    else if((view==='edit'||view==='rec') && payload.new && payload.new.id===id){ debounce('rt', () => { if(!$('#rt-note')){ const n = el(`<div class="sync show" id="rt-note" style="pointer-events:auto;cursor:pointer">${t('remote_changed')}</div>`); n.onclick = () => render(); document.body.appendChild(n); setTimeout(()=>n.remove(), 8000); } }, 500); }
+    if(!view || ['p','trash','results','stats','admin'].includes(view)){ debounce('rt', render, 300); }
+    else if((view==='edit'||view==='rec') && payload.new && payload.new.id===id){ debounce('rt', () => remoteChanged(payload.new), 500); }
   }).subscribe();
 }
 
@@ -57,8 +73,9 @@ async function render(){
   if(view === 'results' && id) return renderResults(app, id);
   if(view === 'p' && id) return renderDashboard(app, id);
   if(view === 'stats') return renderGlobalStats(app);
+  if(view === 'trash') return renderTrash(app);
   if(view === 'admin') return renderAdmin(app);
   return renderDashboard(app);
 }
 
-export { go, ensureRealtime, render };
+export { remoteChanged, refreshIfStale, go, ensureRealtime, render };

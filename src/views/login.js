@@ -90,7 +90,8 @@ function renderLogin(app){
 function attachAuth(){ G.sb.auth.onAuthStateChange(async (ev, session) => {
   if(ev==='SIGNED_IN' || ev==='INITIAL_SESSION'){
     if(location.hash.includes('access_token=') || location.hash.startsWith('#error')) history.replaceState(null, '', location.pathname + location.search + '#/');
-    if(session && !S.user && G.authReady){ await loadProfile(); render(); }
+    // the link may arrive while the first render is still loading the (empty) profile – sign in anyway, render() de-duplicates
+    if(session && !S.user){ await loadProfile(); if(S.user){ G.authReady = true; render(); } }
   }
   if(ev==='SIGNED_OUT'){ S.user = null; }
 }); }

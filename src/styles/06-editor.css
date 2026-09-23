@@ -65,6 +65,20 @@
 .a3-sl input{width:104px;accent-color:var(--blue);margin:0}
 .a3-chip{padding:6px 11px;border-radius:999px;font-size:12px;font-weight:700;background:var(--surface);border:1px solid var(--line-2);color:var(--ink-2)}
 .a3-chip.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.trashbox{margin-top:12px;border-radius:12px;background:var(--surface-2);padding:8px 10px}
+.trashbox summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em}
+.trashbox summary::-webkit-details-marker{display:none}
+.trashbox .cnt{background:var(--ink-3);color:#fff;font-size:10px;padding:1px 6px;border-radius:999px}
+.trashbox .tlist{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.trow{display:grid;grid-template-columns:44px 1fr 28px 28px;gap:8px;align-items:center;padding:4px 2px}
+.trow .th{width:44px;height:44px;border-radius:8px;object-fit:cover;background:var(--surface);opacity:.75}
+.trow .tt{font-size:12.5px;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.trow .tt small{display:block;font-size:11px;color:var(--ink-3);font-weight:500}
+.trow .mini{width:28px;height:28px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;color:var(--ink-3)}
+.trow .mini:hover{background:var(--surface);color:var(--ink)}
+.srow .rowdel{position:absolute;right:6px;top:6px;width:26px;height:26px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;color:var(--ink-3);background:var(--surface)}
+.srow .rowdel:hover{color:var(--red)}
+.srow{position:relative}
 .addstep{margin-top:10px;padding:14px 12px;border-radius:14px;border:1.5px dashed var(--line-2);text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color .15s,background .15s}
 .addstep:hover{border-color:var(--blue);background:var(--blue-lightest)}
 .addstep .as-t{font-weight:800;font-size:13px;display:inline-flex;align-items:center;gap:6px}

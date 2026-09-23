@@ -7,7 +7,7 @@
 .vw-top .ttl{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .vw-top .ch{font-size:11px;font-weight:700;color:var(--blue-light);color:color-mix(in srgb,var(--brand) 55%,#fff);letter-spacing:.08em;text-transform:uppercase}
 .vw-top .round{width:40px;height:40px;flex:0 0 auto}
-.vlogo{height:28px;max-width:120px;object-fit:contain;flex:0 0 auto;margin-right:4px;background:rgba(255,255,255,.92);padding:3px 6px;border-radius:6px}
+.vlogo{height:32px;max-width:140px;object-fit:contain;flex:0 0 auto;margin-right:4px;background:rgba(255,255,255,.94);padding:4px 8px;border-radius:8px}
 .langbtn.on{background:#fff !important;color:#000}
 .vw-scroll{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;touch-action:pan-y;scroll-snap-type:y mandatory;overscroll-behavior:contain;scrollbar-width:none}
 .vw-scroll::-webkit-scrollbar{display:none}
@@ -88,9 +88,11 @@
 .vend-in p{margin:0 0 24px;opacity:.85}
 .bigcheck{width:96px;height:96px;border-radius:50%;background:#fff;color:var(--brand);display:flex;align-items:center;justify-content:center;margin:0 auto 22px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
 .bigcheck svg{width:52px;height:52px}
-.vend-logo{background:#fff;border-radius:16px;padding:18px 26px;display:inline-block;margin-bottom:26px;box-shadow:0 12px 40px rgba(0,0,0,.2)}
-.vend-logo img{max-height:64px;max-width:240px;display:block}
-.vend-logo.sm{padding:10px 16px;margin-bottom:14px}.vend-logo.sm img{max-height:36px}
+.vend-logo{display:inline-block;margin-bottom:26px}
+.vend-logo img{max-height:64px;max-width:240px;display:block;object-fit:contain;filter:drop-shadow(0 0 1px rgba(255,255,255,.9)) drop-shadow(0 0 14px rgba(255,255,255,.55))}
+.vend-logo.big{margin-bottom:30px}.vend-logo.big img{max-height:120px;max-width:min(340px,72vw)}
+.vend-logo.sm{margin-bottom:14px}.vend-logo.sm img{max-height:40px}
+.viewer.light .vend-logo img{filter:none}
 .vend-name{font-size:14px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#fff;opacity:.9;margin-bottom:22px}
 .vend-name.sm{color:var(--brand);opacity:1;margin-bottom:10px}
 .vend-sum{display:flex;justify-content:center;gap:8px;margin-bottom:20px;flex-wrap:wrap}

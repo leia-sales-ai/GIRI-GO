@@ -1,3 +1,4 @@
+import { trashInstr } from '../core/trash.js';
 import { installNote } from '../app/pwa.js';
 import { go, render } from '../app/router.js';
 import { realSteps } from '../core/auth.js';
@@ -49,7 +50,7 @@ function instrCard(i, statMap, opts={}){
     const act = async a => {
       if(a==='rec') go('rec/'+i.id); else if(a==='edit') go('edit/'+i.id); else if(a==='preview') go('preview/'+i.id); else if(a==='share') shareModal(i); else if(a==='pdf') exportPDFAsk(i); else if(a==='results') go('results/'+i.id); else if(a==='folder') moveToFolderDlg(i, opts.onChange);
       else if(a==='feedback'){ try{ sessionStorage.setItem('gg_rtab_'+i.id, 'feedback'); }catch(e){} go('results/'+i.id); }
-      else if(a==='del'){ if(await confirmM(t('confirm_del_instr',{t:i.title}))){ await deleteInstr(i); toast(t('deleted')); render(); } } };
+      else if(a==='del'){ if(await confirmM(t('confirm_del_instr',{t:i.title}), t('delete'))){ try{ await trashInstr(i); toast(t('trashed_instr')); }catch(e){ toast(e.message||String(e)); } render(); } } };
     if(a==='more'){ modal(`<div class="menu"><button data-m="preview">${IC.play} ${t('preview')}</button><button data-m="pdf">${IC.pdf} ${t('pdf')}</button><button data-m="results">${IC.eye} ${t('stats')}</button>${role!=='viewer' ? `<button data-m="folder">${IC.folder} ${t('move_to_folder')}</button><button data-m="del" class="del">${IC.trash} ${t('delete')}</button>`:''}</div>`, (bg, close) => { $$('[data-m]', bg).forEach(b => b.onclick = () => { close(); act(b.dataset.m); }); }); return; }
     act(a); };
   return card;
@@ -91,7 +92,7 @@ async function renderDashboard(app, pid){
   const pub = visible.filter(i=>i.status==='published').length, rev = visible.filter(i=>i.status==='review').length;
   const v = el(`<main class="page">
     <div class="dash-head"><div><h1>${t('instructions')}</h1><div class="sub">${esc(S.user.name)} · ${roleLbl(S.user.role)} · ${esc(S.user.ws)}</div></div>
-      <div class="row"><button class="btn ghost sm" id="gstats">${IC.eye} ${t('global_stats')}</button>${S.user.isAdmin?`<button class="btn ghost sm" id="admin">${IC.gear} ${t('admin')}</button>`:''}${isEditor ? `<button class="btn ghost sm" id="brand">${IC.brand} ${t('branding')}</button><button class="btn mint" id="new">${IC.plus} ${t('new_instr')}</button>`:''}</div></div>
+      <div class="row"><button class="btn ghost sm" id="gstats">${IC.eye} ${t('global_stats')}</button><a class="btn ghost sm" href="#/trash" title="${t('trash')}">${IC.trash} ${t('trash')}</a>${S.user.isAdmin?`<button class="btn ghost sm" id="admin">${IC.gear} ${t('admin')}</button>`:''}${isEditor ? `<button class="btn ghost sm" id="brand">${IC.brand} ${t('branding')}</button><button class="btn mint" id="new">${IC.plus} ${t('new_instr')}</button>`:''}</div></div>
     <div class="kpis"><div class="kpi"><b class="tnum">${visible.length}</b><span>${t('instructions')}</span></div><div class="kpi"><b class="tnum">${folders.length}</b><span>${t('folders')}</span></div><div class="kpi"><b class="tnum">${pub}</b><span>${t('published')}</span></div><div class="kpi ${rev?'hot':''}"><b class="tnum">${rev}</b><span>${t('in_review')}</span></div></div>
     <div id="inst-slot"></div>
     <div class="tabs" id="dtabs"><button data-m="projects" class="${mode==='projects'?'on':''}">${IC.folder} ${t('folders')}</button><button data-m="all" class="${mode==='all'?'on':''}">${t('all_instr')} <span class="tnum cnt">${visible.length}</span></button></div>

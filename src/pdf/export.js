@@ -34,7 +34,8 @@ async function exportPDF2(instr){
   const txt = (s, x, yy, o) => doc.text(String(s==null?'':s), x, yy, o);
   // ---- every page: document line top left, GIRI Go top right, hairline; footer with doc no. + page ----
   const header = () => {
-    F(true); doc.setFontSize(7.5); doc.setTextColor(...grey); txt(((brand.name ? brand.name+'   ·   ' : '') + t('pdf_h_doc')).toUpperCase(), M, 12);
+    let hx = M; if(brandLogo){ const lh = 6.6, lw = Math.min(30, lh*brandLogo.ratio); try{ doc.addImage(brandLogo.data, 'PNG', M, 6.8, lw, lh); }catch(e){} hx = M + lw + 3; }
+    F(true); doc.setFontSize(7.5); doc.setTextColor(...grey); txt(((brand.name && !brandLogo ? brand.name+'   ·   ' : '') + t('pdf_h_doc')).toUpperCase(), hx, 12);
     const bh = 5.4, bw = 9.5; let x = W-M-bw; doc.setFillColor(0,78,173); doc.roundedRect(x, 7.4, bw, bh, 1.2, 1.2, 'F'); doc.setTextColor(255); doc.setFontSize(8); txt('GO', x+bw/2, 11.2, {align:'center'});
     if(ggLogo){ const lh = 6.6, lw = lh*ggLogo.ratio; try{ doc.addImage(ggLogo.data, 'PNG', x-lw-2.2, 6.8, lw, lh); }catch(e){} }
     doc.setDrawColor(...line); doc.setLineWidth(.25); doc.line(M, 16, W-M, 16);
@@ -46,7 +47,7 @@ async function exportPDF2(instr){
   const label = (s, x, yy) => { F(true); doc.setFontSize(7); doc.setTextColor(...grey); txt(String(s).toUpperCase(), x, yy); };
   // ================= page 1: cover with document control, contents, history =================
   header();
-  if(brandLogo){ const lh = Math.min(14, 46/brandLogo.ratio), lw = lh*brandLogo.ratio; try{ doc.addImage(brandLogo.data, 'PNG', M, y, lw, lh); }catch(e){} y += lh + 8; } else if(brand.name){ F(true); doc.setFontSize(11); doc.setTextColor(...bc); txt(brand.name, M, y+4); y += 12; }
+  if(brandLogo){ const lh = Math.min(22, 80/brandLogo.ratio), lw = lh*brandLogo.ratio; try{ doc.addImage(brandLogo.data, 'PNG', M, y, lw, lh); }catch(e){} if(brand.name){ F(true); doc.setFontSize(10); doc.setTextColor(...grey); txt(brand.name, M + lw + 5, y + lh - 1); } y += lh + 10; } else if(brand.name){ F(true); doc.setFontSize(11); doc.setTextColor(...bc); txt(brand.name, M, y+4); y += 12; }
   F(true); doc.setFontSize(24); doc.setTextColor(...ink); const tl = doc.splitTextToSize(mdToPlain(instr.title), CW); txt(tl, M, y+6); y += tl.length*10 + 2;
   F(false); doc.setFontSize(10); doc.setTextColor(...grey); txt(`${t('pdf_h_created')}: ${instr.createdBy||''}   ·   ${fmtD(instr.createdAt)}`, M, y+2); y += 12;
   // document control – six tiles

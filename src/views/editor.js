@@ -1,3 +1,4 @@
+import { trashStep, restoreStep, purgeStep, purgeOldSteps } from '../core/trash.js';
 import { COLORS, NO3D, SWATCHES, annBounds, annCenter, annHandles, drawAll, hasRot, onImgReady, preloadImg, rotP } from '../annotations/draw.js';
 import { go } from '../app/router.js';
 import { realSteps } from '../core/auth.js';
@@ -34,7 +35,7 @@ async function renderEditor(app, id, selStepId, fbId){
       <div class="tab-acts"><button class="btn ghost sm" id="share">${IC.share} ${t('share')}</button><button class="btn ghost sm" id="pdf">${IC.pdf} ${t('pdf')}</button><button class="btn ghost sm" id="res">${IC.eye} ${t('stats')}</button></div></div>
     <div class="fb-banner" id="fb-banner" hidden><span>${IC.msg} <b id="fb-n"></b></span><a class="btn sm" href="#/results/${instr.id}" id="fb-open">${t('fb_view')}</a></div>
     <div class="editor" id="tab-steps" ${tab!=='steps'?'hidden':''}>
-      <aside class="card steps-panel"><div class="ph"><b>${t('steps')}</b><div class="row" style="gap:4px"><label class="btn ghost sm" style="cursor:pointer" title="${t('import_lib')}">${IC.upload} ${t('import')}<input type="file" multiple accept="image/*,video/*" hidden id="imp-file"></label><button class="btn ghost sm" id="addch" title="${t('add_chapter')}">${IC.plus} ${t('new_chapter')}</button></div></div>
+      <aside class="card steps-panel"><div class="ph"><b>${t('steps')}</b><span class="muted" style="font-size:11px;font-weight:600" id="trash-hint"></span></div>
         <div class="slist" id="slist"></div>
         <div class="shortcuts">${t('shortcuts')}</div></aside>
       <section class="ed-main">
@@ -79,7 +80,8 @@ async function renderEditor(app, id, selStepId, fbId){
   v.querySelector('#fbk').onchange = async e => { instr.feedback = e.target.checked; await saveInstr(instr); };
   $$('input[name="cm"]', v).forEach(r => r.onchange = async () => { if(!r.checked) return; instr.checkMode = r.value; await saveInstr(instr); renderList(); renderStage(); });
   $$('[data-itm]', v).forEach(cb => cb.onchange = async () => { const tid = cb.dataset.itm; instr.teams = (instr.teams||[]).filter(x=>x!==tid); if(cb.checked) instr.teams.push(tid); await saveInstr(instr); toast(t('saved')); });
-  let sel = selStepId && instr.steps.find(s=>s.id===selStepId) ? selStepId : (realSteps(instr)[0]||{}).id;
+  let remembered = null; try{ remembered = sessionStorage.getItem('gg_sel_'+id); }catch(e){}
+  let sel = selStepId && instr.steps.find(s=>s.id===selStepId) ? selStepId : (remembered && instr.steps.find(s=>s.id===remembered) ? remembered : (realSteps(instr)[0]||{}).id);
   let stageCleanup = null, stageApi = null;
   let collapsed = new Set(); try{ collapsed = new Set(JSON.parse(localStorage.getItem('gg_coll_'+id)||'[]')); }catch(e){}
   const saveColl = () => { try{ localStorage.setItem('gg_coll_'+id, JSON.stringify([...collapsed])); }catch(e){} };
@@ -109,12 +111,16 @@ async function renderEditor(app, id, selStepId, fbId){
   /* --- step list --- */
   // "add step": record, pick photos/videos from the library, or drop files – always at the end of the list
   function addStepCard(){
-    const c = el(`<div class="addstep"><div class="as-t">${IC.plus} ${t('add_step')}</div><div class="as-b"><button class="btn mint sm" data-rec>${IC.cam} ${t('record')}</button><label class="btn ghost sm" style="cursor:pointer">${IC.upload} ${t('pick_files')}<input type="file" multiple accept="image/*,video/*" hidden></label></div><div class="as-sub">${t('add_step_sub')}</div></div>`);
+    const c = el(`<div class="addstep"><div class="as-t">${IC.plus} ${t('add_step')}</div><div class="as-b"><button class="btn mint sm" data-rec>${IC.cam} ${t('record')}</button><label class="btn ghost sm" style="cursor:pointer">${IC.upload} ${t('pick_files')}<input type="file" multiple accept="image/*,video/*" hidden></label><button class="btn ghost sm" data-ch title="${t('add_chapter')}">${IC.plus} ${t('new_chapter')}</button></div><div class="as-sub">${t('add_step_sub')}</div></div>`);
     c.querySelector('[data-rec]').onclick = () => go(`rec/${instr.id}`);
+    c.querySelector('[data-ch]').onclick = () => addChapter();
     c.querySelector('input').onchange = async e => { const fs = [...e.target.files]; e.target.value = ''; if(!fs.length) return; const added = await importFiles(instr, fs, null); if(!added.length) return; snapshot(); setChip(); renderApprovals(); sel = added[0].id; renderList(); renderStage(); setTimeout(() => focusRow(sel), 50); };
     return c; }
   function renderList(){
     const list = v.querySelector('#slist'); list.innerHTML=''; let n = 0; let curCh = null;
+    try{ if(sel) sessionStorage.setItem('gg_sel_'+id, sel); }catch(e){}
+    // the chapter of the selected step is always open (e.g. coming back from the camera with a fresh step)
+    { let ch = null; for(const s of instr.steps){ if(s.kind==='chapter') ch = s; else if(s.id===sel){ if(ch && collapsed.has(ch.id)){ collapsed.delete(ch.id); saveColl(); } break; } } }
     v.querySelector('#scount').textContent = realSteps(instr).length;
     if(!instr.steps.length){ list.innerHTML = `<div class="muted" style="padding:10px">${t('no_steps')}</div>`; if(myRole!=='viewer') list.appendChild(addStepCard()); }
     instr.steps.forEach((s, idx) => {
@@ -130,8 +136,9 @@ async function renderEditor(app, id, selStepId, fbId){
       }
       n++;
       if(curCh && collapsed.has(curCh.id)) return;
-      const r = el(`<div class="srow ${s.id===sel?'sel':''} ${curCh?'in-ch':''}" data-id="${s.id}" tabindex="0"><span class="grip" title="drag">${IC.grip}</span><span class="n tnum">${n}</span><div class="th-wrap"><img class="th" alt="">${s.type==='video'?`<span class="vd tnum">${fmtSec(Math.max(0,(s.trimEnd||s.duration)-(s.trimStart||0)))}s</span>`:''}</div><div class="tt">${titleHtml(s.title)||`<span class="muted">${t('step')} ${n}</span>`}<small>${instr.checklist && (instr.checkMode||'all')!=='all' && confirmSteps(instr).includes(s) ? '☑ ' : ''}${s.ann.length?s.ann.length+' ⌖':''} ${s.desc?'· '+esc(mdToPlain(s.desc).replace(/\n+/g,' ').slice(0,30)):''}</small></div></div>`);
+      const r = el(`<div class="srow ${s.id===sel?'sel':''} ${curCh?'in-ch':''}" data-id="${s.id}" tabindex="0"><span class="grip" title="drag">${IC.grip}</span><span class="n tnum">${n}</span><div class="th-wrap"><img class="th" alt="">${s.type==='video'?`<span class="vd tnum">${fmtSec(Math.max(0,(s.trimEnd||s.duration)-(s.trimStart||0)))}s</span>`:''}</div><div class="tt">${titleHtml(s.title)||`<span class="muted">${t('step')} ${n}</span>`}${s.id===sel && myRole!=='viewer' ? `<button class="mini x rowdel" data-rowdel title="${t('delete')}">${IC.trash}</button>`:''}<small>${instr.checklist && (instr.checkMode||'all')!=='all' && confirmSteps(instr).includes(s) ? '☑ ' : ''}${s.ann.length?s.ann.length+' ⌖':''} ${s.desc?'· '+esc(mdToPlain(s.desc).replace(/\n+/g,' ').slice(0,30)):''}</small></div></div>`);
       stepPoster(s).then(u => { if(u) r.querySelector('.th').src = u; });
+      const rd = r.querySelector('[data-rowdel]'); if(rd) rd.onclick = e => { e.stopPropagation(); delStep(s); };
       r.onclick = e => { if(e.target.closest('.grip')) return; sel = s.id; renderList(); renderStage(); if(window.innerWidth < 900) setTimeout(()=>v.querySelector('#stage').scrollIntoView({behavior:'smooth', block:'start'}), 60); };
       r.onkeydown = e => {
         const i = instr.steps.indexOf(s);
@@ -144,10 +151,25 @@ async function renderEditor(app, id, selStepId, fbId){
       attachDrag(r, idx); list.appendChild(r);
     });
     if(instr.steps.length && myRole!=='viewer') list.appendChild(addStepCard());
+    renderTrashBox(list);
+  }
+  // deleted steps stay here for 30 days – bring them back or drop them for good
+  function renderTrashBox(list){
+    const tr = instr.trash||[]; const hint = v.querySelector('#trash-hint'); if(hint) hint.textContent = tr.length ? `${IC.trash ? '' : ''}${nOf(tr.length, 'trashed_one', 'trashed_many')}` : '';
+    if(!tr.length) return;
+    const box = el(`<details class="trashbox"><summary>${IC.trash} ${t('trash')} <span class="cnt tnum">${tr.length}</span></summary><div class="tlist"></div><div class="muted" style="font-size:11px;margin-top:6px">${t('trash_steps_sub')}</div></details>`);
+    const tl = box.querySelector('.tlist');
+    tr.slice().sort((a,b) => (b.deletedAt||0)-(a.deletedAt||0)).forEach(ts => {
+      const r = el(`<div class="trow"><img class="th" alt="" src=""><div class="tt">${titleHtml(ts.title)||`<span class="muted">${t('step')}</span>`}<small>${fmtDate(ts.deletedAt||0)}</small></div><button class="mini" data-restore title="${t('restore')}">${IC.undo}</button><button class="mini x" data-purge title="${t('purge')}">${IC.trash}</button></div>`);
+      stepPoster(ts).then(u => { if(u) r.querySelector('.th').src = u; });
+      r.querySelector('[data-restore]').onclick = async () => { const s = restoreStep(instr, ts); sel = s.id; await touch(); renderList(); renderStage(); toast(t('restored')); };
+      r.querySelector('[data-purge]').onclick = async () => { if(!(await confirmM(t('purge_step_q'), t('purge')))) return; await purgeStep(instr, ts); await touch(); renderList(); toast(t('deleted')); };
+      tl.appendChild(r); });
+    list.appendChild(box);
   }
   const focusRow = id => { const r = v.querySelector(`.srow[data-id="${id}"]`); if(r){ r.focus(); r.scrollIntoView({block:'nearest'}); } };
   async function move(i, d){ const j = i+d; if(j<0||j>=instr.steps.length) return; const [x] = instr.steps.splice(i,1); instr.steps.splice(j,0,x); await touch(); renderList(); }
-  async function delStep(s){ if(!(await confirmM(t('confirm_del_step')))) return; const i = instr.steps.indexOf(s); instr.steps.splice(i,1); if(s.mediaId) await DB.del('media', s.mediaId); if(s.mediaPath) G.sb.storage.from('media').remove([s.mediaPath]).catch(()=>{}); if(sel===s.id){ sel = (realSteps(instr)[Math.min(i, realSteps(instr).length-1)]||{}).id; } await touch(); renderList(); renderStage(); toast(t('deleted')); }
+  async function delStep(s){ if(!(await confirmM(t('confirm_del_step'), t('delete')))) return; const i = instr.steps.indexOf(s); trashStep(instr, s); if(sel===s.id){ sel = (realSteps(instr)[Math.min(i, realSteps(instr).length-1)]||{}).id; } await touch(); renderList(); renderStage(); toast(t('trashed_toast')); }
   // drag & drop: the row follows the finger as a ghost; a placeholder moves through the list.
   // The original row stays in place (hidden) so pointer capture is never lost.
   function attachDrag(r, idx){
@@ -199,7 +221,7 @@ async function renderEditor(app, id, selStepId, fbId){
       document.addEventListener('pointerup',up); document.addEventListener('pointercancel',up);
     });
   }
-  v.querySelector('#addch').onclick = async () => {
+  async function addChapter(){
     const selStep = instr.steps.find(s=>s.id===sel); const n = selStep ? realSteps(instr).indexOf(selStep)+1 : 0;
     const name = await promptM(selStep ? t('chapter_before',{n}) : t('add_chapter'), t('chapter_ph'), ''); if(name===null) return;
     const ch = {id:uid(), kind:'chapter', title:(name.trim()||(t('chapter')+' '+(instr.steps.filter(s=>s.kind==='chapter').length+1)))};
@@ -421,7 +443,7 @@ async function renderEditor(app, id, selStepId, fbId){
   // import: file picker (phone: photo library, multiple) and drag & drop anywhere on the page (PC)
   const afterHint = () => { const st = instr.steps.find(x=>x.id===sel); return st ? t('import_after',{n: realSteps(instr).indexOf(st)+1}) : t('import_end'); };
   async function doImport(files){ if(myRole==='viewer') return; const added = await importFiles(instr, files, sel); if(!added.length) return; snapshot(); setChip(); renderApprovals(); sel = added[0].id; renderList(); renderStage(); setTimeout(() => focusRow(sel), 50); }
-  v.querySelector('#imp-file').onchange = e => { const fs = [...e.target.files]; e.target.value = ''; doImport(fs); };
+  const impFile = v.querySelector('#imp-file'); if(impFile) impFile.onchange = e => { const fs = [...e.target.files]; e.target.value = ''; doImport(fs); };
   const detachDrop = attachDropImport(doImport, afterHint);
   renderList(); renderStage(); renderApprovals(); renderTx(); updateCTA();
   // open worker feedback → banner; arriving via "adopt" → the feedback's photo/video becomes a new step after the step it refers to

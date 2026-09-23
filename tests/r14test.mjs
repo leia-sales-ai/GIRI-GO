@@ -29,7 +29,7 @@ await d.click('#stitle'); await d.evaluate(()=>{ const i = document.querySelecto
 await d.click('[data-tf="keep"]'); await d.waitForTimeout(600);
 console.log('title after keep:', await d.inputValue('#stitle'), '| list row html has keep:', await d.$eval('.srow.sel .tt', e => e.innerHTML.includes('class="keep"')));
 // add a video step via import to test marks
-await d.setInputFiles('#imp-file', TESTS+'/test.webm'); await d.waitForTimeout(6000);
+await d.setInputFiles('.addstep input[type=file]', TESTS+'/test.webm'); await d.waitForTimeout(6000);
 const vsel = await d.$('#trimbar'); console.log('video stage present:', !!vsel);
 if(vsel){
   await d.click('[data-tool="check"]'); await d.waitForTimeout(300);

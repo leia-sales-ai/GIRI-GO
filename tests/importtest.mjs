@@ -7,7 +7,7 @@ await page.evaluate(()=>sessionStorage.setItem('gg_dash','all')); await page.got
 await page.click('[data-a="edit"]'); await page.waitForTimeout(1200); await page.click('[data-tab="steps"]'); await page.waitForTimeout(300);
 const before = await page.evaluate(()=>window.__tables.instructions[0].data.steps.map(s=>s.kind||s.type).join(','));
 // file picker import (2 photos + 1 video) after selected step 1
-await page.setInputFiles('#imp-file', [TESTS+'/imp1.jpg', TESTS+'/test.webm', TESTS+'/imp2.jpg']); await page.waitForTimeout(3500);
+await page.setInputFiles('.addstep input[type=file]', [TESTS+'/imp1.jpg', TESTS+'/test.webm', TESTS+'/imp2.jpg']); await page.waitForTimeout(3500);
 const after = await page.evaluate(()=>window.__tables.instructions[0].data.steps.map(s=>s.kind||s.type).join(','));
 console.log('before:', before); console.log('after :', after);
 console.log('new step sizes:', await page.evaluate(()=>window.__tables.instructions[0].data.steps.filter(s=>!s.kind).slice(1,4).map(s=>s.type+' '+s.w+'x'+s.h+' d='+s.duration+' te='+s.trimEnd)));
