@@ -1,7 +1,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
-// GIRI Go – hubspot-sync (v1)
+// GIRI Go – hubspot-sync (v2)
 // Keeps three contact properties in HubSpot up to date, keyed by the user's e-mail:
 //   girigoid                        = GIRI Go user id (profiles.id)
 //   girigolastinstructioncreated    = date of the newest instruction the user created
@@ -41,9 +41,17 @@ async function syncUser(admin: any, token: string, userId: string): Promise<Reco
   } else {
     r = await fetch(HS, { method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" }, body: JSON.stringify({ properties: { email, ...splitName(m.name), ...props } }) });
   }
-  if (!r.ok) throw new Error("hubspot_" + (found ? "update" : "create") + "_" + r.status + " " + (await r.text()).slice(0, 300));
+  let action = found ? "updated" : "created";
+  if (!r.ok && !found && r.status === 409) {
+    // race: the contact was created between search and create (HubSpot's search index lags a few seconds) → update the existing one
+    const txt = await r.text(); const m = /Existing ID:\s*(\d+)/i.exec(txt);
+    if (!m) throw new Error("hubspot_create_409 " + txt.slice(0, 200));
+    r = await fetch(HS + "/" + m[1], { method: "PATCH", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" }, body: JSON.stringify({ properties: props }) });
+    action = "updated";
+  }
+  if (!r.ok) throw new Error("hubspot_" + action + "_" + r.status + " " + (await r.text()).slice(0, 300));
   const c = await r.json();
-  return { user_id: userId, email, contact: c.id, action: found ? "updated" : "created", ...props };
+  return { user_id: userId, email, contact: c.id, action, ...props };
 }
 
 Deno.serve(async (req: Request) => {

@@ -50,6 +50,12 @@ Supabase-URL und Publishable Key stehen oben in `index.html` unter `window.GIRI_
 - **Link-Passwort (ab v0.14):** Pro Projekt (Projektseite → „Passwort“) und/oder pro Team (Admin-Panel → Team → „Passwort“). Gesetzt = wer den öffentlichen Link öffnet, muss das Passwort einmal pro Gerät eingeben (Projekt-Passwort oder Passwort eines zugeordneten Teams). Standard: aus. Gespeichert wird nur ein Salted-SHA-256-Hash; geschützte Anleitungen sind für Anonyme auch per API nicht lesbar (`open_instr`-RPC prüft serverseitig). Hinweis: Die Medien-Dateien selbst liegen im öffentlichen Storage-Bucket und sind bei Kenntnis der Datei-URL weiterhin abrufbar.
 - Ab v0.13 lassen sich auch einzelne Anleitungen Teams zuordnen (Editor → „Freigabe & Einstellungen“ → „Zugriff (Teams)“ oder Admin-Panel → „Zugriff (Teams)“). Die Team-Zuordnung der Anleitung gilt zusätzlich zu den Teams des Projekts; nichts angehakt = wie das Projekt.
 
+## Design & Bedienung (v0.15)
+- Komplett überarbeitetes Stylesheet (ein Designsystem statt gewachsener Schichten): ruhigere Flächen, Hairline-Karten, 12-px-Radien, konsistente Buttons (Mint = die eine „Los“-Aktion, Blau = Primäraktion, Weiß = sekundär), lesbare Kontraste im Viewer, unscharfer Bildhintergrund statt schwarzer Balken bei Querformat-Medien auf dem Handy.
+- Editor: Werkzeuge als gruppierter Block (Markieren · Status · Sicherheit · Bilder), nie mehr seitlich scrollen; Formatleisten stehen unter den Textfeldern; Titel des Schritts und Anleitung in voller Breite.
+- Symbole in Pseudo-3D: Pfeile und Rahmen als Blöcke mit Tiefe, Nummern/Häkchen/Kreuze als glänzende Kugeln, Warnschilder mit Kante – in Bild, Video, Viewer und PDF identisch.
+- Login: nach „Loslegen“ ein Warte-Screen mit Code-Eingabe und Countdown für „Erneut senden“ (90 s) – ein neuer Link macht den alten ungültig, deshalb wird nicht mehr sofort nachgefordert. Google-Login erscheint automatisch, sobald der Provider in Supabase aktiv ist.
+
 ## Titel formatieren (ab v0.14)
 - Schritt-Titel haben eine Mini-Leiste: **B** (fett), 🔗 (Link), 🔒 (nicht übersetzen). `==M6==`, `**fett**` und Links funktionieren in Schritt-, Kapitel- und Anleitungstiteln (Viewer, Listen, PDF als Klartext).
 
@@ -97,6 +103,7 @@ Supabase-URL und Publishable Key stehen oben in `index.html` unter `window.GIRI_
 - Kontakt-Eigenschaften in HubSpot: `GIRIGO-ID` (Benutzer-ID), `GIRIGO-LastInstructionCreated` (Datum der neuesten Anleitung), `GIRIGO-NumberOfInstructionViews` (Aufrufe aller Anleitungen dieses Benutzers). Abgleich per E-Mail: existiert der Kontakt, werden nur diese drei Felder aktualisiert; sonst wird ein Kontakt (E-Mail, Vor-/Nachname) angelegt.
 - Läuft fast in Echtzeit: Datenbank-Trigger (neues Profil, neue Anleitung, neuer Aufruf) → `pg_net` → Edge Function `hubspot-sync` → HubSpot. Die Funktion berechnet die Werte immer frisch aus der Datenbank.
 - Setup: HubSpot → Private App mit Scopes `crm.objects.contacts.read/write` → Token als Vault-Secret `hubspot_token` (Supabase → Integrations → Vault). Kompletter Neuabgleich aller Benutzer: `POST …/functions/v1/hubspot-sync` mit Header `x-giri-secret` (Vault `hs_sync_secret`) und Body `{"all":true}`.
+- Kontakt vorhanden (Suche per E-Mail) → nur die drei Felder werden gesetzt; nicht vorhanden → Kontakt wird angelegt. Legt HubSpot ihn in derselben Sekunde selbst an (409), wird der bestehende Kontakt aktualisiert – keine Duplikate.
 
 ## Video-Konvertierung
 - Jeder Clip wird im Browser (WebCodecs) zu H.264-MP4 mit max. 1280 px und ~2 Mbit/s konvertiert: Importe sofort beim Import, Aufnahmen (z. B. WebM von Android) im Hintergrund vor dem Upload. Geht auf iOS 16.4+, Chrome, Edge, Safari; wo WebCodecs fehlt, bleibt das Original.
