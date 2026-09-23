@@ -388,3 +388,24 @@ $$;
 revoke all on function public.hs_metrics(uuid) from public; grant execute on function public.hs_metrics(uuid) to service_role;
 create or replace function public.hs_all_users() returns setof uuid language sql stable security definer set search_path = public as $$ select id from public.profiles $$;
 revoke all on function public.hs_all_users() from public; grant execute on function public.hs_all_users() to service_role;
+
+-- v0.15.1: öffentliche Mail-Anbieter (gmail.com, outlook.com, gmx …) bekommen einen persönlichen Workspace (ws = E-Mail-Adresse)
+create or replace function public.handle_new_user()
+returns trigger language plpgsql security definer set search_path = public as $$
+declare v_ws text; v_cnt int; v_role text; v_domain text; v_email text;
+begin
+  v_email := lower(coalesce(new.email, new.raw_user_meta_data->>'email', new.raw_user_meta_data->>'preferred_username', new.id::text || '@no-email.local'));
+  v_domain := split_part(v_email,'@',2);
+  if v_domain = '' or v_domain in ('gmail.com','googlemail.com','outlook.com','outlook.de','hotmail.com','hotmail.de','live.com','live.de','msn.com','yahoo.com','yahoo.de','icloud.com','me.com','mac.com','web.de','gmx.de','gmx.net','gmx.at','gmx.ch','t-online.de','freenet.de','aol.com','proton.me','protonmail.com','posteo.de','mail.de','mailbox.org','yandex.com','ymail.com')
+    then v_ws := v_email; else v_ws := v_domain; end if;
+  select count(*) into v_cnt from public.profiles where ws = v_ws;
+  select i->>'role' into v_role
+    from public.workspaces w, jsonb_array_elements(coalesce(w.invites,'[]'::jsonb)) i
+    where w.ws = v_ws and lower(i->>'email') = v_email limit 1;
+  if v_role is null or v_role not in ('creator','reviewer','viewer') then v_role := 'creator'; end if;
+  insert into public.profiles (id, email, name, role, ws, is_admin)
+  values (new.id, v_email, coalesce(nullif(new.raw_user_meta_data->>'name',''), nullif(new.raw_user_meta_data->>'full_name',''), split_part(v_email,'@',1)), v_role, v_ws, (v_cnt = 0))
+  on conflict (id) do nothing;
+  update public.workspaces set invites = coalesce((select jsonb_agg(i) from jsonb_array_elements(invites) i where lower(i->>'email') <> v_email), '[]'::jsonb) where ws = v_ws;
+  return new;
+end $$;

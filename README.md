@@ -14,12 +14,26 @@ Leichtgewichtige Web-App für Video-/Foto-Arbeitsanleitungen: aufnehmen (3–5 s
    - Site URL: `https://leia-sales-ai.github.io/GIRI-GO/`
    - Redirect URLs: `https://leia-sales-ai.github.io/GIRI-GO/**` hinzufügen
 2. **Authentication → Providers → Email**: Enabled, „Confirm email" darf an bleiben (Magic Link bestätigt automatisch).
-3. Optional, aber für den Team-Einsatz nötig: **Project Settings → Auth → SMTP Settings** eigenen Mailserver eintragen (z. B. Resend, Postmark). Der eingebaute Mailversand ist auf wenige Mails pro Stunde begrenzt.
+3. Für den Team-Einsatz nötig: **Authentication → Emails → SMTP Settings** eigenen Mailserver eintragen (aktuell Resend: Host `smtp.resend.com`, Port 465, User `resend`, Passwort = Resend-API-Key, Absender `giri-go@ar-giri.de`, „Minimum interval per user“ 60). Der eingebaute Mailversand ist auf wenige Mails pro Stunde begrenzt.
+   - Damit die Mails schnell ankommen: In Resend die Domain `ar-giri.de` verifizieren (DNS: SPF, DKIM, DMARC – Status „Verified“). Ohne Verifizierung landen die Mails verzögert oder im Spam.
+   - Fehler „Error sending magic link email“ beim Login = Supabase kommt nicht bei Resend rein. Ursache in den Supabase-Logs (Authentication → Logs): `535 Authentication credentials invalid` heißt Passwort/Username stimmen nicht exakt (Key ohne Leerzeichen einfügen, Username genau `resend`). Absenderadresse muss auf der verifizierten Domain liegen.
+   - Diagnose bei Verzögerung: Resend → Emails zeigt pro Mail „sent“ → „delivered“ mit Zeitstempel. Meldet Resend sofort „delivered“, hängt die Mail im empfangenden Postfach (Google Workspace: Admin-Konsole → E-Mail-Protokollsuche).
+   - Supabase → Authentication → Rate Limits: „Rate limit for sending emails“ bei eigenem SMTP z. B. auf 100/Stunde setzen.
+   - Wer sich per Google/Microsoft anmeldet, braucht die Mail gar nicht (2b/2c).
 
-### 2b. Google-Login (optional, ab v0.14)
-1. Google Cloud Console → APIs & Dienste → Anmeldedaten → **OAuth-Client-ID** (Webanwendung). Autorisierte Weiterleitungs-URI: `https://goorpzgcxhtjbaothluv.supabase.co/auth/v1/callback`
-2. Supabase → **Authentication → Providers → Google** → Enabled, Client-ID + Client-Secret eintragen → Save.
-3. Fertig – der Button „Mit Google anmelden“ erscheint auf der Login-Seite automatisch, sobald der Provider aktiv ist. Workspace = E-Mail-Domain wie beim Magic Link; der Name kommt aus dem Google-Profil.
+### 2b. Google-Login (ab v0.14)
+1. Google Cloud Console → APIs & Dienste → Anmeldedaten → **OAuth-Client-ID** (Webanwendung). Autorisierte Weiterleitungs-URI: `https://goorpzgcxhtjbaothluv.supabase.co/auth/v1/callback`. OAuth-Zustimmungsseite: „Extern“ + **In Produktion** (für die Scopes E-Mail/Profil ist keine Google-Prüfung nötig); solange sie auf „Testing“ steht, können sich nur eingetragene Testnutzer anmelden.
+2. Supabase → **Authentication → Sign In / Providers → Google** → Enabled, Client-ID + Client-Secret eintragen → Save.
+3. Fertig – der Button „Mit Google anmelden“ erscheint auf der Login-Seite automatisch, sobald der Provider aktiv ist (die App fragt `/auth/v1/settings` ab). Name kommt aus dem Google-Profil.
+
+### 2c. Microsoft-Login (ab v0.15.1, für Kunden mit Microsoft 365)
+1. Azure-Portal / Entra Admin Center → App-Registrierungen → **Neue Registrierung**: Name „GIRI Go“, unterstützte Kontotypen „Konten in einem beliebigen Organisationsverzeichnis und persönliche Microsoft-Konten“, Redirect-URI (Web): `https://goorpzgcxhtjbaothluv.supabase.co/auth/v1/callback`.
+2. Zertifikate & Geheimnisse → **Neuer geheimer Clientschlüssel** (Wert kopieren, wird nur einmal angezeigt). API-Berechtigungen: `email`, `openid`, `profile`, `User.Read` (Standard).
+3. Supabase → **Authentication → Providers → Azure** → Enabled, Anwendungs-ID (Client) + Secret, Azure Tenant URL `https://login.microsoftonline.com/common` → Save. Button „Mit Microsoft anmelden“ erscheint automatisch.
+
+### 2d. Workspace-Zuordnung bei SSO
+- Firmen-Adresse (z. B. `@kunde.de`) → Workspace = Domain, wie beim Magic Link.
+- Öffentliche Anbieter (gmail.com, outlook.com, gmx, web.de, icloud …) → persönlicher Workspace pro Adresse, damit fremde Gmail-Nutzer nie im selben Workspace landen.
 
 ### 3. GitHub Pages aktivieren
 1. Alle Dateien dieses Ordners ins Repo hochladen (Drag & Drop im Browser: „Add file → Upload files"), `index.html` muss im Root liegen.
@@ -49,6 +63,13 @@ Supabase-URL und Publishable Key stehen oben in `index.html` unter `window.GIRI_
 - Veröffentlichte Links/QR-Codes funktionieren immer ohne Login. Die Projekt-Sichtbarkeit wird derzeit in der App geprüft (Datenbank-Regeln pro Projekt folgen).
 - **Link-Passwort (ab v0.14):** Pro Projekt (Projektseite → „Passwort“) und/oder pro Team (Admin-Panel → Team → „Passwort“). Gesetzt = wer den öffentlichen Link öffnet, muss das Passwort einmal pro Gerät eingeben (Projekt-Passwort oder Passwort eines zugeordneten Teams). Standard: aus. Gespeichert wird nur ein Salted-SHA-256-Hash; geschützte Anleitungen sind für Anonyme auch per API nicht lesbar (`open_instr`-RPC prüft serverseitig). Hinweis: Die Medien-Dateien selbst liegen im öffentlichen Storage-Bucket und sind bei Kenntnis der Datei-URL weiterhin abrufbar.
 - Ab v0.13 lassen sich auch einzelne Anleitungen Teams zuordnen (Editor → „Freigabe & Einstellungen“ → „Zugriff (Teams)“ oder Admin-Panel → „Zugriff (Teams)“). Die Team-Zuordnung der Anleitung gilt zusätzlich zu den Teams des Projekts; nichts angehakt = wie das Projekt.
+
+## Design & Bedienung (v0.16)
+- Dashboard: Kennzahlen als ruhige Zeile statt vier Kacheln; Projekte als Cover-Karten (Bilder der Anleitungen, Name und Anzahl im Bild, Schloss bei Link-Passwort); Anleitungs-Karten mit drei klaren Aktionen (Bearbeiten · Nächsten Schritt aufnehmen · Link/QR) und „…“-Menü für Vorschau, PDF, Statistik, Verschieben, Löschen. Klick auf die Karte öffnet die Anleitung.
+- Kopfzeile: Avatar mit Initialen statt Name+Rolle; Profil-Sheet zeigt Name, E-Mail, Rolle, Version. Abmelden liegt im Profil.
+- Aufnahme: Zeit und Bewertung („Perfekt“ · „Wird lang …“ · „Zu lang“) stehen als Pille **über** dem Auslöser, nicht mehr darunter – bleibt beim Halten lesbar.
+- Editor: unscharfer Bildhintergrund hinter Querformat-Medien wie im Viewer; Kapitelnamen in der Liste mit Auslassungspunkten.
+- Kleinigkeiten: Escape schließt jeden Dialog, Seiten blenden weich ein, Ein-/Mehrzahl bei „1 Schritt“/„2 Schritte“, Kapitel-Kacheln mit Fortschrittsbalken sobald eine Checkliste aktiv ist.
 
 ## Design & Bedienung (v0.15)
 - Komplett überarbeitetes Stylesheet (ein Designsystem statt gewachsener Schichten): ruhigere Flächen, Hairline-Karten, 12-px-Radien, konsistente Buttons (Mint = die eine „Los“-Aktion, Blau = Primäraktion, Weiß = sekundär), lesbare Kontraste im Viewer, unscharfer Bildhintergrund statt schwarzer Balken bei Querformat-Medien auf dem Handy.

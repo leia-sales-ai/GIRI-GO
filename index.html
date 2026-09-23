@@ -69,7 +69,7 @@ If you want to offset all timestamps of a track such that the first one is zero,
 }
 *{box-sizing:border-box}
 html,body{height:100%;overflow-x:clip;max-width:100%;overscroll-behavior-x:none}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;text-rendering:optimizeLegibility}
+body{margin:0;background:var(--bg);background-image:radial-gradient(1200px 420px at 50% -120px,rgba(0,78,173,.07),transparent 70%);background-repeat:no-repeat;color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;text-rendering:optimizeLegibility}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer;border:0;background:none;padding:0}
 button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid rgba(0,78,173,.35);outline-offset:2px}
@@ -93,9 +93,19 @@ a{color:inherit}
 .topbar .tb-btn{color:#fff;background:rgba(255,255,255,.1);padding:8px 12px;border-radius:999px;font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;text-decoration:none;transition:background .15s var(--ease)}
 .topbar .tb-btn:hover{background:rgba(255,255,255,.18)}
 .topbar .tb-btn[data-back]{width:38px;height:38px;padding:0;justify-content:center;border-radius:50%}
-@media(max-width:560px){.brand small:not(.ver){display:none}.topbar .tb-btn[data-logout]{display:none}.topbar .tb-btn[data-profile]{max-width:140px;overflow:hidden;text-overflow:ellipsis;display:block;line-height:1.4}.topbar a.tb-btn[href="#/admin"]{display:none}}
+.tb-user{padding:4px 12px 4px 4px !important;gap:8px !important}
+.avatar.big{width:52px;height:52px;font-size:18px}
+.me{display:flex;gap:14px;align-items:center;margin-bottom:18px}
+.me>div{display:flex;flex-direction:column;min-width:0}
+.me b{font-size:18px;letter-spacing:-.015em}
+.me>div>span{font-size:13px;color:var(--ink-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.me .chip{align-self:flex-start;white-space:normal}
+.avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#0A63D6,#004EAD);color:#fff;font-size:12px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;letter-spacing:.02em;box-shadow:inset 0 1px 0 rgba(255,255,255,.2)}
+@media(max-width:560px){.tb-user{padding:4px !important}.tb-name{display:none}}
+@media(max-width:560px){.brand small{display:none}.topbar a.tb-btn[href="#/admin"]{display:none}.topbar{padding:0 12px}}
 @media(max-width:640px){.tabs{width:100%}.tabs button{flex:1;justify-content:center;white-space:nowrap;padding:9px 8px;font-size:13px}}
-.page{flex:1;width:100%;max-width:1200px;margin:0 auto;padding-block:22px 56px;padding-inline:16px}
+.page{flex:1;width:100%;max-width:1200px;margin:0 auto;padding-block:26px 64px;padding-inline:16px;animation:pagein .32s var(--ease)}
+@keyframes pagein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .page-narrow{max-width:520px}
 .loading{display:flex;align-items:center;justify-content:center;padding:80px 0}
 .spin{width:28px;height:28px;border:3px solid var(--line);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
@@ -103,10 +113,10 @@ a{color:inherit}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ---------- Primitives ---------- */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 18px;border-radius:12px;font-weight:700;font-size:14px;background:var(--accent);color:#fff;transition:transform .1s var(--ease),filter .15s,background .15s,box-shadow .15s;white-space:nowrap;text-decoration:none;box-shadow:0 1px 2px rgba(0,78,173,.2),inset 0 1px 0 rgba(255,255,255,.1);line-height:1.2}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 18px;border-radius:12px;font-weight:700;font-size:14px;background:linear-gradient(180deg,#0B62D3,var(--accent));color:#fff;transition:transform .1s var(--ease),filter .15s,background .15s,box-shadow .15s;white-space:nowrap;text-decoration:none;box-shadow:0 1px 2px rgba(0,78,173,.2),inset 0 1px 0 rgba(255,255,255,.1);line-height:1.2}
 .btn:hover{filter:brightness(1.06)}
 .btn:active{transform:scale(.98)}
-.btn.mint{background:var(--mint);color:#000;box-shadow:0 1px 2px rgba(3,211,155,.25),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn.mint{background:linear-gradient(180deg,#14E0A8,var(--mint));color:#000;box-shadow:0 1px 2px rgba(3,211,155,.25),inset 0 1px 0 rgba(255,255,255,.25)}
 .btn.ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line-2);box-shadow:var(--shadow-1)}
 .btn.ghost:hover{background:var(--surface-2);filter:none}
 .btn.danger{background:var(--red)}
@@ -117,7 +127,7 @@ a{color:inherit}
 .btn svg{flex:0 0 auto}
 .del,.btn.ghost.del,.chrow .x,.ann-pill button,.instr [data-a="del"],.lang [data-txdel],.team [data-mrm],.menu button.del{color:var(--red) !important}
 .btn.ghost.del:hover,.instr [data-a="del"]:hover{background:rgba(220,38,38,.06);border-color:rgba(220,38,38,.3)}
-.card{background:var(--surface);border-radius:var(--radius);border:1px solid var(--line);box-shadow:var(--shadow-1)}
+.card{background:var(--surface);border-radius:20px;border:1px solid var(--line);box-shadow:var(--shadow-1)}
 .field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
 .field label,.lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
 .field input,.field select,.field textarea{padding:11px 13px;border:1px solid var(--line-2);border-radius:12px;background:var(--surface);color:var(--ink);width:100%;transition:border-color .15s,box-shadow .15s;min-height:44px}
@@ -215,26 +225,35 @@ select.sel,.team select,#utable select,.field select{padding:9px 12px;border:1px
 
 /* ---------- Dashboard ---------- */
 .dash-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}
-.dash-head h1{font-size:30px;letter-spacing:-.025em;line-height:1.1}
+.dash-head h1{font-size:34px;letter-spacing:-.03em;line-height:1.08;font-weight:800}
 .dash-head .sub{color:var(--ink-3);font-size:14px;margin-top:4px;font-weight:500}
 .dash-head .row .btn.ghost{background:transparent;box-shadow:none;border-color:transparent;color:var(--ink-2)}
 .dash-head .row .btn.ghost:hover{background:var(--surface-2)}
+@media(max-width:560px){.dash-head{flex-direction:column;align-items:stretch}.dash-head h1{font-size:30px}.dash-head .row{flex-wrap:wrap;gap:6px}.dash-head .row .btn.ghost.sm{padding:8px 10px}.dash-head .row .btn.mint{flex:1 0 100%;order:-1;padding:13px 18px;font-size:15px}}
+.kpis{display:flex;gap:0;margin:0 0 22px;padding:2px 0 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.kpi{display:flex;align-items:baseline;gap:8px;padding:0 22px 0 0;margin-right:22px;border-right:1px solid var(--line)}
+.kpi:last-child{border-right:0;margin-right:0}
+.kpi b{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.kpi span{font-size:12px;color:var(--ink-3);font-weight:600}
+.kpi.hot b{color:var(--blue)}
+@media(max-width:560px){.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding-bottom:12px}.kpi{flex-direction:column;align-items:flex-start;gap:0;padding:0;margin:0;border-right:0;min-width:0}.kpi b{font-size:20px}.kpi span{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;margin-bottom:22px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-1)}
 .stats .stat{border:0;border-radius:0;box-shadow:none;padding:16px 18px;background:var(--surface)}
 .stat b{display:block;font-size:26px;font-weight:800;line-height:1.1;letter-spacing:-.02em}
 .stat span{font-size:11px;color:var(--ink-3);font-weight:700;text-transform:uppercase;letter-spacing:.07em;display:block;margin-top:4px}
 .list{display:grid;gap:12px;grid-template-columns:minmax(0,1fr)}
-.instr{display:grid;grid-template-columns:104px 1fr;gap:16px;padding:14px;align-items:center;transition:transform .18s var(--ease),box-shadow .18s var(--ease)}
+.instr{display:grid;grid-template-columns:112px 1fr;gap:18px;padding:14px;align-items:center;cursor:pointer;transition:transform .18s var(--ease),box-shadow .18s var(--ease)}
 .instr:hover{transform:translateY(-1px);box-shadow:var(--shadow-2)}
 .instr>div{min-width:0}
 @media(max-width:560px){.instr{grid-template-columns:76px 1fr;gap:12px}}
-.instr .thumb{width:100%;aspect-ratio:1;border-radius:14px;background:var(--surface-2);object-fit:cover;display:block}
-.instr .title{font-weight:700;font-size:16px;margin-bottom:4px;overflow-wrap:anywhere;letter-spacing:-.01em}
+.instr .thumb{width:100%;aspect-ratio:1;border-radius:16px;background:var(--surface-2);object-fit:cover;display:block;box-shadow:inset 0 0 0 1px rgba(0,0,0,.04)}
+.instr .title{font-weight:700;font-size:17px;margin-bottom:5px;overflow-wrap:anywhere;letter-spacing:-.015em}
 .instr .meta{display:flex;gap:8px 12px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--ink-3);font-weight:500}
 .instr .meta span{display:inline-flex;align-items:center;gap:4px}
 .instr .meta .fold{color:var(--blue);font-weight:700}
 .instr .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.instr .acts .btn{padding:8px 13px;font-size:12.5px;border-radius:10px}
+.instr .acts .btn{padding:9px 14px;font-size:13px;border-radius:11px}
+.instr .acts .btn.icon{width:38px;height:38px;padding:0}
 .instr .acts2{display:flex;flex-wrap:wrap;gap:4px 6px;align-items:center;margin-top:8px;font-size:13px;color:var(--line-2)}
 .instr .acts2 button{color:var(--ink-3);font-weight:600;font-size:13px;padding:5px 6px;border-radius:8px;display:inline-flex;gap:5px;align-items:center}
 .instr .acts2 button:hover{color:var(--ink);background:var(--surface-2)}
@@ -250,21 +269,40 @@ select.sel,.team select,#utable select,.field select{padding:9px 12px;border:1px
 .pcard:hover{transform:translateY(-2px);box-shadow:var(--shadow-2)}
 .pcard.add{border:1.5px dashed var(--line-2);background:transparent;box-shadow:none;color:var(--ink-3)}
 .pcard.add:hover{border-color:var(--blue);color:var(--blue);background:var(--surface)}
+.pcover{position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,var(--blue-lightest),var(--green-lightest));display:grid;grid-template-columns:repeat(3,1fr);gap:2px;isolation:isolate}
+.pcover img{width:100%;height:100%;object-fit:cover;display:block;background:var(--surface-2)}
+.pcover img:first-of-type:last-of-type{grid-column:1/-1}
+.pcover img:first-of-type:nth-last-of-type(2){grid-column:1/3}
+.pcover .pempty{grid-column:1/-1;display:flex;align-items:flex-start;justify-content:flex-end;padding:14px;color:var(--blue);opacity:.55;background:transparent}
+.pcover .pempty svg{width:28px;height:28px}
+.pcard.add .pcover .pempty{align-items:center;justify-content:center;padding:0;opacity:1}
+.pcard.add .pcover .pempty svg{width:32px;height:32px}
+.pcard.add .pcover::after{display:none}
+.pcover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.72) 100%);pointer-events:none}
+.pcard.blank .pcover::after{display:none}
+.pcap{position:absolute;left:14px;right:14px;bottom:12px;color:#fff;z-index:2;display:flex;flex-direction:column;gap:2px;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.pcap b{font-size:17px;line-height:1.2;letter-spacing:-.015em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pcap span{font-size:12px;font-weight:600;opacity:.9}
+.pcard.blank .pcap{color:var(--ink);text-shadow:none}.pcard.blank .pcap span{color:var(--ink-3)}
+.pfoot{padding:12px 6px 2px}
+.pcard.add .pcover{border:0;background:var(--surface-2)}
+.pcard.add .pcover .pempty{color:var(--ink-3)}
+.pcard.add:hover .pcover .pempty{color:var(--blue)}
 .pthumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;height:84px;margin-bottom:12px}
 .pthumbs img{width:100%;height:84px;object-fit:cover;border-radius:10px;background:var(--surface-2)}
 .pthumbs img:first-child:last-child{grid-column:1/-1}
 .pthumbs .pempty,.pcard.add .pempty{grid-column:1/-1;height:84px;border-radius:10px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--ink-3)}
 .pcard.add .pempty{margin-bottom:12px;background:var(--surface-2)}
 .pthumbs .pempty svg,.pcard.add .pempty svg{width:24px;height:24px}
-.pname{font-weight:700;font-size:15px;display:flex;align-items:center;gap:6px;overflow-wrap:anywhere;padding:0 4px;letter-spacing:-.01em}
+.pname{font-weight:700;font-size:15px;display:flex;align-items:center;gap:6px;overflow-wrap:anywhere;padding:0;letter-spacing:-.01em}
 .pname svg{color:var(--ink-3)}
-.pmeta{font-size:12px;color:var(--ink-3);margin-top:2px;padding:0 4px;font-weight:500}
-.pcounts{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px;padding:0 4px}
+.pmeta{font-size:12px;color:var(--ink-3);margin-top:2px;padding:0;font-weight:500}
+.pcounts{display:flex;gap:4px;flex-wrap:wrap;padding:0}
 .pc{font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;background:var(--surface-2);color:var(--ink-2)}
 .pc.pub{background:rgba(3,211,155,.18);color:var(--mint-ink)}.pc.rev{background:rgba(0,78,173,.1);color:var(--blue)}
-.pteams{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px;padding:0 4px}
+.pteams{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px;padding:0}
 .pteams span{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;border:1px solid var(--line-2);color:var(--ink-3)}
-@media(max-width:560px){.pgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.pcard{padding:10px}.pthumbs,.pthumbs img,.pthumbs .pempty,.pcard.add .pempty{height:56px}.pname{font-size:13px}}
+@media(max-width:560px){.pgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.pcard{padding:8px}.pcap b{font-size:14px}.pcap{left:10px;right:10px;bottom:9px}.pname{font-size:13px}.pfoot{padding:10px 4px 2px}}
 .charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-bottom:14px}
 .chart{padding:16px 18px;min-width:0}
 .chart h3{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);margin:0 0 10px}
@@ -302,10 +340,14 @@ select.sel,.team select,#utable select,.field select{padding:9px 12px;border:1px
 .shutter.rec .core{background:var(--red);transform:scale(.6);border-radius:18px}
 .shutter.tl-orange .ring{stroke:var(--yellow)}
 .shutter.tl-red .ring{stroke:var(--red)}
-.cap-timer{text-align:center;font-weight:800;font-size:15px;min-height:22px;margin-bottom:8px;letter-spacing:.02em}
-.cap-timer.warn{color:var(--amber)}
+.cap-status{display:flex;justify-content:center;margin-bottom:14px}
+.cap-pill{display:inline-flex;align-items:center;gap:10px;padding:9px 16px;border-radius:999px;background:rgba(0,0,0,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 4px 18px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.12);max-width:calc(100vw - 32px)}
+.cap-timer{font-weight:800;font-size:16px;letter-spacing:.02em;color:var(--mint)}
+.cap-timer:empty{display:none}
+.cap-timer.warn{color:var(--yellow)}
 .cap-timer.bad{color:var(--red)}
-.cap-hint{text-align:center;font-size:12px;opacity:.75;margin-top:10px}
+.cap-hint{font-size:14px;font-weight:700;text-align:center}
+.cap-timer:not(:empty)+.cap-hint{font-size:15px}
 .zoom{position:absolute;left:50%;bottom:calc(200px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px}
 .zoom input[type=range]{writing-mode:vertical-lr;direction:rtl;height:140px;width:28px;accent-color:var(--mint)}
 .zoom span{font-size:11px;font-weight:700;background:rgba(0,0,0,.45);padding:2px 6px;border-radius:6px}
@@ -363,7 +405,7 @@ select.sel,.team select,#utable select,.field select{padding:9px 12px;border:1px
 .chrow .grip{width:36px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--ink-3);cursor:grab;touch-action:none}
 .chrow .chev{width:28px;height:28px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;color:var(--ink);transition:transform .2s}
 .chrow.coll .chev{transform:rotate(-90deg)}
-.chrow input{font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);border:0;background:transparent;min-width:0;border-bottom:1.5px dashed transparent;border-radius:0}
+.chrow input{font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);border:0;background:transparent;min-width:0;border-bottom:1.5px dashed transparent;border-radius:0;text-overflow:ellipsis}
 .chrow input:focus{border-bottom-color:var(--blue);outline:0}
 .chrow .cnt{font-size:11px;font-weight:700;color:var(--ink-3);background:var(--surface-2);padding:2px 7px;border-radius:999px}
 .chrow .mini{width:28px;height:28px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;color:var(--ink-3)}
@@ -378,6 +420,7 @@ select.sel,.team select,#utable select,.field select{padding:9px 12px;border:1px
 @media(max-width:900px){.stage{padding:12px}}
 .media-box{position:relative;background:#000;border-radius:14px;overflow:hidden;width:100%;aspect-ratio:16/10;max-height:62vh;touch-action:none;margin-inline:auto;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 .media-box video,.media-box img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
+.media-box .vbg{position:absolute;inset:-40px;background-size:cover;background-position:center;filter:blur(36px) brightness(.4) saturate(1.1);transform:scale(1.08);pointer-events:none}
 .media-box canvas.ann{position:absolute;left:0;top:0;cursor:crosshair;touch-action:none}
 .media-box canvas.ann.sel-mode{cursor:default}
 .media-box.drop-ok{outline:3px solid var(--blue);outline-offset:-3px}
@@ -699,7 +742,7 @@ select.sel,.team select,#utable select,.field select{padding:9px 12px;border:1px
 (() => {
 'use strict';
 
-const APP_VERSION = '0.15.0';
+const APP_VERSION = '0.16.0';
 /* ---------- i18n ---------- */
 const I18N = {
 de:{
@@ -747,7 +790,7 @@ de:{
   uploading:'Upload', upload_failed:'Upload fehlgeschlagen – wird erneut versucht', remote_changed:'Auf anderem Gerät geändert – tippen zum Aktualisieren',
   loading_backend:'Verbindung zum Backend wird geladen …', update_avail:'Neue Version {v} verfügbar – tippen zum Laden', reload:'Neu laden',
   profile:'Profil', role_note:'Prototyp: Rolle selbst wählbar. In v2 vergibt der Admin die Rollen.',
-  tab_settings:'Freigabe & Einstellungen', translations:'Übersetzungen', tx_sub:'Per DeepL. Titel, Kapitel, Schritt-Texte und Warnhinweise. Der Link bekommt dann einen Sprachumschalter.', tx_add:'Übersetzen', tx_ok:'Aktuell – erneut übersetzen', tx_stale:'Text geändert – neu übersetzen', tx_running:'Übersetze …', tx_done:'{l} übersetzt', hero_h1:'Arbeitsanleitungen in 10 Minuten. Nicht in 3 Tagen.', hero_p:'Handy raus, Schritt für Schritt filmen, freigeben – fertig. Dein Team hat die Anleitung sofort am Arbeitsplatz. Ohne Schulung, ohne Papier, ohne Agentur.', hero_p1:'Aufnehmen: 3–5 Sekunden pro Schritt', hero_p2:'Freigeben: zwei Klicks, revisionssicher', hero_p3:'Teilen: QR-Code am Arbeitsplatz, kein Login für Werker', hero_cap:'Video-Arbeitsanleitungen für die Produktion', login_note:'Kein Passwort. Du bekommst einen Login-Link per E-Mail – Kolleginnen und Kollegen mit derselben Domain landen automatisch in deinem Workspace.', otp_label:'Oder Code aus der E-Mail eingeben (z. B. in der installierten App):', otp_go:'Anmelden', or:'oder', again_q:'Nichts angekommen?', again_send:'Erneut senden', again_in:'(möglich in {s} s)', other_email:'Andere E-Mail-Adresse', tg_mark:'Markieren', tg_status:'Status', tg_warn:'Sicherheit', tg_img:'Bilder', login_google:'Mit Google anmelden', install_app:'Als App installieren', install_sub:'GIRI Go auf dem Home-Bildschirm – startet im Vollbild, Kamera sofort bereit.', install_ios:'iPhone/iPad: Teilen-Symbol → „Zum Home-Bildschirm“.', install_done:'App installiert', later:'Später', hero_ch:'Montage', hero_step:'Schrauben M6 über Kreuz anziehen', hero_step_d:'Drehmomentschlüssel Nr. 3 · 10 Nm', hero_f1:'Checkliste bestätigt', hero_f2:'SOP-Export', hero_f3:'Am Arbeitsplatz', rename:'Umbenennen', native_cam:'Mit Kamera-App aufnehmen', new_title_ph:'z. B. Spannvorrichtung rüsten', chapter_before:'Neues Kapitel vor Schritt {n}', chapter_ph:'z. B. Vorbereitung', chapter_added:'Kapitel vor Schritt {n} eingefügt', qr_pdf_opts:'QR-Code-Blatt: Was soll draufstehen?', qr_date:'Datum', qr_creator:'Ersteller', qr_image:'Erstes Bild', qr_brand:'Firma / Logo', qr_download:'QR-Code als PDF', qr_scan:'Scannen für die Anleitung · GIRI Go', stats:'Statistik', stats_sub:'Aufrufe der Anleitung und Job-Done-Protokoll', views_tab:'Aufrufe', jobdone:'Job-Done-Protokoll', views_total:'Aufrufe', views_reload:'davon Neuladen', views_avg:'Ø Zeit pro Aufruf', views_done:'bis zum Ende', views_steps:'Ø Schritte gesehen', views_completed:'komplett', views_reloaded:'neu geladen', device:'Gerät', no_views:'Noch keine Aufrufe – Aufrufe werden gezählt, sobald die Anleitung veröffentlicht ist und über den Link geöffnet wird.', jobdone_hint:'Checkliste in den Einstellungen aktivieren, damit Werker jeden Schritt bestätigen.', tool_emoji:'Emoji', tool_img:'Eigene', sym_title:'Eigene Symbole', sym_upload:'Hochladen', sym_sub:'PNG mit Transparenz, JPG oder SVG – Logos, Piktogramme, Bauteil-Fotos. Werden auf 512 px verkleinert und stehen dem ganzen Workspace zur Verfügung.', sym_empty:'Noch keine eigenen Symbole. Erstes Bild über „Hochladen“ hinzufügen.', sym_del_q:'Symbol „{n}“ für den ganzen Workspace löschen?', sym_bad:'{n}: kein lesbares Bild', img_style:'Darstellung', style_glow:'Leuchten', style_sticker:'Sticker', recent:'Zuletzt', all:'Alle', trim_hint:'Video kürzen: Griffe ziehen', record_next:'Nächsten Schritt aufnehmen', branding:'Branding', branding_sub:'So erscheint die Anleitung unter dem Link und im PDF.', brand_name:'Firmenname', brand_color:'Akzentfarbe', brand_logo:'Logo', brand_nologo:'Kein Logo', brand_theme:'Anleitungs-Ansicht', theme_dark:'Dunkel', theme_light:'Hell', upload:'Hochladen', remove:'Entfernen', end_title:'Geschafft – alle Schritte durch.', undo:'Rückgängig', undone:'Rückgängig gemacht', retake:'Neu aufnehmen', rec_after:'Danach aufnehmen', replace_file:'Datei ersetzen', replacing:'Ersetzt Schritt {n}', inserting:'Nach Schritt {n}', tap_thumb:'Tippe auf ein Vorschaubild, um diesen Schritt neu aufzunehmen', more:'Mehr', approve_publish:'Freigeben & veröffentlichen', approve_all_q:'Technische und DSGVO-Freigabe erteilen und veröffentlichen?', tool_hint:'Symbol antippen → erscheint im Bild. Ziehen zum Verschieben, weiße Anfasser zum Anpassen.', expand:'Aufklappen', collapse:'Einklappen',
+  tab_settings:'Freigabe & Einstellungen', translations:'Übersetzungen', tx_sub:'Per DeepL. Titel, Kapitel, Schritt-Texte und Warnhinweise. Der Link bekommt dann einen Sprachumschalter.', tx_add:'Übersetzen', tx_ok:'Aktuell – erneut übersetzen', tx_stale:'Text geändert – neu übersetzen', tx_running:'Übersetze …', tx_done:'{l} übersetzt', hero_h1:'Arbeitsanleitungen in 10 Minuten. Nicht in 3 Tagen.', hero_p:'Handy raus, Schritt für Schritt filmen, freigeben – fertig. Dein Team hat die Anleitung sofort am Arbeitsplatz. Ohne Schulung, ohne Papier, ohne Agentur.', hero_p1:'Aufnehmen: 3–5 Sekunden pro Schritt', hero_p2:'Freigeben: zwei Klicks, revisionssicher', hero_p3:'Teilen: QR-Code am Arbeitsplatz, kein Login für Werker', hero_cap:'Video-Arbeitsanleitungen für die Produktion', login_note:'Kein Passwort. Du bekommst einen Login-Link per E-Mail – Kolleginnen und Kollegen mit derselben Domain landen automatisch in deinem Workspace.', otp_label:'Oder Code aus der E-Mail eingeben (z. B. in der installierten App):', otp_go:'Anmelden', or:'oder', again_q:'Nichts angekommen?', again_send:'Erneut senden', again_in:'(möglich in {s} s)', other_email:'Andere E-Mail-Adresse', tg_mark:'Markieren', tg_status:'Status', tg_warn:'Sicherheit', tg_img:'Bilder', login_google:'Mit Google anmelden', login_ms:'Mit Microsoft anmelden', install_app:'Als App installieren', install_sub:'GIRI Go auf dem Home-Bildschirm – startet im Vollbild, Kamera sofort bereit.', install_ios:'iPhone/iPad: Teilen-Symbol → „Zum Home-Bildschirm“.', install_done:'App installiert', later:'Später', hero_ch:'Montage', hero_step:'Schrauben M6 über Kreuz anziehen', hero_step_d:'Drehmomentschlüssel Nr. 3 · 10 Nm', hero_f1:'Checkliste bestätigt', hero_f2:'SOP-Export', hero_f3:'Am Arbeitsplatz', rename:'Umbenennen', native_cam:'Mit Kamera-App aufnehmen', new_title_ph:'z. B. Spannvorrichtung rüsten', chapter_before:'Neues Kapitel vor Schritt {n}', chapter_ph:'z. B. Vorbereitung', chapter_added:'Kapitel vor Schritt {n} eingefügt', qr_pdf_opts:'QR-Code-Blatt: Was soll draufstehen?', qr_date:'Datum', qr_creator:'Ersteller', qr_image:'Erstes Bild', qr_brand:'Firma / Logo', qr_download:'QR-Code als PDF', qr_scan:'Scannen für die Anleitung · GIRI Go', stats:'Statistik', stats_sub:'Aufrufe der Anleitung und Job-Done-Protokoll', views_tab:'Aufrufe', jobdone:'Job-Done-Protokoll', views_total:'Aufrufe', views_reload:'davon Neuladen', views_avg:'Ø Zeit pro Aufruf', views_done:'bis zum Ende', views_steps:'Ø Schritte gesehen', views_completed:'komplett', views_reloaded:'neu geladen', device:'Gerät', no_views:'Noch keine Aufrufe – Aufrufe werden gezählt, sobald die Anleitung veröffentlicht ist und über den Link geöffnet wird.', jobdone_hint:'Checkliste in den Einstellungen aktivieren, damit Werker jeden Schritt bestätigen.', tool_emoji:'Emoji', tool_img:'Eigene', move_to_folder:'In Projekt verschieben', sym_title:'Eigene Symbole', sym_upload:'Hochladen', sym_sub:'PNG mit Transparenz, JPG oder SVG – Logos, Piktogramme, Bauteil-Fotos. Werden auf 512 px verkleinert und stehen dem ganzen Workspace zur Verfügung.', sym_empty:'Noch keine eigenen Symbole. Erstes Bild über „Hochladen“ hinzufügen.', sym_del_q:'Symbol „{n}“ für den ganzen Workspace löschen?', sym_bad:'{n}: kein lesbares Bild', img_style:'Darstellung', style_glow:'Leuchten', style_sticker:'Sticker', recent:'Zuletzt', all:'Alle', trim_hint:'Video kürzen: Griffe ziehen', record_next:'Nächsten Schritt aufnehmen', branding:'Branding', branding_sub:'So erscheint die Anleitung unter dem Link und im PDF.', brand_name:'Firmenname', brand_color:'Akzentfarbe', brand_logo:'Logo', brand_nologo:'Kein Logo', brand_theme:'Anleitungs-Ansicht', theme_dark:'Dunkel', theme_light:'Hell', upload:'Hochladen', remove:'Entfernen', end_title:'Geschafft – alle Schritte durch.', undo:'Rückgängig', undone:'Rückgängig gemacht', retake:'Neu aufnehmen', rec_after:'Danach aufnehmen', replace_file:'Datei ersetzen', replacing:'Ersetzt Schritt {n}', inserting:'Nach Schritt {n}', tap_thumb:'Tippe auf ein Vorschaubild, um diesen Schritt neu aufzunehmen', more:'Mehr', approve_publish:'Freigeben & veröffentlichen', approve_all_q:'Technische und DSGVO-Freigabe erteilen und veröffentlichen?', tool_hint:'Symbol antippen → erscheint im Bild. Ziehen zum Verschieben, weiße Anfasser zum Anpassen.', expand:'Aufklappen', collapse:'Einklappen',
   cooldown:'Mail wurde gerade verschickt – bitte {s} s warten.', cooldown_sub:'Der letzte Link ist unterwegs. Prüfe Posteingang und Spam, bevor du neu anforderst – jeder neue Link macht den alten ungültig.',
   rate_limit:'Mail-Limit erreicht – es wurde keine neue Mail verschickt.', rate_limit_sub:'Der Test-Mailversand erlaubt nur 2 Mails pro Stunde. Bist du auf diesem Gerät schon eingeloggt gewesen? Dann einfach die App neu öffnen – die Sitzung bleibt erhalten, kein erneuter Link nötig.',
   /* v0.9 */
@@ -812,7 +855,7 @@ en:{
   uploading:'Upload', upload_failed:'Upload failed – will retry', remote_changed:'Changed on another device – tap to refresh',
   loading_backend:'Loading backend connection …', update_avail:'New version {v} available – tap to load', reload:'Reload',
   profile:'Profile', role_note:'Prototype: you pick your own role. In v2 an admin assigns roles.',
-  tab_settings:'Approval & settings', translations:'Translations', tx_sub:'Via DeepL. Title, chapters, step texts and warnings. The link then gets a language switch.', tx_add:'Translate', tx_ok:'Up to date – translate again', tx_stale:'Text changed – re-translate', tx_running:'Translating …', tx_done:'{l} translated', hero_h1:'Work instructions in 10 minutes. Not 3 days.', hero_p:'Grab your phone, film step by step, approve – done. Your team has the instruction at the workstation right away. No training, no paper, no agency.', hero_p1:'Record: 3–5 seconds per step', hero_p2:'Approve: two clicks, audit-proof', hero_p3:'Share: QR code at the workstation, no login for workers', hero_cap:'Video work instructions for production', login_note:'No password. You get a login link by email – colleagues with the same domain automatically join your workspace.', otp_label:'Or enter the code from the email (e.g. in the installed app):', otp_go:'Sign in', or:'or', again_q:'Nothing arrived?', again_send:'Send again', again_in:'(possible in {s} s)', other_email:'Different e-mail address', tg_mark:'Mark up', tg_status:'Status', tg_warn:'Safety', tg_img:'Images', login_google:'Sign in with Google', install_app:'Install as app', install_sub:'GIRI Go on your home screen – full screen, camera ready.', install_ios:'iPhone/iPad: Share icon → “Add to Home Screen”.', install_done:'App installed', later:'Later', hero_ch:'Assembly', hero_step:'Tighten M6 screws crosswise', hero_step_d:'Torque wrench no. 3 · 10 Nm', hero_f1:'Checklist confirmed', hero_f2:'SOP export', hero_f3:'At the workstation', rename:'Rename', native_cam:'Record with camera app', new_title_ph:'e.g. Set up clamping fixture', chapter_before:'New chapter before step {n}', chapter_ph:'e.g. Preparation', chapter_added:'Chapter inserted before step {n}', qr_pdf_opts:'QR sheet: what to print', qr_date:'Date', qr_creator:'Creator', qr_image:'First image', qr_brand:'Company / logo', qr_download:'QR code as PDF', qr_scan:'Scan to open the instruction · GIRI Go', stats:'Statistics', stats_sub:'Views of this instruction and job-done log', views_tab:'Views', jobdone:'Job-done log', views_total:'Views', views_reload:'of which reloads', views_avg:'Avg. time per view', views_done:'reached the end', views_steps:'Avg. steps seen', views_completed:'completed', views_reloaded:'reloaded', device:'Device', no_views:'No views yet – views are counted once the instruction is published and opened via the link.', jobdone_hint:'Enable the checklist in settings so workers confirm each step.', tool_emoji:'Emoji', tool_img:'Custom', sym_title:'Custom symbols', sym_upload:'Upload', sym_sub:'PNG with transparency, JPG or SVG – logos, pictograms, part photos. Downscaled to 512 px and shared with the whole workspace.', sym_empty:'No custom symbols yet. Add the first image via “Upload”.', sym_del_q:'Delete symbol “{n}” for the whole workspace?', sym_bad:'{n}: not a readable image', img_style:'Style', style_glow:'Glow', style_sticker:'Sticker', recent:'Recent', all:'All', trim_hint:'Trim: drag the handles', record_next:'Record next step', branding:'Branding', branding_sub:'How the instruction appears under the link and in the PDF.', brand_name:'Company name', brand_color:'Accent colour', brand_logo:'Logo', brand_nologo:'No logo', brand_theme:'Instruction view', theme_dark:'Dark', theme_light:'Light', upload:'Upload', remove:'Remove', end_title:'Done – all steps completed.', undo:'Undo', undone:'Undone', retake:'Retake', rec_after:'Record after this', replace_file:'Replace file', replacing:'Replacing step {n}', inserting:'After step {n}', tap_thumb:'Tap a thumbnail to re-record that step', more:'More', approve_publish:'Approve & publish', approve_all_q:'Grant technical and GDPR approval and publish?', tool_hint:'Tap a symbol → it appears on the image. Drag to move, white handles to adjust.', expand:'Expand', collapse:'Collapse',
+  tab_settings:'Approval & settings', translations:'Translations', tx_sub:'Via DeepL. Title, chapters, step texts and warnings. The link then gets a language switch.', tx_add:'Translate', tx_ok:'Up to date – translate again', tx_stale:'Text changed – re-translate', tx_running:'Translating …', tx_done:'{l} translated', hero_h1:'Work instructions in 10 minutes. Not 3 days.', hero_p:'Grab your phone, film step by step, approve – done. Your team has the instruction at the workstation right away. No training, no paper, no agency.', hero_p1:'Record: 3–5 seconds per step', hero_p2:'Approve: two clicks, audit-proof', hero_p3:'Share: QR code at the workstation, no login for workers', hero_cap:'Video work instructions for production', login_note:'No password. You get a login link by email – colleagues with the same domain automatically join your workspace.', otp_label:'Or enter the code from the email (e.g. in the installed app):', otp_go:'Sign in', or:'or', again_q:'Nothing arrived?', again_send:'Send again', again_in:'(possible in {s} s)', other_email:'Different e-mail address', tg_mark:'Mark up', tg_status:'Status', tg_warn:'Safety', tg_img:'Images', login_google:'Sign in with Google', login_ms:'Sign in with Microsoft', install_app:'Install as app', install_sub:'GIRI Go on your home screen – full screen, camera ready.', install_ios:'iPhone/iPad: Share icon → “Add to Home Screen”.', install_done:'App installed', later:'Later', hero_ch:'Assembly', hero_step:'Tighten M6 screws crosswise', hero_step_d:'Torque wrench no. 3 · 10 Nm', hero_f1:'Checklist confirmed', hero_f2:'SOP export', hero_f3:'At the workstation', rename:'Rename', native_cam:'Record with camera app', new_title_ph:'e.g. Set up clamping fixture', chapter_before:'New chapter before step {n}', chapter_ph:'e.g. Preparation', chapter_added:'Chapter inserted before step {n}', qr_pdf_opts:'QR sheet: what to print', qr_date:'Date', qr_creator:'Creator', qr_image:'First image', qr_brand:'Company / logo', qr_download:'QR code as PDF', qr_scan:'Scan to open the instruction · GIRI Go', stats:'Statistics', stats_sub:'Views of this instruction and job-done log', views_tab:'Views', jobdone:'Job-done log', views_total:'Views', views_reload:'of which reloads', views_avg:'Avg. time per view', views_done:'reached the end', views_steps:'Avg. steps seen', views_completed:'completed', views_reloaded:'reloaded', device:'Device', no_views:'No views yet – views are counted once the instruction is published and opened via the link.', jobdone_hint:'Enable the checklist in settings so workers confirm each step.', tool_emoji:'Emoji', tool_img:'Custom', move_to_folder:'Move to project', sym_title:'Custom symbols', sym_upload:'Upload', sym_sub:'PNG with transparency, JPG or SVG – logos, pictograms, part photos. Downscaled to 512 px and shared with the whole workspace.', sym_empty:'No custom symbols yet. Add the first image via “Upload”.', sym_del_q:'Delete symbol “{n}” for the whole workspace?', sym_bad:'{n}: not a readable image', img_style:'Style', style_glow:'Glow', style_sticker:'Sticker', recent:'Recent', all:'All', trim_hint:'Trim: drag the handles', record_next:'Record next step', branding:'Branding', branding_sub:'How the instruction appears under the link and in the PDF.', brand_name:'Company name', brand_color:'Accent colour', brand_logo:'Logo', brand_nologo:'No logo', brand_theme:'Instruction view', theme_dark:'Dark', theme_light:'Light', upload:'Upload', remove:'Remove', end_title:'Done – all steps completed.', undo:'Undo', undone:'Undone', retake:'Retake', rec_after:'Record after this', replace_file:'Replace file', replacing:'Replacing step {n}', inserting:'After step {n}', tap_thumb:'Tap a thumbnail to re-record that step', more:'More', approve_publish:'Approve & publish', approve_all_q:'Grant technical and GDPR approval and publish?', tool_hint:'Tap a symbol → it appears on the image. Drag to move, white handles to adjust.', expand:'Expand', collapse:'Collapse',
   cooldown:'Email was just sent – please wait {s} s.', cooldown_sub:'The last link is on its way. Check inbox and spam before requesting again – every new link invalidates the old one.',
   rate_limit:'Email limit reached – no new email was sent.', rate_limit_sub:'The test mailer allows only 2 emails per hour. Already signed in on this device? Just reopen the app – the session persists, no new link needed.',
   /* v0.9 */
@@ -1050,8 +1093,10 @@ const el = (html) => { const d = document.createElement('div'); d.innerHTML = ht
 let toastT; const toast = msg => { const e = $('#toast'); e.textContent = msg; e.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(()=>e.classList.remove('show'), 2200); };
 const modal = (html, onMount) => new Promise(res => {
   const bg = el(`<div class="modal-bg"><div class="modal" role="dialog" aria-modal="true">${html}</div></div>`);
-  const close = v => { bg.remove(); res(v); };
+  const onKey = e => { if(e.key==='Escape' && bg.isConnected){ e.stopPropagation(); close(null); } };
+  const close = v => { document.removeEventListener('keydown', onKey, true); bg.remove(); res(v); };
   bg.addEventListener('click', e => { if(e.target === bg) close(null); });
+  document.addEventListener('keydown', onKey, true);
   $('#modals').appendChild(bg);
   if(onMount) onMount(bg, close);
   const f = bg.querySelector('input:not([data-nofocus]),textarea,button'); if(f) setTimeout(()=>f.focus(), 30);
@@ -1097,6 +1142,8 @@ const IC = {
   note:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h12l4 4v12H4z"/><path d="M8 12h8M8 16h5"/></svg>',
   gear:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
   mail:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 7.5L12 13l8.5-5.5"/></svg>',
+  share:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>',
+  pdf:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l5 5v13H6z"/><path d="M14 3v5h5"/><path d="M9 14h6M9 17h6"/></svg>',
   grid:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>',
   image:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="14" height="14" rx="2"/><circle cx="8" cy="11" r="1.6"/><path d="M17 20l-5-6-6 6"/><path d="M19 2v6M16 5h6"/></svg>',
   up:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>',
@@ -1324,7 +1371,7 @@ function topbar(app, opts={}){
     <div class="spacer"></div>
     <button class="tb-btn" data-lang title="${t('language')}">${FLAGS[LANG.toUpperCase()]||''} ${LANG.toUpperCase()}</button>
     ${S.user && S.user.isAdmin ? `<a class="tb-btn" href="#/admin" title="${t('admin')}">${IC.gear}</a>` : ''}
-    ${S.user ? `<button class="tb-btn" data-profile title="${t('profile')}">${esc(S.user.name.split(' ')[0])} · ${roleLbl(S.user.role)}</button><button class="tb-btn" data-logout>${t('logout')}</button>` : ''}
+    ${S.user ? `<button class="tb-btn tb-user" data-profile title="${esc(S.user.name)} · ${roleLbl(S.user.role)}"><span class="avatar">${esc(initials(S.user.name))}</span><span class="tb-name">${esc(S.user.name.split(' ')[0])}</span></button>` : ''}
   </header>`);
   tb.querySelector('[data-lang]').onclick = () => langMenu(async l => { const ll = l.toLowerCase(); if(!I18N[ll]) toast(t('translating')); if(!(await loadUiLang(ll))) return; LANG = ll; try{localStorage.setItem('gg_lang', LANG);}catch(e){} render(); });
   if(opts.back) tb.querySelector('[data-back]').onclick = () => go(opts.back);
@@ -1333,7 +1380,7 @@ function topbar(app, opts={}){
   app.appendChild(tb);
 }
 async function profileModal(){
-  const r = await modal(`<h2>${t('profile')}</h2><div class="field"><label for="pf-name">${t('name')}</label><input id="pf-name" value="${esc(S.user.name)}"></div><div class="lbl" style="margin-bottom:6px">${t('role')}</div><div class="row" style="margin-bottom:10px"><span class="chip dot published">${roleLbl(S.user.role)}</span></div><p class="muted">${t('role_note2')}</p><div class="row" style="gap:6px;flex-wrap:wrap">${S.user.isAdmin?`<a class="btn ghost sm" href="#/admin" data-adm>${t('admin')}</a>`:''}${isStandalone()?'':`<button class="btn ghost sm" data-install ${(!installPrompt && !isIOS())?'hidden':''}>📲 ${t('install_app')}</button>`}</div><div class="actions"><button class="btn ghost" data-logout2 style="margin-right:auto">${t('logout')}</button><button class="btn ghost" data-x>${t('cancel')}</button><button class="btn" data-ok>${t('save')}</button></div>`, (bg, close) => {
+  const r = await modal(`<div class="me"><span class="avatar big">${esc(initials(S.user.name))}</span><div><b>${esc(S.user.name)}</b><span>${esc(S.user.email||'')}</span><span class="chip dot published" style="margin-top:6px">${roleLbl(S.user.role)}</span></div></div><div class="field"><label for="pf-name">${t('name')}</label><input id="pf-name" value="${esc(S.user.name)}"></div><p class="muted">${t('role_note2')}</p><p class="muted" style="margin-top:8px;opacity:.7">GIRI Go v${APP_VERSION} · ${esc(S.user.ws)}</p><div class="row" style="gap:6px;flex-wrap:wrap">${S.user.isAdmin?`<a class="btn ghost sm" href="#/admin" data-adm>${t('admin')}</a>`:''}${isStandalone()?'':`<button class="btn ghost sm" data-install ${(!installPrompt && !isIOS())?'hidden':''}>📲 ${t('install_app')}</button>`}</div><div class="actions"><button class="btn ghost" data-logout2 style="margin-right:auto">${t('logout')}</button><button class="btn ghost" data-x>${t('cancel')}</button><button class="btn" data-ok>${t('save')}</button></div>`, (bg, close) => {
     bg.querySelector('[data-logout2]').onclick = async () => { close(null); await sb.auth.signOut(); S.user = null; S.session = null; if(rtChannel){ sb.removeChannel(rtChannel); rtChannel = null; } go(''); render(); };
     const adm = bg.querySelector('[data-adm]'); if(adm) adm.onclick = () => close(null);
     const ib = bg.querySelector('[data-install]'); if(ib) ib.onclick = () => { close(null); doInstall(); };
@@ -1355,6 +1402,7 @@ function renderLogin(app){
         <div class="field"><label for="li-name">${t('name')} <span style="font-weight:500;text-transform:none;letter-spacing:0">(${t('first_time')})</span></label><input id="li-name" placeholder="Max Mustermann" autocomplete="name"></div>
         <button class="btn" id="li-go" style="width:100%;padding:14px;font-size:15px">${t('login')}</button>
         <div class="l-or" id="l-or" hidden><span>${t('or')}</span></div>
+        <button class="btn ghost gbtn" id="li-ms" hidden style="width:100%;padding:12px;font-size:14px;margin-bottom:8px"><svg width="18" height="18" viewBox="0 0 23 23"><rect x="1" y="1" width="10" height="10" fill="#F35325"/><rect x="12" y="1" width="10" height="10" fill="#81BC06"/><rect x="1" y="12" width="10" height="10" fill="#05A6F0"/><rect x="12" y="12" width="10" height="10" fill="#FFBA08"/></svg> ${t('login_ms')}</button>
         <button class="btn ghost gbtn" id="li-google" hidden style="width:100%;padding:12px;font-size:14px"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.4 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7c-.5-1.5-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C1 16.6 0 20.2 0 24s1 7.4 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.3 0 11.6-2.1 15.5-5.7l-7.5-5.8c-2.1 1.4-4.8 2.3-8 2.3-6.3 0-11.6-3.9-13.5-9.5l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg> ${t('login_google')}</button>
         <p class="muted" id="login-note" style="margin:10px 0 0;font-size:12px">${t('login_note')}</p>
         <div class="wait" id="magic" hidden><div class="env" id="magic-ic">${IC.mail}</div><b id="magic-t"></b><p class="muted" id="magic-sub">${t('magic_sub')}</p>
@@ -1370,10 +1418,10 @@ function renderLogin(app){
   v.querySelector('#li-email').addEventListener('focus', e => e.target.select());
   const emailOf = () => v.querySelector('#li-email').value.trim().toLowerCase();
   // the form (fields + buttons) vs. the waiting card: only one of them is visible
-  const formEls = () => ['#li-email','#li-name','#li-go','#l-or','#li-google','#login-note'].map(q => v.querySelector(q)).filter(Boolean).map(e => e.closest('.field') || e);
+  const formEls = () => ['#li-email','#li-name','#li-go','#l-or','#li-google','#li-ms','#login-note'].map(q => v.querySelector(q)).filter(Boolean).map(e => e.closest('.field') || e);
   let againTimer = null;
   const showWait = (email, err) => {
-    formEls().forEach(e => { if(e.id==='l-or' || e.id==='li-google'){ e.dataset.wasHidden = e.hidden ? '1' : ''; } e.hidden = true; });
+    formEls().forEach(e => { if(e.id==='l-or' || e.id==='li-google' || e.id==='li-ms'){ e.dataset.wasHidden = e.hidden ? '1' : ''; } e.hidden = true; });
     const w = v.querySelector('#magic'); w.hidden = false;
     if(err){ v.querySelector('#magic-ic').innerHTML = err.cool ? '⏳' : '⚠️'; v.querySelector('#magic-t').textContent = err.title; v.querySelector('#magic-sub').textContent = err.sub; }
     else { v.querySelector('#magic-ic').innerHTML = IC.mail; v.querySelector('#magic-t').textContent = t('magic_sent',{e:email}); v.querySelector('#magic-sub').textContent = t('magic_sub'); }
@@ -1382,7 +1430,7 @@ function renderLogin(app){
     const tick = () => { ai.textContent = left > 0 ? t('again_in',{s:left}) : ''; if(left <= 0){ ab.disabled = false; clearInterval(againTimer); } left--; }; tick(); againTimer = setInterval(tick, 1000);
     setTimeout(() => v.querySelector('#li-code').focus({preventScroll:true}), 200);
   };
-  const showForm = () => { clearInterval(againTimer); v.querySelector('#magic').hidden = true; formEls().forEach(e => { e.hidden = (e.id==='l-or' || e.id==='li-google') ? !!e.dataset.wasHidden : false; }); v.querySelector('#li-email').focus(); };
+  const showForm = () => { clearInterval(againTimer); v.querySelector('#magic').hidden = true; formEls().forEach(e => { e.hidden = (e.id==='l-or' || e.id==='li-google' || e.id==='li-ms') ? !!e.dataset.wasHidden : false; }); v.querySelector('#li-email').focus(); };
   const sendLink = async () => {
     const email = emailOf(); const name = v.querySelector('#li-name').value.trim();
     if(!email.includes('@')){ v.querySelector('#li-email').focus(); return; }
@@ -1407,8 +1455,13 @@ function renderLogin(app){
   v.querySelector('#li-code').addEventListener('keydown', e => { if(e.key==='Enter') v.querySelector('#li-verify').click(); });
   v.querySelector('#li-code').addEventListener('input', e => { const d = e.target.value.replace(/\D/g,''); if(d.length >= 6) debounce('otp-auto', () => v.querySelector('#li-verify').click(), 350); });
   // Google sign-in – shown only when the provider is switched on in Supabase (Authentication → Providers → Google)
-  (async () => { try{ const r = await fetch(`${CFG.SUPABASE_URL}/auth/v1/settings`, {headers:{apikey:CFG.SUPABASE_KEY}}); const j = await r.json(); if(j && j.external && j.external.google){ const gb = v.querySelector('#li-google'); gb.hidden = false; v.querySelector('#l-or').hidden = false;
-      gb.onclick = async () => { gb.disabled = true; const {error} = await sb.auth.signInWithOAuth({provider:'google', options:{redirectTo: location.href.split('#')[0], queryParams:{prompt:'select_account'}}}); if(error){ toast(error.message); gb.disabled = false; } }; } }catch(e){} })();
+  // SSO buttons appear automatically for every provider that is switched on in Supabase (Authentication → Providers)
+  (async () => { try{ const r = await fetch(`${CFG.SUPABASE_URL}/auth/v1/settings`, {headers:{apikey:CFG.SUPABASE_KEY}}); const j = await r.json(); const ext = (j && j.external) || {};
+      const wire = (id, provider, opts) => { const b = v.querySelector(id); if(!b) return; b.hidden = false; v.querySelector('#l-or').hidden = false;
+        b.onclick = async () => { b.disabled = true; const {error} = await sb.auth.signInWithOAuth({provider, options:Object.assign({redirectTo: location.href.split('#')[0]}, opts)}); if(error){ toast(error.message); b.disabled = false; } }; };
+      if(ext.google) wire('#li-google', 'google', {queryParams:{prompt:'select_account'}});
+      if(ext.azure) wire('#li-ms', 'azure', {scopes:'email'});
+    }catch(e){} })();
   v.querySelector('#li-email').addEventListener('keydown', e => { if(e.key==='Enter') v.querySelector('#li-go').click(); });
   v.querySelector('#li-name').addEventListener('keydown', e => { if(e.key==='Enter') v.querySelector('#li-go').click(); });
   app.appendChild(v);
@@ -1455,6 +1508,8 @@ async function seedImpl(){
 
 /* ---------- Dashboard ---------- */
 const roleLbl = r => r==='admin' ? t('role_admin') : r==='reviewer' ? t('approver') : t(r||'viewer');
+const nOf = (n, one, many) => `${n} ${t(n===1 ? one : many)}`;
+const initials = n => String(n||'?').trim().split(/\s+/).slice(0,2).map(x => x[0]||'').join('').toUpperCase() || '?';
 const visFolders = () => (S.wsRow.folders||[]).filter(f => S.user.isAdmin || !(f.teams||[]).length || teamsOf().some(tm => (f.teams||[]).includes(tm.id)));
 const isLoose = i => !i.folder || !(S.wsRow.folders||[]).find(f=>f.id===i.folder);
 async function newFolderDlg(){ const name = await promptM(t('new_folder'), t('folder_ph'), ''); if(!name || !name.trim()) return null; const f = {id:uid(), name:name.trim(), teams:[]}; await saveWs({folders:[...(S.wsRow.folders||[]), f]}); return f; }
@@ -1470,18 +1525,15 @@ function instrCard(i, statMap, opts={}){
   const card = el(`<article class="card instr">
     <img class="thumb" alt="" src="">
     <div><div class="title">${titleHtml(i.title)} ${i.example?`<span class="example-tag">${t('example')}</span>`:''}</div>
-      <div class="meta"><span class="chip dot ${i.status}">${t(i.status==='review'?'in_review':i.status)}</span>${fname?`<span class="fold">${IC.folder} ${esc(fname)}</span>`:''}${(i.teams||[]).length?`<span class="fold" title="${t('teams')}">👥 ${esc((i.teams||[]).map(tid => ((S.wsRow.teams||[]).find(x=>x.id===tid)||{}).name).filter(Boolean).join(', '))}</span>`:''}<span class="tnum">${st.length} ${t('steps')}</span><span>v${i.version}</span><span>${t('updated')} ${fmtDate(i.updatedAt)}</span>${i.checklist?`<span>☑ ${LANG==='de'?'Checkliste':'Checklist'}</span>`:''}${statMap[i.id]?`<span title="${t('views_total')}">${IC.eye} ${statMap[i.id].views}</span>`:''}${Object.keys(i.translations||{}).length?`<span title="${t('translations')}">${IC.globe} ${Object.keys(i.translations).length}</span>`:''}</div>
-      <div class="acts">${role!=='viewer' ? `<button class="btn mint" data-a="rec">${IC.cam} ${t('record_next')}</button><button class="btn" data-a="edit">${IC.edit} ${t('edit')}</button>`:''}</div>
-      <div class="acts2">
-        <button data-a="preview">${IC.play} ${t('preview')}</button><span>·</span>
-        <button data-a="share">${t('share')}</button><span>·</span>
-        <button data-a="pdf">${t('pdf')}</button><span>·</span><button data-a="results">${t('stats')}</button>
-        ${role!=='viewer' ? `<span>·</span><button data-a="folder">${t('folder')}</button><span>·</span><button data-a="del">${t('delete')}</button>`:''}
-      </div></div></article>`);
+      <div class="meta"><span class="chip dot ${i.status}">${t(i.status==='review'?'in_review':i.status)}</span>${fname?`<span class="fold">${IC.folder} ${esc(fname)}</span>`:''}${(i.teams||[]).length?`<span class="fold" title="${t('teams')}">👥 ${esc((i.teams||[]).map(tid => ((S.wsRow.teams||[]).find(x=>x.id===tid)||{}).name).filter(Boolean).join(', '))}</span>`:''}<span class="tnum">${nOf(st.length,'step','steps')}</span><span>v${i.version}</span><span>${t('updated')} ${fmtDate(i.updatedAt)}</span>${i.checklist?`<span>☑ ${LANG==='de'?'Checkliste':'Checklist'}</span>`:''}${statMap[i.id]?`<span title="${t('views_total')}">${IC.eye} ${statMap[i.id].views}</span>`:''}${Object.keys(i.translations||{}).length?`<span title="${t('translations')}">${IC.globe} ${Object.keys(i.translations).length}</span>`:''}</div>
+      <div class="acts">${role!=='viewer' ? `<button class="btn" data-a="edit">${IC.edit} ${t('edit')}</button><button class="btn mint" data-a="rec">${IC.cam} ${t('record_next')}</button>`:`<button class="btn" data-a="preview">${IC.play} ${t('preview')}</button>`}<button class="btn ghost" data-a="share">${IC.share} ${t('share')}</button><button class="btn ghost icon" data-a="more" title="${t('more')}">${IC.more}</button></div></div></article>`);
   if(first) stepPoster(first).then(u => { if(u) card.querySelector('.thumb').src = u; });
-  card.onclick = async e => { const b = e.target.closest('[data-a]'); if(!b) return; const a = b.dataset.a;
-    if(a==='rec') go('rec/'+i.id); else if(a==='edit') go('edit/'+i.id); else if(a==='preview') go('preview/'+i.id); else if(a==='share') shareModal(i); else if(a==='pdf') exportPDFAsk(i); else if(a==='results') go('results/'+i.id); else if(a==='folder') moveToFolderDlg(i, opts.onChange);
-    else if(a==='del'){ if(await confirmM(t('confirm_del_instr',{t:i.title}))){ await deleteInstr(i); toast(t('deleted')); render(); } } };
+  card.onclick = async e => { let b = e.target.closest('[data-a]'); if(!b){ if(e.target.closest('a, button')) return; b = {dataset:{a: role!=='viewer' ? 'edit' : 'preview'}}; } const a = b.dataset.a;
+    const act = async a => {
+      if(a==='rec') go('rec/'+i.id); else if(a==='edit') go('edit/'+i.id); else if(a==='preview') go('preview/'+i.id); else if(a==='share') shareModal(i); else if(a==='pdf') exportPDFAsk(i); else if(a==='results') go('results/'+i.id); else if(a==='folder') moveToFolderDlg(i, opts.onChange);
+      else if(a==='del'){ if(await confirmM(t('confirm_del_instr',{t:i.title}))){ await deleteInstr(i); toast(t('deleted')); render(); } } };
+    if(a==='more'){ modal(`<div class="menu"><button data-m="preview">${IC.play} ${t('preview')}</button><button data-m="pdf">${IC.pdf} ${t('pdf')}</button><button data-m="results">${IC.eye} ${t('stats')}</button>${role!=='viewer' ? `<button data-m="folder">${IC.folder} ${t('move_to_folder')}</button><button data-m="del" class="del">${IC.trash} ${t('delete')}</button>`:''}</div>`, (bg, close) => { $$('[data-m]', bg).forEach(b => b.onclick = () => { close(); act(b.dataset.m); }); }); return; }
+    act(a); };
   return card;
 }
 /* ---------- Dashboard: projects overview (#/), project page (#/p/<id>), flat list ---------- */
@@ -1499,7 +1551,7 @@ async function renderDashboard(app, pid){
     const rows = visible.filter(i => inProject(i, pid)); const teamNames = (f.teams||[]).map(tid => ((S.wsRow.teams||[]).find(x=>x.id===tid)||{}).name).filter(Boolean);
     const v = el(`<main class="page">
       <div class="crumbs"><a href="#/">${IC.folder} ${t('folders')}</a><span>›</span><b>${esc(f.name)}</b></div>
-      <div class="dash-head"><div><h1 class="row" style="gap:8px">${esc(f.name)}${pid!=='none'&&isEditor?`<button class="pen-btn" id="fren" title="${t('rename_folder')}">${IC.edit}</button>`:''}</h1><div class="sub">${rows.length} ${t('instructions')}${teamNames.length?` · ${t('teams')}: ${esc(teamNames.join(', '))}`:(pid!=='none'?` · ${t('all_ws')}`:'')}${f.pw?` · 🔒 ${t('link_pw_on')}`:''}</div></div>
+      <div class="dash-head"><div><h1 class="row" style="gap:8px">${esc(f.name)}${pid!=='none'&&isEditor?`<button class="pen-btn" id="fren" title="${t('rename_folder')}">${IC.edit}</button>`:''}</h1><div class="sub">${nOf(rows.length,'instruction','instructions')}${teamNames.length?` · ${t('teams')}: ${esc(teamNames.join(', '))}`:(pid!=='none'?` · ${t('all_ws')}`:'')}${f.pw?` · 🔒 ${t('link_pw_on')}`:''}</div></div>
         <div class="row">${isEditor ? `<button class="btn mint" id="new">${IC.plus} ${t('new_instr')}</button>`:''}${pid!=='none'&&isEditor?`<button class="btn ghost sm" id="fpw" title="${t('link_pw')}">${f.pw?'🔒':'🔓'} ${t('link_pw_short')}</button><button class="btn ghost sm del" id="fdel" title="${t('del_folder')}">${IC.trash}</button>`:''}</div></div>
       <div class="list" id="list"></div></main>`);
     const list = v.querySelector('#list');
@@ -1517,7 +1569,7 @@ async function renderDashboard(app, pid){
   const v = el(`<main class="page">
     <div class="dash-head"><div><h1>${t('instructions')}</h1><div class="sub">${esc(S.user.name)} · ${roleLbl(S.user.role)} · ${esc(S.user.ws)}</div></div>
       <div class="row"><button class="btn ghost sm" id="gstats">${IC.eye} ${t('global_stats')}</button>${S.user.isAdmin?`<button class="btn ghost sm" id="admin">${IC.gear} ${t('admin')}</button>`:''}${isEditor ? `<button class="btn ghost sm" id="brand">${IC.brand} ${t('branding')}</button><button class="btn mint" id="new">${IC.plus} ${t('new_instr')}</button>`:''}</div></div>
-    <div class="stats"><div class="card stat"><b class="tnum">${visible.length}</b><span>${t('instructions')}</span></div><div class="card stat"><b class="tnum">${folders.length}</b><span>${t('folders')}</span></div><div class="card stat"><b class="tnum">${pub}</b><span>${t('published')}</span></div><div class="card stat"><b class="tnum">${rev}</b><span>${t('in_review')}</span></div></div>
+    <div class="kpis"><div class="kpi"><b class="tnum">${visible.length}</b><span>${t('instructions')}</span></div><div class="kpi"><b class="tnum">${folders.length}</b><span>${t('folders')}</span></div><div class="kpi"><b class="tnum">${pub}</b><span>${t('published')}</span></div><div class="kpi ${rev?'hot':''}"><b class="tnum">${rev}</b><span>${t('in_review')}</span></div></div>
     <div id="inst-slot"></div>
     <div class="tabs" id="dtabs"><button data-m="projects" class="${mode==='projects'?'on':''}">${IC.folder} ${t('folders')}</button><button data-m="all" class="${mode==='all'?'on':''}">${t('all_instr')} <span class="tnum cnt">${visible.length}</span></button></div>
     <div class="pgrid" id="pgrid" ${mode!=='projects'?'hidden':''}></div>
@@ -1530,13 +1582,13 @@ async function renderDashboard(app, pid){
   function renderProjects(){
     const loose = visible.filter(isLoose);
     const cardFor = (f, rows) => { const thumbs = rows.slice(0,3); const teamNames = (f.teams||[]).map(tid => ((S.wsRow.teams||[]).find(x=>x.id===tid)||{}).name).filter(Boolean);
-      const c = el(`<a class="card pcard" href="#/p/${f.id}"><div class="pthumbs">${thumbs.map(()=>`<img alt="" src="">`).join('')}${!thumbs.length?`<div class="pempty">${IC.folder}</div>`:''}</div><div class="pname">${IC.folder} ${esc(f.name)}</div><div class="pmeta">${rows.length} ${t('instructions')}</div><div class="pcounts">${fmtCounts(rows)}</div>${teamNames.length?`<div class="pteams">${teamNames.map(n=>`<span>${esc(n)}</span>`).join('')}</div>`:''}</a>`);
+      const c = el(`<a class="card pcard ${thumbs.length?'':'blank'}" href="#/p/${f.id}"><div class="pcover">${thumbs.map(()=>`<img alt="" src="">`).join('')}${!thumbs.length?`<div class="pempty">${IC.folder}</div>`:''}<div class="pcap"><b>${esc(f.name)}</b><span>${nOf(rows.length,'instruction','instructions')}${f.pw?' · 🔒':''}</span></div></div><div class="pfoot"><div class="pcounts">${fmtCounts(rows)||`<span class="pc">${t('empty_title')}</span>`}</div>${teamNames.length?`<div class="pteams">${teamNames.map(n=>`<span>${esc(n)}</span>`).join('')}</div>`:''}</div></a>`);
       thumbs.forEach((i,k) => { const first = realSteps(i)[0]; if(first) stepPoster(first).then(u => { if(u) c.querySelectorAll('img')[k].src = u; }); });
       return c; };
     pg.innerHTML = '';
     folders.forEach(f => pg.appendChild(cardFor(f, visible.filter(i=>i.folder===f.id))));
     if(loose.length || !folders.length) pg.appendChild(cardFor({id:'none', name:t('no_folder'), teams:[]}, loose));
-    if(isEditor){ const add = el(`<button class="card pcard add"><div class="pempty">${IC.plus}</div><div class="pname">${t('new_folder')}</div><div class="pmeta">${t('new_folder_sub')}</div></button>`); add.onclick = async () => { const f = await newFolderDlg(); if(f) go('p/'+f.id); }; pg.appendChild(add); }
+    if(isEditor){ const add = el(`<button class="card pcard add"><div class="pcover"><div class="pempty">${IC.plus}</div></div><div class="pfoot"><div class="pname">${t('new_folder')}</div><div class="pmeta">${t('new_folder_sub')}</div></div></button>`); add.onclick = async () => { const f = await newFolderDlg(); if(f) go('p/'+f.id); }; pg.appendChild(add); }
   }
   function renderAll(){ list.innerHTML = ''; if(!visible.length) list.innerHTML = `<div class="card empty"><h2>${t('empty_title')}</h2><div>${t('empty_sub')}</div></div>`; visible.forEach(i => list.appendChild(instrCard(i, statMap, {showFolder:true, onChange:render}))); }
   renderProjects(); renderAll();
@@ -1588,13 +1640,12 @@ async function renderCapture(app, id, modeArg, stepArg){
     <div class="cap-bottom">
       <div class="zoomrow" id="zoomwrap" hidden><input type="range" id="zoom" min="1" max="5" step="0.1" value="1" aria-label="${t('zoom')}" hidden><div class="zoom-btns" id="zoombtns"></div></div>
       <div class="cap-strip" id="strip"></div>
-      <div class="cap-timer tnum" id="timer"></div>
+      <div class="cap-status"><div class="cap-pill"><span class="cap-timer tnum" id="timer"></span><span class="cap-hint" id="hint">${t('cap_tap')}</span></div></div>
       <div class="cap-ctrls">
         <div class="side"><button class="round" id="flip" title="${t('cap_switch')}">${IC.flip}</button></div>
         <div class="shutter" id="shutter" role="button" aria-label="${t('cap_tap')}"><svg viewBox="0 0 88 88"><circle class="ring-bg" cx="44" cy="44" r="42"/><circle class="ring" id="ring" cx="44" cy="44" r="42"/></svg><div class="core"></div></div>
         <div class="side"><button class="round" id="done" style="background:var(--mint);color:var(--navy)" title="${t('cap_done')}">${IC.check}</button></div>
       </div>
-      <div class="cap-hint" id="hint">${t('cap_tap')}</div>
     </div>
     <div class="cap-fallback" id="fb" hidden><h2>${t('cap_fallback_title')}</h2><p>${t('cap_fallback_text')}</p>
       <label class="btn mint" style="cursor:pointer">${IC.cam} ${t('cap_video')}<input type="file" accept="video/*" capture="environment" hidden id="fb-video"></label>
@@ -2021,7 +2072,7 @@ async function renderEditor(app, id, selStepId){
     const n = realSteps(instr).indexOf(s)+1;
     const TOOLG = [['tg_mark',[['arrow',IC.arrow,'tool_arrow'],['circle',IC.circle,'tool_circle'],['rect',IC.rect,'tool_rect'],['number',IC.number,'tool_number'],['text',IC.text,'tool_text']]],['tg_status',[['check',IC.checkc,'tool_check'],['cross',IC.cross,'tool_cross']]],['tg_warn',[['warn',IC.warn,'tool_warn'],['elec',IC.elec,'tool_elec'],['hot',IC.hot,'tool_hot']]],['tg_img',[['emoji','<span class="emo">😀</span>','tool_emoji'],['img',IC.image,'tool_img']]]];
     stage.innerHTML = `<div class="row" style="justify-content:space-between;margin-bottom:10px"><b>${t('step')} ${n} ${t('of')} ${realSteps(instr).length}</b><button class="btn ghost sm del" id="del" title="${t('delete_step')}">${IC.trash} ${t('delete')}</button></div>
-      <div class="media-box" id="mbox">${isV?`<video id="med" src="${url}" muted playsinline autoplay loop preload="auto"></video>`:`<img id="med" src="${url}" alt="">`}<canvas class="ann sel-mode" id="acv"></canvas><div class="pausetag" id="ptag" hidden></div></div>
+      <div class="media-box" id="mbox"><div class="vbg" id="mbg"></div>${isV?`<video id="med" src="${url}" muted playsinline autoplay loop preload="auto"></video>`:`<img id="med" src="${url}" alt="">`}<canvas class="ann sel-mode" id="acv"></canvas><div class="pausetag" id="ptag" hidden></div></div>
       <div class="ann-list" id="annlist"></div>
       ${isV?`<div class="trimwrap"><div class="trimrow"><button class="playbtn" id="playbtn" title="Play / Pause">${IC.play}</button><div class="trimbar" id="trimbar"><div class="tb-film" id="tb-film"></div><div class="tb-dim l" id="tb-dl"></div><div class="tb-dim r" id="tb-dr"></div><div class="tb-keep" id="tb-keep"><div class="tb-h l" id="tb-hl"><i></i></div><div class="tb-h r" id="tb-hr"><i></i></div></div><div id="marks"></div><div class="tb-play" id="tb-play"></div></div></div>
         <div class="trim-labels"><span>${IC.scissors} ${t('trim_hint')}</span><span class="tnum"><b id="tcur">0,0</b> / <span id="tsv">${fmtSec(s.trimStart||0)}</span>–<span id="tev">${fmtSec(s.trimEnd||s.duration)}</span> s <span id="annt" class="muted"></span></span></div></div>`:''}
@@ -2053,6 +2104,7 @@ async function renderEditor(app, id, selStepId){
     stage.querySelector('#repl-file').onchange = async e => { const f = e.target.files[0]; if(!f) return; try{ await replaceStepMedia(instr, s, f); await touch(); posterCache.clear(); renderList(); renderStage(); toast(t('saved')); }catch(err){ toast('Fehler: '+err.message); } e.target.value=''; };
 
     const med = stage.querySelector('#med'), cv = stage.querySelector('#acv'), box = stage.querySelector('#mbox');
+    stepPoster(s).then(u => { const bg = stage.querySelector('#mbg'); if(u && bg) bg.style.backgroundImage = `url("${u}")`; }).catch(()=>{});
     if(s.w && s.h) box.style.aspectRatio = `${s.w} / ${s.h}`;
     if(isV){ const toRemote = () => { if(s.mediaUrl && med.src !== s.mediaUrl){ med.src = s.mediaUrl; med.load(); med.play().catch(()=>{}); } }; med.addEventListener('error', toRemote); setTimeout(() => { if(med.readyState < 2) toRemote(); }, 3500); }
     let selAnn = null, drag = null, curTime = s.trimStart||0, pausedUntil = 0, lastT = -1, stageCleanupDone = false, color = 'blue';
@@ -2497,7 +2549,7 @@ async function renderViewer(app, id, isPreview, langArg, arg2){
     if(v.querySelector('.vw-chap')) return;
     const saved = LS.get(RUNKEY); const items = run.startedAt ? run.items : ((saved && saved.items && saved.version===instr.version) ? saved.items : {});
     const tiles = groups.map((g, gi) => { const title = g.id==='_intro' ? t('intro') : ((cur.steps.find(x=>x.id===g.id)||{}).title || g.title || `${t('chapter')} ${gi+1}`); const chk = g.steps.filter(st => chkSet.has(st.id)); const done = chk.filter(st => isDone(items[st.id])).length; const all = chk.length && done===chk.length;
-      return `<button class="ch-tile" data-g="${gi}" style="animation-delay:${Math.min(gi,10)*60}ms"><img alt="" data-poster="${g.steps[0]?g.steps[0].id:''}"><span class="cn tnum">${gi+1}</span>${all?`<span class="done">${IC.check}</span>`:''}<span class="txt"><b>${titleHtml(title)}</b><span>${g.steps.length} ${t('steps')}${chk.length && useChk ? ` · ${done}/${chk.length} ${t('confirmed_short')}` : ''}</span>${chk.length && useChk && done ? `<span class="bar"><i style="width:${Math.round(100*done/chk.length)}%"></i></span>` : ''}</span></button>`; }).join('');
+      return `<button class="ch-tile" data-g="${gi}" style="animation-delay:${Math.min(gi,10)*60}ms"><img alt="" data-poster="${g.steps[0]?g.steps[0].id:''}"><span class="cn tnum">${gi+1}</span>${all?`<span class="done">${IC.check}</span>`:''}<span class="txt"><b>${titleHtml(title)}</b><span>${nOf(g.steps.length,'step','steps')}${chk.length && useChk ? ` · ${done}/${chk.length} ✓` : ''}</span>${chk.length && useChk ? `<span class="bar"><i style="width:${Math.round(100*done/chk.length)}%"></i></span>` : ''}</span></button>`; }).join('');
     const ov = el(`<div class="vw-chap"><div class="ch-head"><div class="ch-bar">${(isPreview || S.user) && !reopen ? `<a class="round" href="${backHref}" id="ov-back" aria-label="back">${IC.back}</a>` : `<span></span>`}<div class="brandline">${brand.logo?`<img src="${esc(brand.logo)}" alt="">`:''}<span>${esc(brand.name||'GIRI Go')}</span></div><div class="row" style="gap:6px"><button class="round" id="ov-lang" title="${t('language')}">${vlang?`<span class="flag">${FLAGS[vlang]||vlang}</span>`:IC.globe}</button>${reopen?`<button class="round" id="ov-close" aria-label="close">${IC.close}</button>`:''}</div></div>
       <h1>${titleHtml(cur.title)}</h1><div class="ch-sub">${groups.length} ${t('chapters')} · ${steps.length} ${t('steps')}${useChk?' · ☑ '+t('checklist_short'):''}</div><div class="ch-sub2">${t('pick_chapter')}</div></div>
       <div class="ch-grid">${tiles}</div>
@@ -2863,7 +2915,7 @@ async function exportPDF2(instr){
   doc.setDrawColor(...ink); doc.setLineWidth(.4); const c1 = M, c2 = M+78, c3 = M+128; doc.line(c1, y, c1+68, y); doc.line(c2, y, c2+40, y); doc.line(c3, y, W-M, y);
   F(false); doc.setFontSize(8); doc.setTextColor(...grey); txt(t('name'), c1, y+4.5); txt(t('pdf_h_date2'), c2, y+4.5); txt(t('pdf_h_sig').split(' ')[0], c3, y+4.5);
   // contents on page 1 now that the page numbers are known
-  if(tocRows){ doc.setPage(1); let yy = tocY; groups.slice(0, tocRows).forEach((g, gi) => { F(true); doc.setFontSize(9.5); doc.setTextColor(...bc); txt(String(gi+1), M, yy+4.5); doc.setTextColor(...ink); const tt = g.intro ? t('intro') : (mdToPlain(g.title) || `${t('chapter')} ${gi+1}`); txt(doc.splitTextToSize(tt, CW-40)[0]||'', M+8, yy+4.5); F(false); doc.setTextColor(...grey); txt(`${g.steps.length} ${t('steps')}`, W-M-14, yy+4.5, {align:'right'}); F(true); doc.setTextColor(...ink); txt(String(pageOf[gi]), W-M, yy+4.5, {align:'right'}); doc.setDrawColor(...line); doc.setLineWidth(.2); doc.line(M, yy+6, W-M, yy+6); yy += 6; }); }
+  if(tocRows){ doc.setPage(1); let yy = tocY; groups.slice(0, tocRows).forEach((g, gi) => { F(true); doc.setFontSize(9.5); doc.setTextColor(...bc); txt(String(gi+1), M, yy+4.5); doc.setTextColor(...ink); const tt = g.intro ? t('intro') : (mdToPlain(g.title) || `${t('chapter')} ${gi+1}`); txt(doc.splitTextToSize(tt, CW-40)[0]||'', M+8, yy+4.5); F(false); doc.setTextColor(...grey); txt(`${nOf(g.steps.length,'step','steps')}`, W-M-14, yy+4.5, {align:'right'}); F(true); doc.setTextColor(...ink); txt(String(pageOf[gi]), W-M, yy+4.5, {align:'right'}); doc.setDrawColor(...line); doc.setLineWidth(.2); doc.line(M, yy+6, W-M, yy+6); yy += 6; }); }
   const total = doc.getNumberOfPages(); for(let p=1;p<=total;p++){ doc.setPage(p); footer(p,total); }
   const blob = doc.output('blob');
   const ok = await saveFile(`${slug(instr.title)}-v${instr.version}${instr._lang?'-'+instr._lang.toLowerCase():''}.pdf`, blob, 'application/pdf'); if(ok) toast(t('pdf_done'));
