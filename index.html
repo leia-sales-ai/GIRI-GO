@@ -426,6 +426,18 @@ select.sel,.team select,#utable select,.field select{padding:9px 12px;border:1px
 .media-box.drop-ok{outline:3px solid var(--blue);outline-offset:-3px}
 .media-box .pausetag{position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,.6);color:#fff;font-size:10px;font-weight:700;padding:3px 7px;border-radius:6px;pointer-events:none;opacity:.9}
 .ann-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;min-height:0}
+.ann3d{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin-top:10px;padding:10px 12px;border-radius:12px;background:var(--surface-2)}
+.a3-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.a3-lbl{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin-right:2px}
+.a3-sl{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--ink-2)}
+.a3-sl input{width:104px;accent-color:var(--blue);margin:0}
+.a3-chip{padding:6px 11px;border-radius:999px;font-size:12px;font-weight:700;background:var(--surface);border:1px solid var(--line-2);color:var(--ink-2)}
+.a3-chip.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.addstep{margin-top:10px;padding:14px 12px;border-radius:14px;border:1.5px dashed var(--line-2);text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color .15s,background .15s}
+.addstep:hover{border-color:var(--blue);background:var(--blue-lightest)}
+.addstep .as-t{font-weight:800;font-size:13px;display:inline-flex;align-items:center;gap:6px}
+.addstep .as-b{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.addstep .as-sub{font-size:11.5px;color:var(--ink-3);line-height:1.35}
 .ann-pill{display:inline-flex;align-items:center;gap:4px;padding:5px 6px 5px 10px;border-radius:9px;background:var(--surface-2);font-size:12px;font-weight:600;border:1.5px solid transparent}
 .ann-pill.on{border-color:var(--blue);background:var(--blue-lightest)}
 .ann-pill button{color:var(--ink-3);font-size:14px;line-height:1;width:20px;height:20px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center}
@@ -742,7 +754,7 @@ select.sel,.team select,#utable select,.field select{padding:9px 12px;border:1px
 (() => {
 'use strict';
 
-const APP_VERSION = '0.16.0';
+const APP_VERSION = '0.17.0';
 /* ---------- i18n ---------- */
 const I18N = {
 de:{
@@ -790,7 +802,7 @@ de:{
   uploading:'Upload', upload_failed:'Upload fehlgeschlagen – wird erneut versucht', remote_changed:'Auf anderem Gerät geändert – tippen zum Aktualisieren',
   loading_backend:'Verbindung zum Backend wird geladen …', update_avail:'Neue Version {v} verfügbar – tippen zum Laden', reload:'Neu laden',
   profile:'Profil', role_note:'Prototyp: Rolle selbst wählbar. In v2 vergibt der Admin die Rollen.',
-  tab_settings:'Freigabe & Einstellungen', translations:'Übersetzungen', tx_sub:'Per DeepL. Titel, Kapitel, Schritt-Texte und Warnhinweise. Der Link bekommt dann einen Sprachumschalter.', tx_add:'Übersetzen', tx_ok:'Aktuell – erneut übersetzen', tx_stale:'Text geändert – neu übersetzen', tx_running:'Übersetze …', tx_done:'{l} übersetzt', hero_h1:'Arbeitsanleitungen in 10 Minuten. Nicht in 3 Tagen.', hero_p:'Handy raus, Schritt für Schritt filmen, freigeben – fertig. Dein Team hat die Anleitung sofort am Arbeitsplatz. Ohne Schulung, ohne Papier, ohne Agentur.', hero_p1:'Aufnehmen: 3–5 Sekunden pro Schritt', hero_p2:'Freigeben: zwei Klicks, revisionssicher', hero_p3:'Teilen: QR-Code am Arbeitsplatz, kein Login für Werker', hero_cap:'Video-Arbeitsanleitungen für die Produktion', login_note:'Kein Passwort. Du bekommst einen Login-Link per E-Mail – Kolleginnen und Kollegen mit derselben Domain landen automatisch in deinem Workspace.', otp_label:'Oder Code aus der E-Mail eingeben (z. B. in der installierten App):', otp_go:'Anmelden', or:'oder', again_q:'Nichts angekommen?', again_send:'Erneut senden', again_in:'(möglich in {s} s)', other_email:'Andere E-Mail-Adresse', tg_mark:'Markieren', tg_status:'Status', tg_warn:'Sicherheit', tg_img:'Bilder', login_google:'Mit Google anmelden', login_ms:'Mit Microsoft anmelden', install_app:'Als App installieren', install_sub:'GIRI Go auf dem Home-Bildschirm – startet im Vollbild, Kamera sofort bereit.', install_ios:'iPhone/iPad: Teilen-Symbol → „Zum Home-Bildschirm“.', install_done:'App installiert', later:'Später', hero_ch:'Montage', hero_step:'Schrauben M6 über Kreuz anziehen', hero_step_d:'Drehmomentschlüssel Nr. 3 · 10 Nm', hero_f1:'Checkliste bestätigt', hero_f2:'SOP-Export', hero_f3:'Am Arbeitsplatz', rename:'Umbenennen', native_cam:'Mit Kamera-App aufnehmen', new_title_ph:'z. B. Spannvorrichtung rüsten', chapter_before:'Neues Kapitel vor Schritt {n}', chapter_ph:'z. B. Vorbereitung', chapter_added:'Kapitel vor Schritt {n} eingefügt', qr_pdf_opts:'QR-Code-Blatt: Was soll draufstehen?', qr_date:'Datum', qr_creator:'Ersteller', qr_image:'Erstes Bild', qr_brand:'Firma / Logo', qr_download:'QR-Code als PDF', qr_scan:'Scannen für die Anleitung · GIRI Go', stats:'Statistik', stats_sub:'Aufrufe der Anleitung und Job-Done-Protokoll', views_tab:'Aufrufe', jobdone:'Job-Done-Protokoll', views_total:'Aufrufe', views_reload:'davon Neuladen', views_avg:'Ø Zeit pro Aufruf', views_done:'bis zum Ende', views_steps:'Ø Schritte gesehen', views_completed:'komplett', views_reloaded:'neu geladen', device:'Gerät', no_views:'Noch keine Aufrufe – Aufrufe werden gezählt, sobald die Anleitung veröffentlicht ist und über den Link geöffnet wird.', jobdone_hint:'Checkliste in den Einstellungen aktivieren, damit Werker jeden Schritt bestätigen.', tool_emoji:'Emoji', tool_img:'Eigene', move_to_folder:'In Projekt verschieben', sym_title:'Eigene Symbole', sym_upload:'Hochladen', sym_sub:'PNG mit Transparenz, JPG oder SVG – Logos, Piktogramme, Bauteil-Fotos. Werden auf 512 px verkleinert und stehen dem ganzen Workspace zur Verfügung.', sym_empty:'Noch keine eigenen Symbole. Erstes Bild über „Hochladen“ hinzufügen.', sym_del_q:'Symbol „{n}“ für den ganzen Workspace löschen?', sym_bad:'{n}: kein lesbares Bild', img_style:'Darstellung', style_glow:'Leuchten', style_sticker:'Sticker', recent:'Zuletzt', all:'Alle', trim_hint:'Video kürzen: Griffe ziehen', record_next:'Nächsten Schritt aufnehmen', branding:'Branding', branding_sub:'So erscheint die Anleitung unter dem Link und im PDF.', brand_name:'Firmenname', brand_color:'Akzentfarbe', brand_logo:'Logo', brand_nologo:'Kein Logo', brand_theme:'Anleitungs-Ansicht', theme_dark:'Dunkel', theme_light:'Hell', upload:'Hochladen', remove:'Entfernen', end_title:'Geschafft – alle Schritte durch.', undo:'Rückgängig', undone:'Rückgängig gemacht', retake:'Neu aufnehmen', rec_after:'Danach aufnehmen', replace_file:'Datei ersetzen', replacing:'Ersetzt Schritt {n}', inserting:'Nach Schritt {n}', tap_thumb:'Tippe auf ein Vorschaubild, um diesen Schritt neu aufzunehmen', more:'Mehr', approve_publish:'Freigeben & veröffentlichen', approve_all_q:'Technische und DSGVO-Freigabe erteilen und veröffentlichen?', tool_hint:'Symbol antippen → erscheint im Bild. Ziehen zum Verschieben, weiße Anfasser zum Anpassen.', expand:'Aufklappen', collapse:'Einklappen',
+  tab_settings:'Freigabe & Einstellungen', translations:'Übersetzungen', tx_sub:'Per DeepL. Titel, Kapitel, Schritt-Texte und Warnhinweise. Der Link bekommt dann einen Sprachumschalter.', tx_add:'Übersetzen', tx_ok:'Aktuell – erneut übersetzen', tx_stale:'Text geändert – neu übersetzen', tx_running:'Übersetze …', tx_done:'{l} übersetzt', hero_h1:'Arbeitsanleitungen in 10 Minuten. Nicht in 3 Tagen.', hero_p:'Handy raus, Schritt für Schritt filmen, freigeben – fertig. Dein Team hat die Anleitung sofort am Arbeitsplatz. Ohne Schulung, ohne Papier, ohne Agentur.', hero_p1:'Aufnehmen: 3–5 Sekunden pro Schritt', hero_p2:'Freigeben: zwei Klicks, revisionssicher', hero_p3:'Teilen: QR-Code am Arbeitsplatz, kein Login für Werker', hero_cap:'Video-Arbeitsanleitungen für die Produktion', login_note:'Kein Passwort. Du bekommst einen Login-Link per E-Mail – Kolleginnen und Kollegen mit derselben Domain landen automatisch in deinem Workspace.', otp_label:'Oder Code aus der E-Mail eingeben (z. B. in der installierten App):', otp_go:'Anmelden', or:'oder', again_q:'Nichts angekommen?', again_send:'Erneut senden', again_in:'(möglich in {s} s)', other_email:'Andere E-Mail-Adresse', tg_mark:'Markieren', tg_status:'Status', tg_warn:'Sicherheit', tg_img:'Bilder', login_google:'Mit Google anmelden', login_ms:'Mit Microsoft anmelden', install_app:'Als App installieren', install_sub:'GIRI Go auf dem Home-Bildschirm – startet im Vollbild, Kamera sofort bereit.', install_ios:'iPhone/iPad: Teilen-Symbol → „Zum Home-Bildschirm“.', install_done:'App installiert', later:'Später', hero_ch:'Montage', hero_step:'Schrauben M6 über Kreuz anziehen', hero_step_d:'Drehmomentschlüssel Nr. 3 · 10 Nm', hero_f1:'Checkliste bestätigt', hero_f2:'SOP-Export', hero_f3:'Am Arbeitsplatz', rename:'Umbenennen', native_cam:'Mit Kamera-App aufnehmen', new_title_ph:'z. B. Spannvorrichtung rüsten', chapter_before:'Neues Kapitel vor Schritt {n}', chapter_ph:'z. B. Vorbereitung', chapter_added:'Kapitel vor Schritt {n} eingefügt', qr_pdf_opts:'QR-Code-Blatt: Was soll draufstehen?', qr_date:'Datum', qr_creator:'Ersteller', qr_image:'Erstes Bild', qr_brand:'Firma / Logo', qr_download:'QR-Code als PDF', qr_scan:'Scannen für die Anleitung · GIRI Go', stats:'Statistik', stats_sub:'Aufrufe der Anleitung und Job-Done-Protokoll', views_tab:'Aufrufe', jobdone:'Job-Done-Protokoll', views_total:'Aufrufe', views_reload:'davon Neuladen', views_avg:'Ø Zeit pro Aufruf', views_done:'bis zum Ende', views_steps:'Ø Schritte gesehen', views_completed:'komplett', views_reloaded:'neu geladen', device:'Gerät', no_views:'Noch keine Aufrufe – Aufrufe werden gezählt, sobald die Anleitung veröffentlicht ist und über den Link geöffnet wird.', jobdone_hint:'Checkliste in den Einstellungen aktivieren, damit Werker jeden Schritt bestätigen.', tool_emoji:'Emoji', tool_img:'Eigene', move_to_folder:'In Projekt verschieben', a3_tilt:'Neigen', a3_turn:'Drehen', a3_flat:'Flach', a3_anim:'Animation', anim_none:'Keine', anim_pulse:'Pulsieren', anim_bounce:'Hüpfen', anim_blink:'Blinken', add_step:'Schritt hinzufügen', pick_files:'Bilder / Videos wählen', add_step_sub:'Jede Datei wird ein Schritt. Am PC: Dateien einfach auf die Seite ziehen.', sym_title:'Eigene Symbole', sym_upload:'Hochladen', sym_sub:'PNG mit Transparenz, JPG oder SVG – Logos, Piktogramme, Bauteil-Fotos. Werden auf 512 px verkleinert und stehen dem ganzen Workspace zur Verfügung.', sym_empty:'Noch keine eigenen Symbole. Erstes Bild über „Hochladen“ hinzufügen.', sym_del_q:'Symbol „{n}“ für den ganzen Workspace löschen?', sym_bad:'{n}: kein lesbares Bild', img_style:'Darstellung', style_glow:'Leuchten', style_sticker:'Sticker', recent:'Zuletzt', all:'Alle', trim_hint:'Video kürzen: Griffe ziehen', record_next:'Nächsten Schritt aufnehmen', branding:'Branding', branding_sub:'So erscheint die Anleitung unter dem Link und im PDF.', brand_name:'Firmenname', brand_color:'Akzentfarbe', brand_logo:'Logo', brand_nologo:'Kein Logo', brand_theme:'Anleitungs-Ansicht', theme_dark:'Dunkel', theme_light:'Hell', upload:'Hochladen', remove:'Entfernen', end_title:'Geschafft – alle Schritte durch.', undo:'Rückgängig', undone:'Rückgängig gemacht', retake:'Neu aufnehmen', rec_after:'Danach aufnehmen', replace_file:'Datei ersetzen', replacing:'Ersetzt Schritt {n}', inserting:'Nach Schritt {n}', tap_thumb:'Tippe auf ein Vorschaubild, um diesen Schritt neu aufzunehmen', more:'Mehr', approve_publish:'Freigeben & veröffentlichen', approve_all_q:'Technische und DSGVO-Freigabe erteilen und veröffentlichen?', tool_hint:'Symbol antippen → erscheint im Bild. Ziehen zum Verschieben, weiße Anfasser zum Anpassen.', expand:'Aufklappen', collapse:'Einklappen',
   cooldown:'Mail wurde gerade verschickt – bitte {s} s warten.', cooldown_sub:'Der letzte Link ist unterwegs. Prüfe Posteingang und Spam, bevor du neu anforderst – jeder neue Link macht den alten ungültig.',
   rate_limit:'Mail-Limit erreicht – es wurde keine neue Mail verschickt.', rate_limit_sub:'Der Test-Mailversand erlaubt nur 2 Mails pro Stunde. Bist du auf diesem Gerät schon eingeloggt gewesen? Dann einfach die App neu öffnen – die Sitzung bleibt erhalten, kein erneuter Link nötig.',
   /* v0.9 */
@@ -855,7 +867,7 @@ en:{
   uploading:'Upload', upload_failed:'Upload failed – will retry', remote_changed:'Changed on another device – tap to refresh',
   loading_backend:'Loading backend connection …', update_avail:'New version {v} available – tap to load', reload:'Reload',
   profile:'Profile', role_note:'Prototype: you pick your own role. In v2 an admin assigns roles.',
-  tab_settings:'Approval & settings', translations:'Translations', tx_sub:'Via DeepL. Title, chapters, step texts and warnings. The link then gets a language switch.', tx_add:'Translate', tx_ok:'Up to date – translate again', tx_stale:'Text changed – re-translate', tx_running:'Translating …', tx_done:'{l} translated', hero_h1:'Work instructions in 10 minutes. Not 3 days.', hero_p:'Grab your phone, film step by step, approve – done. Your team has the instruction at the workstation right away. No training, no paper, no agency.', hero_p1:'Record: 3–5 seconds per step', hero_p2:'Approve: two clicks, audit-proof', hero_p3:'Share: QR code at the workstation, no login for workers', hero_cap:'Video work instructions for production', login_note:'No password. You get a login link by email – colleagues with the same domain automatically join your workspace.', otp_label:'Or enter the code from the email (e.g. in the installed app):', otp_go:'Sign in', or:'or', again_q:'Nothing arrived?', again_send:'Send again', again_in:'(possible in {s} s)', other_email:'Different e-mail address', tg_mark:'Mark up', tg_status:'Status', tg_warn:'Safety', tg_img:'Images', login_google:'Sign in with Google', login_ms:'Sign in with Microsoft', install_app:'Install as app', install_sub:'GIRI Go on your home screen – full screen, camera ready.', install_ios:'iPhone/iPad: Share icon → “Add to Home Screen”.', install_done:'App installed', later:'Later', hero_ch:'Assembly', hero_step:'Tighten M6 screws crosswise', hero_step_d:'Torque wrench no. 3 · 10 Nm', hero_f1:'Checklist confirmed', hero_f2:'SOP export', hero_f3:'At the workstation', rename:'Rename', native_cam:'Record with camera app', new_title_ph:'e.g. Set up clamping fixture', chapter_before:'New chapter before step {n}', chapter_ph:'e.g. Preparation', chapter_added:'Chapter inserted before step {n}', qr_pdf_opts:'QR sheet: what to print', qr_date:'Date', qr_creator:'Creator', qr_image:'First image', qr_brand:'Company / logo', qr_download:'QR code as PDF', qr_scan:'Scan to open the instruction · GIRI Go', stats:'Statistics', stats_sub:'Views of this instruction and job-done log', views_tab:'Views', jobdone:'Job-done log', views_total:'Views', views_reload:'of which reloads', views_avg:'Avg. time per view', views_done:'reached the end', views_steps:'Avg. steps seen', views_completed:'completed', views_reloaded:'reloaded', device:'Device', no_views:'No views yet – views are counted once the instruction is published and opened via the link.', jobdone_hint:'Enable the checklist in settings so workers confirm each step.', tool_emoji:'Emoji', tool_img:'Custom', move_to_folder:'Move to project', sym_title:'Custom symbols', sym_upload:'Upload', sym_sub:'PNG with transparency, JPG or SVG – logos, pictograms, part photos. Downscaled to 512 px and shared with the whole workspace.', sym_empty:'No custom symbols yet. Add the first image via “Upload”.', sym_del_q:'Delete symbol “{n}” for the whole workspace?', sym_bad:'{n}: not a readable image', img_style:'Style', style_glow:'Glow', style_sticker:'Sticker', recent:'Recent', all:'All', trim_hint:'Trim: drag the handles', record_next:'Record next step', branding:'Branding', branding_sub:'How the instruction appears under the link and in the PDF.', brand_name:'Company name', brand_color:'Accent colour', brand_logo:'Logo', brand_nologo:'No logo', brand_theme:'Instruction view', theme_dark:'Dark', theme_light:'Light', upload:'Upload', remove:'Remove', end_title:'Done – all steps completed.', undo:'Undo', undone:'Undone', retake:'Retake', rec_after:'Record after this', replace_file:'Replace file', replacing:'Replacing step {n}', inserting:'After step {n}', tap_thumb:'Tap a thumbnail to re-record that step', more:'More', approve_publish:'Approve & publish', approve_all_q:'Grant technical and GDPR approval and publish?', tool_hint:'Tap a symbol → it appears on the image. Drag to move, white handles to adjust.', expand:'Expand', collapse:'Collapse',
+  tab_settings:'Approval & settings', translations:'Translations', tx_sub:'Via DeepL. Title, chapters, step texts and warnings. The link then gets a language switch.', tx_add:'Translate', tx_ok:'Up to date – translate again', tx_stale:'Text changed – re-translate', tx_running:'Translating …', tx_done:'{l} translated', hero_h1:'Work instructions in 10 minutes. Not 3 days.', hero_p:'Grab your phone, film step by step, approve – done. Your team has the instruction at the workstation right away. No training, no paper, no agency.', hero_p1:'Record: 3–5 seconds per step', hero_p2:'Approve: two clicks, audit-proof', hero_p3:'Share: QR code at the workstation, no login for workers', hero_cap:'Video work instructions for production', login_note:'No password. You get a login link by email – colleagues with the same domain automatically join your workspace.', otp_label:'Or enter the code from the email (e.g. in the installed app):', otp_go:'Sign in', or:'or', again_q:'Nothing arrived?', again_send:'Send again', again_in:'(possible in {s} s)', other_email:'Different e-mail address', tg_mark:'Mark up', tg_status:'Status', tg_warn:'Safety', tg_img:'Images', login_google:'Sign in with Google', login_ms:'Sign in with Microsoft', install_app:'Install as app', install_sub:'GIRI Go on your home screen – full screen, camera ready.', install_ios:'iPhone/iPad: Share icon → “Add to Home Screen”.', install_done:'App installed', later:'Later', hero_ch:'Assembly', hero_step:'Tighten M6 screws crosswise', hero_step_d:'Torque wrench no. 3 · 10 Nm', hero_f1:'Checklist confirmed', hero_f2:'SOP export', hero_f3:'At the workstation', rename:'Rename', native_cam:'Record with camera app', new_title_ph:'e.g. Set up clamping fixture', chapter_before:'New chapter before step {n}', chapter_ph:'e.g. Preparation', chapter_added:'Chapter inserted before step {n}', qr_pdf_opts:'QR sheet: what to print', qr_date:'Date', qr_creator:'Creator', qr_image:'First image', qr_brand:'Company / logo', qr_download:'QR code as PDF', qr_scan:'Scan to open the instruction · GIRI Go', stats:'Statistics', stats_sub:'Views of this instruction and job-done log', views_tab:'Views', jobdone:'Job-done log', views_total:'Views', views_reload:'of which reloads', views_avg:'Avg. time per view', views_done:'reached the end', views_steps:'Avg. steps seen', views_completed:'completed', views_reloaded:'reloaded', device:'Device', no_views:'No views yet – views are counted once the instruction is published and opened via the link.', jobdone_hint:'Enable the checklist in settings so workers confirm each step.', tool_emoji:'Emoji', tool_img:'Custom', move_to_folder:'Move to project', a3_tilt:'Tilt', a3_turn:'Turn', a3_flat:'Flat', a3_anim:'Animation', anim_none:'None', anim_pulse:'Pulse', anim_bounce:'Bounce', anim_blink:'Blink', add_step:'Add step', pick_files:'Choose photos / videos', add_step_sub:'Every file becomes a step. On a PC: just drop files onto the page.', sym_title:'Custom symbols', sym_upload:'Upload', sym_sub:'PNG with transparency, JPG or SVG – logos, pictograms, part photos. Downscaled to 512 px and shared with the whole workspace.', sym_empty:'No custom symbols yet. Add the first image via “Upload”.', sym_del_q:'Delete symbol “{n}” for the whole workspace?', sym_bad:'{n}: not a readable image', img_style:'Style', style_glow:'Glow', style_sticker:'Sticker', recent:'Recent', all:'All', trim_hint:'Trim: drag the handles', record_next:'Record next step', branding:'Branding', branding_sub:'How the instruction appears under the link and in the PDF.', brand_name:'Company name', brand_color:'Accent colour', brand_logo:'Logo', brand_nologo:'No logo', brand_theme:'Instruction view', theme_dark:'Dark', theme_light:'Light', upload:'Upload', remove:'Remove', end_title:'Done – all steps completed.', undo:'Undo', undone:'Undone', retake:'Retake', rec_after:'Record after this', replace_file:'Replace file', replacing:'Replacing step {n}', inserting:'After step {n}', tap_thumb:'Tap a thumbnail to re-record that step', more:'More', approve_publish:'Approve & publish', approve_all_q:'Grant technical and GDPR approval and publish?', tool_hint:'Tap a symbol → it appears on the image. Drag to move, white handles to adjust.', expand:'Expand', collapse:'Collapse',
   cooldown:'Email was just sent – please wait {s} s.', cooldown_sub:'The last link is on its way. Check inbox and spam before requesting again – every new link invalidates the old one.',
   rate_limit:'Email limit reached – no new email was sent.', rate_limit_sub:'The test mailer allows only 2 emails per hour. Already signed in on this device? Just reopen the app – the session persists, no new link needed.',
   /* v0.9 */
@@ -1175,22 +1187,51 @@ function imgBox(a, r){ const {X, Y, S} = annMetrics(a, r); const L = S*1.4, ar =
 async function preloadAnnImages(instr){ const srcs = new Set(); (instr.steps||[]).forEach(st => (st.ann||[]).forEach(a => { if(a.type==='img' && a.src) srcs.add(a.src); })); await Promise.all([...srcs].map(preloadImg)); }
 const rotP = (x, y, cx, cy, ang) => { const c = Math.cos(ang), s = Math.sin(ang), dx = x-cx, dy = y-cy; return {x: cx + dx*c - dy*s, y: cy + dx*s + dy*c}; };
 const hasRot = a => a.type!=='arrow' && !!a.rot;
-function drawAnn(ctx, a, r, selected){
+// spheres and emoji keep their silhouette when turned – tilt/turn only applies to flat symbols
+const NO3D = new Set(['number','check','cross','emoji']);
+const has3D = a => !NO3D.has(a.type) && !!(a.tx || a.ty);
+// view: in-plane rotation plus tilt (about the horizontal axis) and turn (about the vertical axis), orthographic – an affine map, so strokes foreshorten too
+function applyView(ctx, a, c){
+  const rot = hasRot(a) ? a.rot : 0; const no3 = NO3D.has(a.type); const tx = no3 ? 0 : (a.tx||0)*Math.PI/180, ty = no3 ? 0 : (a.ty||0)*Math.PI/180;
+  if(!rot && !tx && !ty) return;
+  ctx.translate(c.x, c.y); if(tx||ty) ctx.transform(Math.cos(ty), Math.sin(ty)*Math.sin(tx), 0, Math.cos(tx), 0, 0); if(rot) ctx.rotate(rot); ctx.translate(-c.x, -c.y);
+}
+// where the extruded side goes (screen space, per unit depth): a soft cabinet offset down-right that gives way to the real side wall once the symbol is turned
+function extrudeVec(a){
+  const no3 = NO3D.has(a.type); const tx = no3 ? 0 : (a.tx||0)*Math.PI/180, ty = no3 ? 0 : (a.ty||0)*Math.PI/180;
+  const fade = Math.max(0, 1 - (Math.abs(tx)+Math.abs(ty))/0.7); const k = 0.35 + 0.65*fade;
+  return {x: 0.62*k - 2.6*Math.sin(ty), y: 0.84*k + 2.6*Math.cos(ty)*Math.sin(tx)};
+}
+// animation: pulse (breathing), bounce (two hops towards the target, then rest), blink (two blinks, then rest)
+function animFrame(a, tNow, base, r){
+  const out = {dx:0, dy:0, s:1, alpha:1}; const k = a.anim; if(!k) return out;
+  if(k==='pulse'){ const u = (tNow % 1.4)/1.4; out.s = 1 + 0.13*(0.5-0.5*Math.cos(u*Math.PI*2)); }
+  else if(k==='bounce'){ const u = tNow % 2.4; const hop = u < 0.45 ? Math.sin(Math.PI*u/0.45) : (u >= 0.55 && u < 1.0) ? Math.sin(Math.PI*(u-0.55)/0.45) : 0; const amp = base*0.05*hop;
+    if(a.type==='arrow'){ const {X, Y} = annMetrics(a, r); const dx = X(a.x2)-X(a.x), dy = Y(a.y2)-Y(a.y), L = Math.hypot(dx, dy)||1; out.dx = dx/L*amp; out.dy = dy/L*amp; } else out.dy = -amp; }
+  else if(k==='blink'){ const u = tNow % 2.0; out.alpha = u < 0.9 ? 0.25 + 0.75*(0.5+0.5*Math.cos(u/0.45*Math.PI*2)) : 1; }
+  return out;
+}
+function drawAnn(ctx, a, r, selected, tNow){
   const {X, Y, base, lw, S, col} = annMetrics(a, r);
   const halo = 'rgba(0,0,0,.45)';
   ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round';
-  if(hasRot(a)){ const c = annCenter(a, r); ctx.translate(c.x, c.y); ctx.rotate(a.rot); ctx.translate(-c.x, -c.y); }
+  // arrows pivot on their tip (it stays on the spot), everything else on its centre
+  const anchor = a.type==='arrow' ? {x:X(a.x2), y:Y(a.y2)} : annCenter(a, r);
+  if(a.anim && tNow!=null){ const f = animFrame(a, tNow, base, r); ctx.translate(anchor.x + f.dx, anchor.y + f.dy); ctx.scale(f.s, f.s); ctx.translate(-anchor.x, -anchor.y); ctx.globalAlpha = f.alpha; }
+  const M0 = ctx.getTransform(); const V = () => applyView(ctx, a, anchor); V();
   const strokeTwice = (path, w) => { ctx.lineWidth = w + lw*0.9; ctx.strokeStyle = halo; path(); ctx.stroke(); ctx.lineWidth = w; ctx.strokeStyle = col; path(); ctx.stroke(); };
-  // pseudo-3D: every stroked silhouette gets an extruded dark side (down-right), a light→dark top face and a soft drop shadow
-  const extrude = (strokeAll, T, D) => { const ex = D*0.62, ey = D*0.84; const blk = a.color==='black' || col==='#000000'; const dark = blk ? '#2E2E2E' : darken(col, 0.55), mid = blk ? '#474747' : darken(col, 0.3);
-    ctx.save(); ctx.shadowColor='rgba(0,0,0,.4)'; ctx.shadowBlur=T*0.7; ctx.shadowOffsetX=ex*0.8; ctx.shadowOffsetY=ey*1.3; ctx.translate(ex, ey); ctx.strokeStyle=dark; ctx.lineWidth=T; strokeAll(); ctx.restore();
-    const n = Math.min(12, Math.max(3, Math.round(D))); for(let i=n; i>=1; i--){ const f = i/n; ctx.save(); ctx.translate(ex*f, ey*f); ctx.strokeStyle = f > 0.5 ? dark : mid; ctx.lineWidth = T; strokeAll(); ctx.restore(); } };
+  // 3D: the silhouette is repeated along the extrusion vector (screen space, outside the view transform) – dark side wall, soft drop shadow; the face is drawn on top by the caller
+  const ev = extrudeVec(a);
+  const extrude = (paint, T, D, shades) => { const ex = ev.x*D, ey = ev.y*D; const blk = a.color==='black' || col==='#000000'; const dark = shades ? shades.dark : (blk ? '#2E2E2E' : darken(col, 0.55)), mid = shades ? shades.mid : (blk ? '#474747' : darken(col, 0.3));
+    const slice = (f, shade, shadow) => { ctx.save(); ctx.setTransform(M0); if(shadow){ ctx.shadowColor='rgba(0,0,0,.38)'; ctx.shadowBlur=Math.max(4, T*0.7); ctx.shadowOffsetX=ex*0.6; ctx.shadowOffsetY=Math.abs(ey)*0.8 + Math.max(2, T*0.25); } ctx.translate(ex*f, ey*f); V(); ctx.strokeStyle=shade; ctx.fillStyle=shade; ctx.lineWidth=T; paint(shade); ctx.restore(); };
+    slice(1, dark, true);
+    const n = Math.min(26, Math.max(3, Math.round(Math.hypot(ex, ey)))); for(let i=n; i>=1; i--){ const f = i/n; slice(f, f > 0.5 ? dark : mid, false); } };
   if(a.type==='arrow'){
     // GIRI arrow: shaft + 90° chevron with a white core and a colour border – now as a solid block with depth
     const x1=X(a.x), y1=Y(a.y), x2=X(a.x2), y2=Y(a.y2);
     const ang = Math.atan2(y2-y1, x2-x1); const len = Math.hypot(x2-x1, y2-y1);
-    const Wc = Math.max(6, base*0.03*((a.size||0.14)/0.14)); const B = Math.max(2.5, Wc*0.55); const T = Wc + 2*B; const D = Math.max(3, T*0.3);
-    const head = Math.min(Math.max(T*2.4, 20), Math.max(12, len*0.62));
+    const Wc = Math.max(4.5, base*0.021*((a.size||0.14)/0.14)); const B = Math.max(2, Wc*0.5); const T = Wc + 2*B; const D = Math.max(2.5, T*0.26);
+    const head = Math.min(Math.max(T*2.8, 20), Math.max(12, len*0.62));
     const ux = Math.cos(ang), uy = Math.sin(ang); const d1 = ang - Math.PI*0.75, d2 = ang + Math.PI*0.75;
     const shaft = inset => { ctx.beginPath(); ctx.moveTo(x1 + ux*inset, y1 + uy*inset); ctx.lineTo(x2, y2); };
     const chev = L => { ctx.beginPath(); ctx.moveTo(x2 + L*Math.cos(d1), y2 + L*Math.sin(d1)); ctx.lineTo(x2, y2); ctx.lineTo(x2 + L*Math.cos(d2), y2 + L*Math.sin(d2)); };
@@ -1207,7 +1248,7 @@ function drawAnn(ctx, a, r, selected){
   } else if(a.type==='circle' || a.type==='rect'){
     const x=Math.min(X(a.x),X(a.x2)), y=Math.min(Y(a.y),Y(a.y2)), w=Math.max(6,Math.abs(X(a.x2)-X(a.x))), h=Math.max(6,Math.abs(Y(a.y2)-Y(a.y)));
     const path = () => { if(a.type==='circle'){ ctx.beginPath(); ctx.ellipse(x+w/2, y+h/2, w/2, h/2, 0, 0, Math.PI*2); } else rr(ctx, x, y, w, h, Math.min(w,h)*0.12); };
-    const W2 = Math.max(6, base*0.026*((a.size||0.14)/0.14)); const B2 = Math.max(2.5, W2*0.34); const T2 = W2+B2*2; const D2 = Math.max(2.5, T2*0.28);
+    const W2 = Math.max(4.5, base*0.018*((a.size||0.14)/0.14)); const B2 = Math.max(2, W2*0.34); const T2 = W2+B2*2; const D2 = Math.max(2.5, T2*0.26);
     ctx.lineCap='butt';
     extrude(() => { path(); ctx.stroke(); }, T2, D2);
     const g2 = ctx.createLinearGradient(x, y, x+w*0.6, y+h); g2.addColorStop(0, lighten(col, a.color==='black' ? 0.28 : 0.36)); g2.addColorStop(0.55, col); g2.addColorStop(1, darken(col, 0.18));
@@ -1219,8 +1260,8 @@ function drawAnn(ctx, a, r, selected){
     const fs = Math.max(13, base*0.05*((a.size||0.14)/0.14)); ctx.font = `700 ${fs}px Montserrat, sans-serif`;
     const txt = a.text||'…'; const tw = ctx.measureText(txt).width; const px = fs*0.65, py = fs*0.4;
     const x = X(a.x), y = Y(a.y);
-    const Dt = Math.max(2, fs*0.16);
-    ctx.save(); ctx.shadowColor='rgba(0,0,0,.4)'; ctx.shadowBlur = fs*0.5; ctx.shadowOffsetY = fs*0.18; ctx.fillStyle = darken(col, 0.5); rr(ctx, x - px + Dt*0.62, y - fs/2 - py + Dt*0.84, tw+px*2, fs+py*2, fs*0.45); ctx.fill(); ctx.restore();
+    const Dt = Math.max(2, fs*0.13);
+    extrude(() => { rr(ctx, x - px, y - fs/2 - py, tw+px*2, fs+py*2, fs*0.45); ctx.fill(); }, 0, Dt, {dark: darken(col, 0.5), mid: darken(col, 0.32)});
     const tg = ctx.createLinearGradient(x, y - fs, x, y + fs); tg.addColorStop(0, lighten(col, a.color==='black' ? 0.25 : 0.3)); tg.addColorStop(1, col);
     ctx.fillStyle = tg; rr(ctx, x - px, y - fs/2 - py, tw+px*2, fs+py*2, fs*0.45); ctx.fill();
     ctx.fillStyle = (a.color==='white'||a.color==='yellow'||a.color==='mint') ? DARK_INK : '#fff'; ctx.textBaseline='middle'; ctx.textAlign='left'; ctx.fillText(txt, x, y);
@@ -1264,12 +1305,11 @@ function drawAnn(ctx, a, r, selected){
     ctx.fillText(a.emoji||'⭐', x, y + fs*0.05);
   } else if(a.type==='warn' || a.type==='elec' || a.type==='hot'){
     // safety signs: extruded black plate, yellow face with a light→deep gradient and a bevel edge
-    const s = S*0.95; const x=X(a.x), y=Y(a.y); const h = s*0.87; const D3 = Math.max(2, s*0.07);
-    const tri = (inset) => { const k = 1 - inset; ctx.beginPath(); ctx.moveTo(x, y-h*0.6*k); ctx.lineTo(x+s/2*k, y+h*0.4*k + (h*0.6 - h*0.6*k)*0.0); ctx.lineTo(x-s/2*k, y+h*0.4*k); ctx.closePath(); };
+    const s = S*0.95; const x=X(a.x), y=Y(a.y); const h = s*0.87; const D3 = Math.max(2, s*0.05);
+    const tri = (inset) => { const k = 1 - inset; ctx.beginPath(); ctx.moveTo(x, y-h*0.6*k); ctx.lineTo(x+s/2*k, y+h*0.4*k); ctx.lineTo(x-s/2*k, y+h*0.4*k); ctx.closePath(); };
     ctx.lineJoin='round';
-    ctx.save(); ctx.shadowColor='rgba(0,0,0,.45)'; ctx.shadowBlur = s*0.16; ctx.shadowOffsetX = D3*0.6; ctx.shadowOffsetY = D3*1.6; ctx.translate(D3*0.62, D3*0.84); ctx.fillStyle='#111'; ctx.strokeStyle='#111'; ctx.lineWidth=s*0.1; tri(0); ctx.fill(); ctx.stroke(); ctx.restore();
-    const n3 = Math.max(2, Math.round(D3)); for(let i=n3;i>=1;i--){ const f=i/n3; ctx.save(); ctx.translate(D3*0.62*f, D3*0.84*f); ctx.fillStyle='#1a1a1a'; ctx.strokeStyle='#1a1a1a'; ctx.lineWidth=s*0.1; tri(0); ctx.fill(); ctx.stroke(); ctx.restore(); }
-    ctx.fillStyle='#000'; ctx.strokeStyle='#000'; ctx.lineWidth=s*0.1; tri(0); ctx.fill(); ctx.stroke();
+    extrude(() => { tri(0); ctx.fill(); ctx.stroke(); }, s*0.07, D3, {dark:'#111', mid:'#1e1e1e'});
+    ctx.fillStyle='#000'; ctx.strokeStyle='#000'; ctx.lineWidth=s*0.07; tri(0); ctx.fill(); ctx.stroke();
     const yg = ctx.createLinearGradient(x-s/2, y-h*0.6, x+s/2, y+h*0.4); yg.addColorStop(0, '#FFE889'); yg.addColorStop(0.5, COLORS.yellow); yg.addColorStop(1, '#E6B400');
     ctx.fillStyle=yg; ctx.strokeStyle=yg; ctx.lineWidth=s*0.03; tri(0.02); ctx.fill(); ctx.stroke();
     ctx.save(); ctx.beginPath(); ctx.moveTo(x-s/2*0.98+s*0.02, y+h*0.4*0.98); ctx.lineTo(x, y-h*0.6*0.98); ctx.strokeStyle='rgba(255,255,255,.45)'; ctx.lineWidth=s*0.025; ctx.stroke(); ctx.restore();
@@ -1311,13 +1351,19 @@ function annHandles(a, r){
   const bb = annBounds(a, r); hs.push({kind:'rot', x:bb.x+bb.w/2, y:bb.y-30});
   return hs;
 }
+// canvases with animated symbols redraw themselves (~30 fps) while they are on screen
+const ANIM = new Set(); let animRaf = 0, animLast = 0;
+function animTick(now){ animRaf = 0; if(now - animLast < 30){ animRaf = requestAnimationFrame(animTick); return; } animLast = now;
+  for(const cv of [...ANIM]){ if(!cv.isConnected){ ANIM.delete(cv); continue; } const b = cv.getBoundingClientRect(); if(b.bottom < -40 || b.top > innerHeight + 40) continue; try{ cv._redraw(); }catch(e){ ANIM.delete(cv); } }
+  if(ANIM.size) animRaf = requestAnimationFrame(animTick); }
 function drawAll(canvas, anns, mw, mh, selId, timeFilter){
   const ctx = canvas.getContext('2d'); const dpr = window.devicePixelRatio||1;
   const bw = canvas.clientWidth, bh = canvas.clientHeight;
   if(canvas.width !== Math.round(bw*dpr) || canvas.height !== Math.round(bh*dpr)){ canvas.width = Math.round(bw*dpr); canvas.height = Math.round(bh*dpr); }
   ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,bw,bh);
-  const r = fitRect(bw, bh, mw, mh);
-  anns.forEach(a => { if(timeFilter && !timeFilter(a)) return; drawAnn(ctx, a, r, a.id===selId); });
+  const r = fitRect(bw, bh, mw, mh); const now = performance.now()/1000; let animated = false;
+  anns.forEach(a => { if(timeFilter && !timeFilter(a)) return; if(a.anim) animated = true; drawAnn(ctx, a, r, a.id===selId, now); });
+  if(animated){ canvas._redraw = () => drawAll(canvas, anns, mw, mh, selId, timeFilter); ANIM.add(canvas); if(!animRaf) animRaf = requestAnimationFrame(animTick); } else ANIM.delete(canvas);
   return r;
 }
 
@@ -1969,10 +2015,16 @@ async function renderEditor(app, id, selStepId){
   }
 
   /* --- step list --- */
+  // "add step": record, pick photos/videos from the library, or drop files – always at the end of the list
+  function addStepCard(){
+    const c = el(`<div class="addstep"><div class="as-t">${IC.plus} ${t('add_step')}</div><div class="as-b"><button class="btn mint sm" data-rec>${IC.cam} ${t('record')}</button><label class="btn ghost sm" style="cursor:pointer">${IC.upload} ${t('pick_files')}<input type="file" multiple accept="image/*,video/*" hidden></label></div><div class="as-sub">${t('add_step_sub')}</div></div>`);
+    c.querySelector('[data-rec]').onclick = () => go(`rec/${instr.id}`);
+    c.querySelector('input').onchange = async e => { const fs = [...e.target.files]; e.target.value = ''; if(!fs.length) return; const added = await importFiles(instr, fs, null); if(!added.length) return; snapshot(); setChip(); renderApprovals(); sel = added[0].id; renderList(); renderStage(); setTimeout(() => focusRow(sel), 50); };
+    return c; }
   function renderList(){
     const list = v.querySelector('#slist'); list.innerHTML=''; let n = 0; let curCh = null;
     v.querySelector('#scount').textContent = realSteps(instr).length;
-    if(!instr.steps.length) list.innerHTML = `<div class="muted" style="padding:10px">${t('no_steps')}</div>`;
+    if(!instr.steps.length){ list.innerHTML = `<div class="muted" style="padding:10px">${t('no_steps')}</div>`; if(myRole!=='viewer') list.appendChild(addStepCard()); }
     instr.steps.forEach((s, idx) => {
       if(s.kind==='chapter'){
         curCh = s; const [cs, ce] = chapterBlock(idx); const cnt = ce-cs-1; const isC = collapsed.has(s.id);
@@ -1999,6 +2051,7 @@ async function renderEditor(app, id, selStepId){
       };
       attachDrag(r, idx); list.appendChild(r);
     });
+    if(instr.steps.length && myRole!=='viewer') list.appendChild(addStepCard());
   }
   const focusRow = id => { const r = v.querySelector(`.srow[data-id="${id}"]`); if(r){ r.focus(); r.scrollIntoView({block:'nearest'}); } };
   async function move(i, d){ const j = i+d; if(j<0||j>=instr.steps.length) return; const [x] = instr.steps.splice(i,1); instr.steps.splice(j,0,x); await touch(); renderList(); }
@@ -2073,7 +2126,7 @@ async function renderEditor(app, id, selStepId){
     const TOOLG = [['tg_mark',[['arrow',IC.arrow,'tool_arrow'],['circle',IC.circle,'tool_circle'],['rect',IC.rect,'tool_rect'],['number',IC.number,'tool_number'],['text',IC.text,'tool_text']]],['tg_status',[['check',IC.checkc,'tool_check'],['cross',IC.cross,'tool_cross']]],['tg_warn',[['warn',IC.warn,'tool_warn'],['elec',IC.elec,'tool_elec'],['hot',IC.hot,'tool_hot']]],['tg_img',[['emoji','<span class="emo">😀</span>','tool_emoji'],['img',IC.image,'tool_img']]]];
     stage.innerHTML = `<div class="row" style="justify-content:space-between;margin-bottom:10px"><b>${t('step')} ${n} ${t('of')} ${realSteps(instr).length}</b><button class="btn ghost sm del" id="del" title="${t('delete_step')}">${IC.trash} ${t('delete')}</button></div>
       <div class="media-box" id="mbox"><div class="vbg" id="mbg"></div>${isV?`<video id="med" src="${url}" muted playsinline autoplay loop preload="auto"></video>`:`<img id="med" src="${url}" alt="">`}<canvas class="ann sel-mode" id="acv"></canvas><div class="pausetag" id="ptag" hidden></div></div>
-      <div class="ann-list" id="annlist"></div>
+      <div class="ann-list" id="annlist"></div><div class="ann3d" id="ann3d" hidden></div>
       ${isV?`<div class="trimwrap"><div class="trimrow"><button class="playbtn" id="playbtn" title="Play / Pause">${IC.play}</button><div class="trimbar" id="trimbar"><div class="tb-film" id="tb-film"></div><div class="tb-dim l" id="tb-dl"></div><div class="tb-dim r" id="tb-dr"></div><div class="tb-keep" id="tb-keep"><div class="tb-h l" id="tb-hl"><i></i></div><div class="tb-h r" id="tb-hr"><i></i></div></div><div id="marks"></div><div class="tb-play" id="tb-play"></div></div></div>
         <div class="trim-labels"><span>${IC.scissors} ${t('trim_hint')}</span><span class="tnum"><b id="tcur">0,0</b> / <span id="tsv">${fmtSec(s.trimStart||0)}</span>–<span id="tev">${fmtSec(s.trimEnd||s.duration)}</span> s <span id="annt" class="muted"></span></span></div></div>`:''}
       <div class="tools-wrap"><div class="tools" id="tools">${TOOLG.map(([g,items])=>`<div class="tgroup"><span class="tg-lbl">${t(g)}</span><div class="tg-btns">${items.map(([k,ic,lb])=>`<button class="tool" data-tool="${k}" title="${t(lb)}">${ic}<span>${t(lb)}</span></button>`).join('')}</div></div>`).join('')}</div></div>
@@ -2157,7 +2210,17 @@ async function renderEditor(app, id, selStepId){
         const a = s.ann.find(x=>x.id===p.dataset.id); if(!a) return;
         if(selAnn===a.id && a.type==='text'){ const txt = await promptM(t('text_prompt'), 'z. B. 10 Nm', a.text||''); if(txt!==null && txt.trim()){ a.text = txt.trim(); draw(); touch(); } return; }
         selAnn = a.id; if(isV){ med.pause(); seekTo(a.t||0); } draw(); }; });
-      const at = stage.querySelector('#annt'); if(at){ const a = s.ann.find(x=>x.id===selAnn); at.textContent = a ? t('ann_at',{t:fmtSec(a.t||0)}) : ''; } }
+      const at = stage.querySelector('#annt'); if(at){ const a = s.ann.find(x=>x.id===selAnn); at.textContent = a ? t('ann_at',{t:fmtSec(a.t||0)}) : ''; }
+      // 3D (tilt / turn) and animation for the selected symbol – rebuilt only when the selection or the animation changes, so sliders survive their own drag
+      const p3 = stage.querySelector('#ann3d'); if(p3){ const a = s.ann.find(x=>x.id===selAnn);
+        if(!a){ p3.hidden = true; p3.dataset.sig = ''; }
+        else { const sig = a.id+':'+(a.anim||''); const can3 = !NO3D.has(a.type);
+          if(p3.dataset.sig !== sig){ p3.dataset.sig = sig; p3.hidden = false;
+            p3.innerHTML = `${can3 ? `<div class="a3-row"><span class="a3-lbl">3D</span><label class="a3-sl"><span>${t('a3_tilt')}</span><input type="range" min="-60" max="60" step="5" data-k="tx" value="${a.tx||0}"></label><label class="a3-sl"><span>${t('a3_turn')}</span><input type="range" min="-60" max="60" step="5" data-k="ty" value="${a.ty||0}"></label><button class="a3-chip" data-flat>${t('a3_flat')}</button></div>` : ''}<div class="a3-row"><span class="a3-lbl">${t('a3_anim')}</span>${['','pulse','bounce','blink'].map(k => `<button class="a3-chip ${(a.anim||'')===k?'on':''}" data-anim="${k}">${t('anim_'+(k||'none'))}</button>`).join('')}</div>`;
+            $$('input[data-k]', p3).forEach(inp => { inp.oninput = () => { const v = +inp.value; if(v) a[inp.dataset.k] = v; else delete a[inp.dataset.k]; draw(); }; inp.onchange = () => touch(); });
+            const fl = p3.querySelector('[data-flat]'); if(fl) fl.onclick = () => { delete a.tx; delete a.ty; $$('input[data-k]', p3).forEach(i => i.value = 0); draw(); touch(); };
+            $$('[data-anim]', p3).forEach(b => b.onclick = () => { if(b.dataset.anim) a.anim = b.dataset.anim; else delete a.anim; p3.dataset.sig = ''; draw(); touch(); }); }
+          else $$('input[data-k]', p3).forEach(i => { if(document.activeElement !== i) i.value = a[i.dataset.k]||0; }); } } }
     // --- pointer: select / move / handles ---
     const toNorm = (e, r) => ({x:(e.clientX-r.bx-r.x)/r.w, y:(e.clientY-r.by-r.y)/r.h});
     const HIT = 34; const pts = new Map(); let pinch = null;

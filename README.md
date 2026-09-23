@@ -64,6 +64,13 @@ Supabase-URL und Publishable Key stehen oben in `index.html` unter `window.GIRI_
 - **Link-Passwort (ab v0.14):** Pro Projekt (Projektseite → „Passwort“) und/oder pro Team (Admin-Panel → Team → „Passwort“). Gesetzt = wer den öffentlichen Link öffnet, muss das Passwort einmal pro Gerät eingeben (Projekt-Passwort oder Passwort eines zugeordneten Teams). Standard: aus. Gespeichert wird nur ein Salted-SHA-256-Hash; geschützte Anleitungen sind für Anonyme auch per API nicht lesbar (`open_instr`-RPC prüft serverseitig). Hinweis: Die Medien-Dateien selbst liegen im öffentlichen Storage-Bucket und sind bei Kenntnis der Datei-URL weiterhin abrufbar.
 - Ab v0.13 lassen sich auch einzelne Anleitungen Teams zuordnen (Editor → „Freigabe & Einstellungen“ → „Zugriff (Teams)“ oder Admin-Panel → „Zugriff (Teams)“). Die Team-Zuordnung der Anleitung gilt zusätzlich zu den Teams des Projekts; nichts angehakt = wie das Projekt.
 
+## 3D-Symbole, Animation, Schritte importieren (v0.17)
+- Symbole sind schlanker (dünnere Pfeile, Ringe, Rahmen, weniger Tiefe) – wirken filigraner, bleiben aber gut lesbar.
+- **3D:** Symbol antippen → unter dem Chip erscheinen die Regler **Neigen** (kippt nach vorn/hinten) und **Drehen** (dreht nach links/rechts, ±60°). Der Pfeil dreht sich um seine Spitze, alles andere um die Mitte; die Seitenwand folgt der echten Perspektive. „Flach“ setzt zurück. Gilt für Pfeil, Kreis, Rechteck, Text, Warnschilder und eigene Symbole; Nummern/Häkchen/Kreuz (Kugeln) und Emojis bleiben rund.
+- **Animation** pro Symbol: Keine · Pulsieren (atmet) · Hüpfen (zwei kurze Hüpfer Richtung Ziel, dann Pause) · Blinken (zweimal, dann Pause). Läuft im Editor und in der Anleitung (auch wenn das Video für die Symbole anhält); im PDF steht das Symbol still.
+- **Schritt hinzufügen:** Am Ende der Schrittliste steht eine Karte mit „Aufnehmen“ und „Bilder / Videos wählen“ (Handy: Fotomediathek, mehrere auf einmal). Jede Datei wird ein Schritt, angehängt am Ende. Am PC weiterhin: Dateien auf die Seite ziehen (Einfügen nach dem markierten Schritt).
+- Gespeichert wird pro Symbol `tx`/`ty` (Grad) und `anim` – ältere Anleitungen bleiben unverändert (flach, ohne Animation).
+
 ## Design & Bedienung (v0.16)
 - Dashboard: Kennzahlen als ruhige Zeile statt vier Kacheln; Projekte als Cover-Karten (Bilder der Anleitungen, Name und Anzahl im Bild, Schloss bei Link-Passwort); Anleitungs-Karten mit drei klaren Aktionen (Bearbeiten · Nächsten Schritt aufnehmen · Link/QR) und „…“-Menü für Vorschau, PDF, Statistik, Verschieben, Löschen. Klick auf die Karte öffnet die Anleitung.
 - Kopfzeile: Avatar mit Initialen statt Name+Rolle; Profil-Sheet zeigt Name, E-Mail, Rolle, Version. Abmelden liegt im Profil.
