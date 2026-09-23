@@ -64,7 +64,15 @@ Supabase-URL und Publishable Key stehen oben in `index.html` unter `window.GIRI_
 - **Link-Passwort (ab v0.14):** Pro Projekt (Projektseite → „Passwort“) und/oder pro Team (Admin-Panel → Team → „Passwort“). Gesetzt = wer den öffentlichen Link öffnet, muss das Passwort einmal pro Gerät eingeben (Projekt-Passwort oder Passwort eines zugeordneten Teams). Standard: aus. Gespeichert wird nur ein Salted-SHA-256-Hash; geschützte Anleitungen sind für Anonyme auch per API nicht lesbar (`open_instr`-RPC prüft serverseitig). Hinweis: Die Medien-Dateien selbst liegen im öffentlichen Storage-Bucket und sind bei Kenntnis der Datei-URL weiterhin abrufbar.
 - Ab v0.13 lassen sich auch einzelne Anleitungen Teams zuordnen (Editor → „Freigabe & Einstellungen“ → „Zugriff (Teams)“ oder Admin-Panel → „Zugriff (Teams)“). Die Team-Zuordnung der Anleitung gilt zusätzlich zu den Teams des Projekts; nichts angehakt = wie das Projekt.
 
+## Werker-Feedback (v0.18)
+- In jeder veröffentlichten Anleitung steht unter jedem Schritt und am Ende ein Feedback-Knopf (Sprechblase). Der Werker wählt **Anleitung verbessern** oder **Prozess verbessern**, schreibt einen Hinweis, hängt optional ein **Foto oder Video** an (Handy-Kamera) und schickt ab – ohne Login.
+- Der Creator sieht offene Rückmeldungen als blaue Sprechblasen-Zahl auf der Anleitungs-Karte, als Banner im Editor und in der Statistik unter dem Reiter **Feedback** (mit Bild/Video-Vorschau).
+- **Als Schritt übernehmen:** Foto oder Video aus dem Feedback wird direkt als neuer Schritt hinter dem Schritt eingefügt, auf den sich das Feedback bezieht (Text des Werkers als Beschreibung). Danach ist das Feedback automatisch „erledigt“. Ohne Medium: „Zum Schritt“ springt in den Editor. Außerdem „Erledigt“ / „Verwerfen“.
+- Abschaltbar pro Anleitung: Freigabe & Einstellungen → „Feedback von Werkern erlauben“ (Standard: an).
+- Backend: Tabelle `feedback` (Schema in `supabase/schema.sql`, bereits im Projekt angelegt), Medien im Bucket `media` unter `runs/fb/…` (gleiche Regel wie Beweisfotos).
+
 ## 3D-Symbole, Animation, Schritte importieren (v0.17)
+- v0.18: Pfeile nochmals dünner (auch gedreht), Neigen/Drehen bis ±70°, „Hüpfen“ beim Pfeil zieht sich vom Ziel zurück und schnellt wieder auf den Punkt – die Spitze landet immer dort, wo sie gesetzt wurde.
 - Symbole sind schlanker (dünnere Pfeile, Ringe, Rahmen, weniger Tiefe) – wirken filigraner, bleiben aber gut lesbar.
 - **3D:** Symbol antippen → unter dem Chip erscheinen die Regler **Neigen** (kippt nach vorn/hinten) und **Drehen** (dreht nach links/rechts, ±60°). Der Pfeil dreht sich um seine Spitze, alles andere um die Mitte; die Seitenwand folgt der echten Perspektive. „Flach“ setzt zurück. Gilt für Pfeil, Kreis, Rechteck, Text, Warnschilder und eigene Symbole; Nummern/Häkchen/Kreuz (Kugeln) und Emojis bleiben rund.
 - **Animation** pro Symbol: Keine · Pulsieren (atmet) · Hüpfen (zwei kurze Hüpfer Richtung Ziel, dann Pause) · Blinken (zweimal, dann Pause). Läuft im Editor und in der Anleitung (auch wenn das Video für die Symbole anhält); im PDF steht das Symbol still.

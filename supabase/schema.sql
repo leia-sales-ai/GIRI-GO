@@ -409,3 +409,34 @@ begin
   update public.workspaces set invites = coalesce((select jsonb_agg(i) from jsonb_array_elements(invites) i where lower(i->>'email') <> v_email), '[]'::jsonb) where ws = v_ws;
   return new;
 end $$;
+
+-- ---------- v0.18: Werker-Feedback aus der Anleitung ----------
+-- Text + Kategorie (quality = Anleitung verbessern, process = Prozess verbessern), optional Foto/Video (Storage unter runs/fb/…).
+-- Der Creator sieht offene Rückmeldungen im Dashboard/Editor und kann ein Medium direkt als neuen Schritt übernehmen.
+create table if not exists public.feedback (
+  id text primary key,
+  instr_id text not null references public.instructions(id) on delete cascade,
+  ws text not null,
+  step_id text,
+  step_no int,
+  kind text not null default 'quality',
+  text text not null default '',
+  worker text not null default '',
+  media_url text,
+  media_type text,
+  status text not null default 'open',
+  created_at timestamptz not null default now(),
+  resolved_at timestamptz
+);
+create index if not exists feedback_instr_idx on public.feedback (instr_id, created_at desc);
+create index if not exists feedback_ws_open_idx on public.feedback (ws, status);
+alter table public.feedback enable row level security;
+drop policy if exists feedback_insert on public.feedback;
+create policy feedback_insert on public.feedback for insert to anon, authenticated
+  with check (exists (select 1 from public.instructions i where i.id = feedback.instr_id and i.status = 'published' and i.ws = feedback.ws));
+drop policy if exists feedback_select on public.feedback;
+create policy feedback_select on public.feedback for select to authenticated using (ws = public.my_ws());
+drop policy if exists feedback_update on public.feedback;
+create policy feedback_update on public.feedback for update to authenticated using (ws = public.my_ws()) with check (ws = public.my_ws());
+drop policy if exists feedback_delete on public.feedback;
+create policy feedback_delete on public.feedback for delete to authenticated using (ws = public.my_ws() and (public.my_role() in ('admin','creator','reviewer') or public.my_admin()));
