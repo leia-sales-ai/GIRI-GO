@@ -1,0 +1,13 @@
+import { chromium } from 'playwright'; import { BASE, OUT, TESTS, launchArgs } from './env.mjs'; import fs from 'fs';
+const browser = await chromium.launch(launchArgs([]));
+const ctx = await browser.newContext({viewport:{width:1280,height:800}, acceptDownloads:true}); const page = await ctx.newPage(); const errs=[];
+page.on('pageerror', e => errs.push(e.message));
+await page.goto(BASE+'/index3.html'); await page.waitForTimeout(2000);
+const wrench = 'data:image/png;base64,'+fs.readFileSync(TESTS+'/sym_wrench.png').toString('base64');
+const part = 'data:image/jpeg;base64,'+fs.readFileSync(TESTS+'/sym_part.jpg').toString('base64');
+await page.evaluate(([w,p])=>{ const r = window.__tables.instructions[0]; const st = r.data.steps.filter(s=>!s.kind)[0]; st.ann.push({id:'i1', type:'img', x:.3, y:.35, size:.26, src:w, name:'wrench', ar:1, style:'glow', color:'mint', t:0}); st.ann.push({id:'i2', type:'img', x:.72, y:.62, size:.22, src:p, name:'part', ar:1.33, style:'sticker', color:'red', rot:0.3, t:0}); sessionStorage.setItem('gg_dash','all'); }, [wrench, part]);
+await page.goto(BASE+'/index3.html#/'); await page.waitForTimeout(1000);
+await page.click('[data-a="more"]'); await page.waitForTimeout(300); await page.click('[data-m="pdf"]'); await page.waitForTimeout(400);
+const [dl] = await Promise.all([ page.waitForEvent('download', {timeout:60000}), page.click(`[data-l=""]`) ]);
+await dl.saveAs(OUT+'/out-sym.pdf'); console.log('bytes', fs.statSync(OUT+'/out-sym.pdf').size);
+console.log(errs.join('\n')||'NO ERRORS'); await browser.close();

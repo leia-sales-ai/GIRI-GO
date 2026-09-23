@@ -2,6 +2,13 @@
 
 Leichtgewichtige Web-App für Video-/Foto-Arbeitsanleitungen: aufnehmen (3–5 s pro Schritt), annotieren, freigeben, per Link/QR ausführen, als SOP-PDF exportieren.
 
+## Entwicklung & Release (ab v0.20)
+- Der Code ist in **ES-Module** aufgeteilt (`src/`, siehe `src/README.md`) und wird mit **Vite** zu einer statischen Seite gebaut: `index.html` + `assets/` im Repo-Root. Diese beiden sind **generiert** – nicht von Hand ändern; Änderungen in `app/index.html` bzw. `src/`.
+- Lokal: `npm install` → `npm run dev` (Live-Server) → `npm run build` (schreibt `index.html` + `assets/`) → `npm test` (Playwright-Suite gegen den gebauten Stand, Supabase gemockt; braucht ein installiertes Chromium, Pfad über `GG_CHROME=`).
+- **Version hochzählen:** nur in `app/index.html` (`window.APP_VERSION = '…'`) – die App zeigt sie an und die Auto-Update-Prüfung vergleicht genau diese Zeile.
+- **Release:** `npm run build`, dann alles außer `node_modules/` und `index3.html` ins Repo-Root laden (GitHub Pages liefert `index.html` + `assets/` aus). Alte Dateien in `assets/` dürfen liegen bleiben.
+- Rückweg: jede ältere Version (z. B. das v0.19-ZIP) kann jederzeit wieder ins Root geladen werden – Datenbank und Speicher sind vom Code unabhängig.
+
 ## Setup (einmalig, ca. 10 Minuten)
 
 ### 1. Supabase-Schema anlegen

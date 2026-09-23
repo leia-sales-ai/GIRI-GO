@@ -1,0 +1,12 @@
+import { chromium } from 'playwright'; import { BASE, OUT, TESTS, launchArgs } from './env.mjs';
+const browser = await chromium.launch(launchArgs([]));
+const ctx = await browser.newContext({viewport:{width:390,height:844}, isMobile:true, hasTouch:true, deviceScaleFactor:2});
+await ctx.addInitScript(() => { const of = window.fetch; window.fetch = (u, o) => (String(u).includes('/auth/v1/settings')) ? Promise.resolve(new Response(JSON.stringify({external:{google:true, azure:true, email:true}}), {status:200, headers:{'Content-Type':'application/json'}})) : of(u, o); });
+const m = await ctx.newPage(); const errs=[]; m.on('pageerror', e => errs.push(e.message));
+await m.goto(BASE+'/index3.html'); await m.waitForTimeout(1200);
+await m.evaluate(()=>{ localStorage.setItem('gg_lang','de'); localStorage.setItem('gg_nosess','1'); }); await m.reload(); await m.waitForTimeout(1800);
+console.log('google visible:', await m.isVisible('#li-google'), 'ms visible:', await m.isVisible('#li-ms'));
+await m.screenshot({path:OUT+'/shots/sso-login.png', fullPage:true});
+await m.click('#li-ms'); await m.waitForTimeout(300); console.log('oauth call:', JSON.stringify(await m.evaluate(()=>window.__oauth)));
+await m.fill('#li-email','anna@ar-giri.com'); await m.click('#li-go'); await m.waitForTimeout(400); console.log('ms hidden in wait:', await m.evaluate(()=>document.querySelector('#li-ms').hidden), 'google2 visible in wait:', await m.isVisible('#li-google2')); await m.click('#li-google2'); await m.waitForTimeout(200); console.log('google2 oauth:', await m.evaluate(()=>window.__oauth && window.__oauth.provider)); await m.screenshot({path:OUT+'/shots/wait-google.png'}); await m.click('#li-other'); await m.waitForTimeout(300); console.log('ms back:', await m.isVisible('#li-ms'));
+console.log(errs.join('\n')||'NO ERRORS'); await browser.close();

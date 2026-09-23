@@ -1,0 +1,37 @@
+/* ---------- Login ---------- */
+
+.login2{width:100%;max-width:1180px;box-sizing:border-box;margin:0 auto;padding:32px 16px 48px;display:grid;grid-template-columns:minmax(0,470px) minmax(0,1fr);gap:36px;align-items:stretch;min-height:calc(100vh - 120px)}
+.l-form{display:flex;flex-direction:column;justify-content:center}
+.l-form h1{font-size:clamp(28px,3.6vw,44px);line-height:1.06;letter-spacing:-.03em;margin:6px 0 12px;text-wrap:balance}
+.l-sub{font-size:16px;color:var(--ink-2);margin:0 0 18px;max-width:46ch;line-height:1.5}
+.l-proof{list-style:none;padding:0;margin:0 0 22px;display:grid;gap:9px}
+.l-proof li{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;color:var(--ink-2)}
+.l-proof svg{width:18px;height:18px;color:var(--blue);flex:0 0 auto}
+.l-card{padding:22px}
+.l-visual{position:relative;border-radius:26px;overflow:hidden;background:#0b1220;min-height:380px;box-shadow:var(--shadow-2)}
+.l-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.l-visual.fallback{background:radial-gradient(120% 80% at 80% 20%,#0a3a7c 0%,#02132b 55%,#000 100%)}
+.l-visual.fallback::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(180deg,rgba(0,0,0,.9),transparent)}
+.l-visual::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.7))}
+.l-cap{position:absolute;left:22px;bottom:20px;right:22px;z-index:2;color:#fff;display:flex;flex-direction:column;gap:2px}
+.l-cap b{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--mint)}
+.l-cap span{font-size:16px;font-weight:700;letter-spacing:-.01em}
+.otp{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.otp label{display:block;font-size:12px;font-weight:600;color:var(--ink-2);margin-bottom:6px}
+.otp input{flex:1;min-width:0;padding:11px 13px;border:1px solid var(--line-2);border-radius:12px;background:var(--surface);color:var(--ink);font-size:20px;letter-spacing:.25em;font-weight:700;text-align:center}
+.otp input:focus{border-color:var(--blue);outline:0;box-shadow:0 0 0 4px rgba(0,78,173,.12)}
+.l-or{display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--ink-3);font-size:12px;font-weight:600}.l-or::before,.l-or::after{content:"";flex:1;height:1px;background:var(--line)}
+.gbtn{display:inline-flex;align-items:center;justify-content:center;gap:10px}
+.wait{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding:6px 0 2px}
+.wait .env{width:64px;height:64px;border-radius:50%;background:var(--blue-lightest);color:var(--blue);display:flex;align-items:center;justify-content:center;margin-bottom:6px;animation:pulse 2.4s ease-in-out infinite}
+.wait .env svg{width:30px;height:30px}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,78,173,.18)}50%{box-shadow:0 0 0 14px rgba(0,78,173,0)}}
+.wait b{font-size:17px;letter-spacing:-.01em}
+.wait .muted{max-width:38ch}
+.wait .again{margin-top:8px;font-size:13px;font-weight:700;color:var(--ink-3)}
+.wait .again button{color:var(--blue);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.wait .again button[disabled]{color:var(--ink-3);text-decoration:none;pointer-events:none}
+@media(max-width:900px){.login2{grid-template-columns:minmax(0,1fr);gap:14px;padding-top:10px;min-height:0}.l-visual{min-height:0;height:min(44vw,230px);order:0;border-radius:20px}.l-form{order:1}.l-form h1{font-size:23px;margin:6px 0 12px}.l-sub,.l-proof{display:none}.l-cap{left:16px;bottom:14px}.l-cap span{font-size:14px}}
+/* legacy login blocks (unused templates kept harmless) */
+.login-wrap{max-width:440px;margin:40px auto;padding:28px}
+.login-card{padding:26px}
