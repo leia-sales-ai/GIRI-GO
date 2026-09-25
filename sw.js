@@ -12,7 +12,11 @@ self.addEventListener('fetch', e => {
     // app shell: network first and always revalidated (no-cache → GitHub Pages' 10-minute HTTP cache is skipped), cache as offline fallback
     if(req.mode === 'navigate' || url.pathname.endsWith('/') || url.pathname.endsWith('index.html')){
       e.respondWith(fetch(req.url, {cache:'no-cache', credentials:'same-origin'}).then(r => { if(r.ok){ const c = r.clone(); caches.open(CACHE).then(x => x.put('./index.html', c)); } return r; }).catch(() => caches.match('./index.html'))); return; }
-    // icons, manifest, login image: network first too (so a new login.jpg shows up), cache fallback
+    // built app files (assets/index-<hash>.js|css, fonts, vendor): the hash changes with every release, so cache first is safe –
+    // no round trip to GitHub Pages on every start. Old builds are dropped from the cache when a new one arrives.
+    if(/\/(assets|fonts|vendor)\//.test(url.pathname)){
+      e.respondWith(caches.match(req).then(r => r || fetch(req).then(res => { if(res.ok){ const c = res.clone(); caches.open(CACHE).then(async x => { await x.put(req, c); if(url.pathname.includes('/assets/')){ const ext = url.pathname.split('.').pop(); const keys = await x.keys(); keys.forEach(k => { const u = new URL(k.url); if(u.pathname.includes('/assets/') && u.pathname.endsWith('.'+ext) && u.pathname !== url.pathname) x.delete(k); }); } }); } return res; }))); return; }
+    // icons, manifest, login image: network first (so a new login.jpg shows up), cache fallback
     e.respondWith(fetch(req).then(res => { if(res.ok){ const c = res.clone(); caches.open(CACHE).then(x => x.put(req, c)); } return res; }).catch(() => caches.match(req))); return;
   }
   // libraries + fonts from CDNs (versioned URLs): cache first
